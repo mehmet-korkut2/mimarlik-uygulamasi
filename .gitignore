@@ -1,0 +1,18 @@
+# Python sanal ortamı (her bilgisayarda yeniden kurulur)
+.venv/
+
+# Python'un ürettiği geçici dosyalar
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Editör ve sistem dosyaları
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Claude Code'un kişisel/yerel ayarları
+.claude/settings.local.json
+
+# Üretilen çıktılar (koddan tekrar üretilebilir)
+output/
