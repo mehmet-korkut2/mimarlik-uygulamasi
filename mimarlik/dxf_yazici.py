@@ -85,3 +85,46 @@ def kaydet(doc: Drawing, yol: str | Path) -> Path:
     yol.parent.mkdir(parents=True, exist_ok=True)
     doc.saveas(yol)
     return yol
+
+
+def yay_ekle(
+    doc: Drawing,
+    merkez: tuple[float, float],
+    yaricap: float,
+    bas_aci: float,
+    bit_aci: float,
+    katman: str,
+) -> None:
+    """Yay ekler (kapı açılımı için). Açılar derece, saat yönünün tersine."""
+    _katmani_dogrula(katman)
+    doc.modelspace().add_arc(
+        center=merkez,
+        radius=yaricap,
+        start_angle=bas_aci,
+        end_angle=bit_aci,
+        dxfattribs={"layer": katman},
+    )
+
+
+def olcu_ekle(
+    doc: Drawing,
+    p1: tuple[float, float],
+    p2: tuple[float, float],
+    uzaklik: float,
+    katman: str,
+) -> None:
+    """p1-p2 arasına AutoCAD'de düzenlenebilir bir hizalı ölçü ekler.
+
+    uzaklik > 0: ölçü çizgisi p1->p2 yönünün solunda, < 0: sağında.
+    """
+    _katmani_dogrula(katman)
+    olcu = doc.modelspace().add_aligned_dim(
+        p1=p1,
+        p2=p2,
+        distance=uzaklik,
+        dimstyle=OLCU_STILI,
+        dxfattribs={"layer": katman},
+    )
+    # render(): ölçünün görünen çizgilerini (blok) üretir; yoksa bazı
+    # programlar ölçüyü boş gösterir.
+    olcu.render()

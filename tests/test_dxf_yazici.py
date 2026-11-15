@@ -7,9 +7,11 @@ import ezdxf
 import numpy as np
 import pytest
 
-from mimarlik.dxf_yazici import cizgi_ekle, kaydet, yeni_cizim
+from mimarlik.dxf_yazici import cizgi_ekle, kaydet, olcu_ekle, yay_ekle, yeni_cizim
 from mimarlik.standartlar import (
     KATMAN_DUVAR,
+    KATMAN_KAPI,
+    KATMAN_OLCU,
     KATMAN_RENKLERI,
     OLCU_STILI,
     OLCU_YAZI_YUKSEKLIGI,
@@ -114,3 +116,39 @@ def test_hatali_cizgi_varsa_hicbiri_eklenmez():
 def test_ic_ice_klasor_olusturulur(tmp_path):
     yol = kaydet(yeni_cizim(), tmp_path / "a" / "b" / "x.dxf")
     assert yol.exists()
+
+
+# --- yay_ekle ve olcu_ekle --------------------------------------------------
+
+def test_yay_geri_okunur(tmp_path):
+    doc = yeni_cizim()
+    yay_ekle(doc, (75, 25), 90, 0, 90, KATMAN_KAPI)
+    okunan = ezdxf.readfile(kaydet(doc, tmp_path / "t.dxf"))
+    arc = okunan.modelspace().query('ARC[layer=="KAPI"]')[0]
+    assert tuple(arc.dxf.center) == pytest.approx((75, 25, 0))
+    assert arc.dxf.radius == pytest.approx(90)
+    assert (arc.dxf.start_angle, arc.dxf.end_angle) == pytest.approx((0, 90))
+
+
+def test_olcu_degeri_ve_stili(tmp_path):
+    doc = yeni_cizim()
+    olcu_ekle(doc, (0, 0), (450, 0), -60, KATMAN_OLCU)
+    okunan = ezdxf.readfile(kaydet(doc, tmp_path / "t.dxf"))
+    dim = okunan.modelspace().query('DIMENSION[layer=="OLCU"]')[0]
+    assert dim.get_measurement() == pytest.approx(450)
+    assert dim.dxf.dimstyle == OLCU_STILI
+    assert dim.dxf.defpoint[1] == pytest.approx(-60)  # ölçü çizgisi odanın altında
+
+
+def test_yay_ve_olcu_tanimsiz_katman_hata():
+    doc = yeni_cizim()
+    with pytest.raises(ValueError):
+        yay_ekle(doc, (0, 0), 1, 0, 90, "KAPII")
+    with pytest.raises(ValueError):
+        olcu_ekle(doc, (0, 0), (1, 0), 1, "OLCUU")
+
+
+def test_olculu_cizim_audit_temiz():
+    doc = yeni_cizim()
+    olcu_ekle(doc, (0, 0), (450, 0), -60, KATMAN_OLCU)
+    assert not doc.audit().has_errors
