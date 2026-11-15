@@ -152,3 +152,67 @@ def test_olculu_cizim_audit_temiz():
     doc = yeni_cizim()
     olcu_ekle(doc, (0, 0), (450, 0), -60, KATMAN_OLCU)
     assert not doc.audit().has_errors
+
+
+# --- İnceleme sonrası: sonlu sayı, yay/ölçü doğrulaması, Faz 2 girdi biçimleri
+
+@pytest.mark.parametrize("kotu", [float("nan"), float("inf"), float("-inf")])
+def test_sonlu_olmayan_koordinat_hata(kotu):
+    doc = yeni_cizim()
+    with pytest.raises(ValueError):
+        cizgi_ekle(doc, [(0, 0, kotu, 0)], KATMAN_DUVAR)
+    assert len(doc.modelspace().query("LINE")) == 0
+
+
+@pytest.mark.parametrize("yaricap", [0, -5, float("nan"), float("inf")])
+def test_gecersiz_yaricap_hata(yaricap):
+    doc = yeni_cizim()
+    with pytest.raises(ValueError):
+        yay_ekle(doc, (0, 0), yaricap, 0, 90, KATMAN_KAPI)
+    assert len(doc.modelspace().query("ARC")) == 0
+
+
+def test_yay_sonlu_olmayan_merkez_hata():
+    with pytest.raises(ValueError):
+        yay_ekle(yeni_cizim(), (float("nan"), 0), 90, 0, 90, KATMAN_KAPI)
+
+
+def test_olcu_ayni_nokta_hata():
+    doc = yeni_cizim()
+    with pytest.raises(ValueError):
+        olcu_ekle(doc, (5, 5), (5, 5), 10, KATMAN_OLCU)
+    assert len(doc.modelspace().query("DIMENSION")) == 0
+
+
+def test_olcu_sonlu_olmayan_deger_hata():
+    with pytest.raises(ValueError):
+        olcu_ekle(yeni_cizim(), (0, 0), (450, float("inf")), -60, KATMAN_OLCU)
+    with pytest.raises(ValueError):
+        olcu_ekle(yeni_cizim(), (0, 0), (450, 0), float("nan"), KATMAN_OLCU)
+
+
+def test_numpy_n4_dizi_dogrudan(tmp_path):
+    # Faz 2: (N, 4) float64 dizisi doğrudan cizgiler olarak verilebilmeli.
+    doc = yeni_cizim()
+    dizi = np.array([[0, 0, 100, 0], [100, 0, 100, 50.5]], dtype=np.float64)
+    cizgi_ekle(doc, dizi, KATMAN_DUVAR)
+    lines = ezdxf.readfile(kaydet(doc, tmp_path / "t.dxf")).modelspace().query("LINE")
+    assert len(lines) == 2
+    assert tuple(lines[1].dxf.end) == pytest.approx((100, 50.5, 0))
+
+
+def test_hough_n14_bicimi_anlasilir_hata():
+    # OpenCV HoughLinesP (N, 1, 4) döndürür; Faz 2 bunu (N, 4)'e çevirmeli.
+    dizi = np.array([[[0, 0, 100, 0]]], dtype=np.int32)
+    with pytest.raises(ValueError, match="4 sayı"):
+        cizgi_ekle(yeni_cizim(), dizi, KATMAN_DUVAR)
+
+
+def test_kaydet_gorunumu_cizime_ortalar(tmp_path):
+    # Mimar dosyayı açınca çizimin tamamını ortada görmeli (zoom extents).
+    doc = yeni_cizim()
+    cizgi_ekle(doc, [(1000, 2000, 1450, 2000), (1450, 2000, 1450, 2350)], KATMAN_DUVAR)
+    okunan = ezdxf.readfile(kaydet(doc, tmp_path / "t.dxf"))
+    vp = okunan.viewports.get("*Active")[0]
+    assert tuple(vp.dxf.center)[:2] == pytest.approx((1225, 2175))
+    assert vp.dxf.height >= 350

@@ -96,9 +96,21 @@ Geometri saf bir fonksiyonda (`oda_geometrisi()` → katman → çizgi listesi s
 ## Elle doğrulama (Faz 1 "bitti" ölçütü)
 
 `output/oda_demo.dxf` dosyasını **AutoCAD'de aç, bir duvarı ve bir ölçüyü düzenle.**
-(Öğrenci lisansı alınana kadar dosyayı mimar açar.) Açarken kontrol: katman listesinde 4 katman,
-`UNITS` cm gösteriyor, dış ölçü 450 yazıyor. Düzenleme: bir duvar çizgisi taşınabiliyor/uzatılabiliyor;
-ölçünün bağlı olduğu nokta değişince değeri güncelleniyor.
+(Öğrenci lisansı alınana kadar dosyayı mimar açar.)
+
+Açarken kontrol:
+- Çizim ekranın ortasında görünüyor.
+- Katman listesinde 4 proje katmanı var (DUVAR, KAPI, PENCERE, OLCU). AutoCAD'in standart
+  `0` ve `Defpoints` katmanları da görünür; bu normal, toplam 6 katman.
+- `UNITS` komutu cm gösteriyor; dış ölçüler 450 ve 350 yazıyor.
+
+Düzenleme:
+- Bir duvar çizgisi seçilip taşınabiliyor ve uzatılabiliyor.
+- Ölçünün **kendi ucu** (grip) çekilince yazan değer güncelleniyor. Alternatif: `STRETCH`
+  komutuyla duvarın ve ölçünün ucunu birlikte içine alan bir seçim yapılınca ikisi birlikte uzuyor.
+
+**Bilinen sınır:** Ölçüler duvar çizgilerine bağlı (associative) değil. Sadece duvar çizgisi
+taşınırsa ölçü yerinde kalır; bu Faz 1'de beklenen davranış, hata değil.
 
 ## Varsayımlar (mimara sorulacaklar listesine ek)
 
