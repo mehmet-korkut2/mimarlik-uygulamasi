@@ -1,0 +1,161 @@
+{
+  "yontem": "Gemini",
+  "model": "gemini-3.6-flash",
+  "paket": "google-genai 3.3.0",
+  "katman": "ücretsiz",
+  "istem": "Bu fotoğraf, bir mimarın bir odanın duvarlarını elle çizdiği bir kroki. Duvarların yanına el yazısıyla ölçü sayıları (cm) yazılmış. Fotoğraftaki el yazısı ölçü sayılarının HEPSİNİ listele; aynı sayı birden fazla kez yazılmışsa her birini ayrı yaz. Okuyamadığın bir sayıyı tahmin etme, atla. Sadece bir JSON dizi döndür, başka hiçbir şey yazma. Örnek: [180, 50, 40]",
+  "krokiler": {
+    "01": {
+      "calistirmalar": [
+        {
+          "ham": "[180, 108, 120, 15, 90, 10, 140, 50, 40, 120]",
+          "sayilar": [
+            180,
+            108,
+            120,
+            15,
+            90,
+            10,
+            140,
+            50,
+            40,
+            120
+          ],
+          "sure_s": 45.75,
+          "yeniden_deneme": 0,
+          "token": {
+            "girdi": 1216,
+            "cikti": 45,
+            "dusunme": 1319
+          }
+        },
+        {
+          "ham": "[180, 108, 120, 15, 90, 10, 140, 120, 40, 50]",
+          "sayilar": [
+            180,
+            108,
+            120,
+            15,
+            90,
+            10,
+            140,
+            120,
+            40,
+            50
+          ],
+          "sure_s": 49.35,
+          "yeniden_deneme": 0,
+          "token": {
+            "girdi": 1216,
+            "cikti": 45,
+            "dusunme": 1195
+          }
+        },
+        {
+          "ham": "[180, 108, 120, 15, 90, 10, 140, 120, 40, 50]",
+          "sayilar": [
+            180,
+            108,
+            120,
+            15,
+            90,
+            10,
+            140,
+            120,
+            40,
+            50
+          ],
+          "sure_s": 67.32,
+          "yeniden_deneme": 0,
+          "token": {
+            "girdi": 1216,
+            "cikti": 45,
+            "dusunme": 1266
+          }
+        }
+      ]
+    },
+    "02": {
+      "calistirmalar": [
+        {
+          "ham": "[15, 90, 40, 300, 45, 45, 240, 200, 40, 40, 40, 102, 200, 45]",
+          "sayilar": [
+            15,
+            90,
+            40,
+            300,
+            45,
+            45,
+            240,
+            200,
+            40,
+            40,
+            40,
+            102,
+            200,
+            45
+          ],
+          "sure_s": 69.0,
+          "yeniden_deneme": 0,
+          "token": {
+            "girdi": 1216,
+            "cikti": 61,
+            "dusunme": 1491
+          }
+        },
+        {
+          "ham": "[15, 300, 45, 45, 90, 40, 45, 200, 102, 40, 40, 40, 200, 240]",
+          "sayilar": [
+            15,
+            300,
+            45,
+            45,
+            90,
+            40,
+            45,
+            200,
+            102,
+            40,
+            40,
+            40,
+            200,
+            240
+          ],
+          "sure_s": 68.97,
+          "yeniden_deneme": 0,
+          "token": {
+            "girdi": 1216,
+            "cikti": 61,
+            "dusunme": 2110
+          }
+        },
+        {
+          "ham": "[15, 300, 45, 45, 90, 40, 45, 200, 240, 102, 40, 40, 40, 200]",
+          "sayilar": [
+            15,
+            300,
+            45,
+            45,
+            90,
+            40,
+            45,
+            200,
+            240,
+            102,
+            40,
+            40,
+            40,
+            200
+          ],
+          "sure_s": 75.63,
+          "yeniden_deneme": 0,
+          "token": {
+            "girdi": 1216,
+            "cikti": 61,
+            "dusunme": 1608
+          }
+        }
+      ]
+    }
+  }
+}

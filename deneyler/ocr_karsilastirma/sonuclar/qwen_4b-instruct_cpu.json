@@ -1,0 +1,184 @@
+{
+  "yontem": "Qwen3-VL (Ollama)",
+  "model": "qwen3-vl:4b-instruct, sadece CPU",
+  "num_ctx": 8192,
+  "istem": "Bu fotoğraf, bir mimarın bir odanın duvarlarını elle çizdiği bir kroki. Duvarların yanına el yazısıyla ölçü sayıları (cm) yazılmış. Fotoğraftaki el yazısı ölçü sayılarının HEPSİNİ listele; aynı sayı birden fazla kez yazılmışsa her birini ayrı yaz. Okuyamadığın bir sayıyı tahmin etme, atla. Sadece bir JSON dizi döndür, başka hiçbir şey yazma. Örnek: [180, 50, 40]",
+  "krokiler": {
+    "01": {
+      "calistirmalar": [
+        {
+          "ham": "[180, 108, 120, 15, 90, 10, 140, 50, 40, 120]",
+          "sayilar": [
+            180,
+            108,
+            120,
+            15,
+            90,
+            10,
+            140,
+            50,
+            40,
+            120
+          ],
+          "sure_s": 169.71,
+          "ollama_sureleri_s": {
+            "toplam": 169.7,
+            "model_yukleme": 8.37,
+            "girdi_isleme": 151.5,
+            "uretim": 9.74
+          },
+          "token": {
+            "girdi": 2443,
+            "cikti": 46
+          }
+        },
+        {
+          "ham": "[180, 108, 120, 15, 90, 10, 140, 50, 40, 120]",
+          "sayilar": [
+            180,
+            108,
+            120,
+            15,
+            90,
+            10,
+            140,
+            50,
+            40,
+            120
+          ],
+          "sure_s": 9.85,
+          "ollama_sureleri_s": {
+            "toplam": 9.84,
+            "model_yukleme": 0.01,
+            "girdi_isleme": 0.28,
+            "uretim": 9.43
+          },
+          "token": {
+            "girdi": 2443,
+            "cikti": 46
+          }
+        },
+        {
+          "ham": "[180, 108, 120, 15, 90, 10, 140, 50, 40, 120]",
+          "sayilar": [
+            180,
+            108,
+            120,
+            15,
+            90,
+            10,
+            140,
+            50,
+            40,
+            120
+          ],
+          "sure_s": 9.71,
+          "ollama_sureleri_s": {
+            "toplam": 9.7,
+            "model_yukleme": 0.01,
+            "girdi_isleme": 0.25,
+            "uretim": 9.34
+          },
+          "token": {
+            "girdi": 2443,
+            "cikti": 46
+          }
+        }
+      ]
+    },
+    "02": {
+      "calistirmalar": [
+        {
+          "ham": "[15, 300, 45, 45, 90, 40, 45, 200, 40, 40, 102, 200, 45, 240]",
+          "sayilar": [
+            15,
+            300,
+            45,
+            45,
+            90,
+            40,
+            45,
+            200,
+            40,
+            40,
+            102,
+            200,
+            45,
+            240
+          ],
+          "sure_s": 181.48,
+          "ollama_sureleri_s": {
+            "toplam": 181.47,
+            "model_yukleme": 0.01,
+            "girdi_isleme": 169.71,
+            "uretim": 11.42
+          },
+          "token": {
+            "girdi": 2443,
+            "cikti": 62
+          }
+        },
+        {
+          "ham": "[15, 300, 45, 45, 90, 40, 45, 200, 40, 40, 102, 200, 240]",
+          "sayilar": [
+            15,
+            300,
+            45,
+            45,
+            90,
+            40,
+            45,
+            200,
+            40,
+            40,
+            102,
+            200,
+            240
+          ],
+          "sure_s": 10.97,
+          "ollama_sureleri_s": {
+            "toplam": 10.97,
+            "model_yukleme": 0.01,
+            "girdi_isleme": 0.21,
+            "uretim": 10.65
+          },
+          "token": {
+            "girdi": 2443,
+            "cikti": 58
+          }
+        },
+        {
+          "ham": "[15, 300, 45, 45, 90, 40, 45, 200, 40, 40, 102, 200, 240]",
+          "sayilar": [
+            15,
+            300,
+            45,
+            45,
+            90,
+            40,
+            45,
+            200,
+            40,
+            40,
+            102,
+            200,
+            240
+          ],
+          "sure_s": 11.15,
+          "ollama_sureleri_s": {
+            "toplam": 11.15,
+            "model_yukleme": 0.01,
+            "girdi_isleme": 0.19,
+            "uretim": 10.87
+          },
+          "token": {
+            "girdi": 2443,
+            "cikti": 58
+          }
+        }
+      ]
+    }
+  },
+  "ollama_ps": "NAME                    ID              SIZE      PROCESSOR    CONTEXT    RUNNER      UNTIL              \nqwen3-vl:4b-instruct    84f7ed8042fa    4.3 GB    100% CPU     8192       llamacpp    4 minutes from now    \n",
+  "not": "Ollama NVIDIA kartı bulamadı (sürücü güncellemesinden önce başlamış), %100 CPU. 2. ve 3. çalıştırmalar fotoğrafı önbellekten aldı: gerçekçi süre 1. çalıştırmadır."
+}

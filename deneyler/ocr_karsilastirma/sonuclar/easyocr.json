@@ -1,0 +1,147 @@
+{
+  "yontem": "EasyOCR",
+  "surum": "1.7.2",
+  "cihaz": "CPU",
+  "ayarlar": {
+    "allowlist": "0123456789",
+    "rotation_info": [
+      90,
+      180,
+      270
+    ]
+  },
+  "model_yukleme_s": 2.03,
+  "krokiler": {
+    "01": {
+      "calistirmalar": [
+        {
+          "ham": [
+            {
+              "metin": "281",
+              "guven": 0.966
+            },
+            {
+              "metin": "50",
+              "guven": 0.745
+            },
+            {
+              "metin": "0",
+              "guven": 1.0
+            },
+            {
+              "metin": "81",
+              "guven": 0.915
+            },
+            {
+              "metin": "1",
+              "guven": 1.0
+            },
+            {
+              "metin": "6",
+              "guven": 0.985
+            },
+            {
+              "metin": "5",
+              "guven": 0.81
+            },
+            {
+              "metin": "198",
+              "guven": 0.69
+            },
+            {
+              "metin": "4",
+              "guven": 0.987
+            }
+          ],
+          "sayilar": [
+            281,
+            50,
+            81,
+            1,
+            6,
+            5,
+            198,
+            4
+          ],
+          "sure_s": 9.32
+        }
+      ]
+    },
+    "02": {
+      "calistirmalar": [
+        {
+          "ham": [
+            {
+              "metin": "51",
+              "guven": 0.94
+            },
+            {
+              "metin": "9",
+              "guven": 0.983
+            },
+            {
+              "metin": "45",
+              "guven": 0.939
+            },
+            {
+              "metin": "45",
+              "guven": 0.857
+            },
+            {
+              "metin": "40",
+              "guven": 0.995
+            },
+            {
+              "metin": "24",
+              "guven": 0.893
+            },
+            {
+              "metin": "45",
+              "guven": 0.974
+            },
+            {
+              "metin": "8",
+              "guven": 0.768
+            },
+            {
+              "metin": "4",
+              "guven": 0.827
+            },
+            {
+              "metin": "8",
+              "guven": 0.976
+            },
+            {
+              "metin": "097",
+              "guven": 0.951
+            },
+            {
+              "metin": "162",
+              "guven": 0.99
+            },
+            {
+              "metin": "6",
+              "guven": 0.993
+            }
+          ],
+          "sayilar": [
+            51,
+            9,
+            45,
+            45,
+            40,
+            24,
+            45,
+            8,
+            4,
+            8,
+            97,
+            162,
+            6
+          ],
+          "sure_s": 11.36
+        }
+      ]
+    }
+  }
+}

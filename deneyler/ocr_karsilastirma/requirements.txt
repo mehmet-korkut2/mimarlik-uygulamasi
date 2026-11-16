@@ -1,0 +1,7 @@
+# Deneye özel ortam (deneyler/.venv). Ana ürünün requirements.txt'sinden ayrı tutulur:
+# EasyOCR opencv-python-headless kurar ve ana ortamdaki opencv-python ile çakışır.
+easyocr==1.7.2
+torch==2.15.0
+google-genai==3.3.0
+ollama==0.6.3
+pytest==9.2.0
