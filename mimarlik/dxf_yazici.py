@@ -8,7 +8,12 @@ import ezdxf
 from ezdxf import zoom
 from ezdxf.document import Drawing
 
-from mimarlik.standartlar import KATMAN_RENKLERI, OLCU_STILI, OLCU_YAZI_YUKSEKLIGI
+from mimarlik.standartlar import (
+    KATMAN_RENKLERI,
+    OLCU_STILI,
+    OLCU_YAZI_STILI,
+    OLCU_YAZI_YUKSEKLIGI,
+)
 
 # DXF $INSUNITS kodları
 BIRIM_KODLARI = {"mm": 4, "cm": 5, "m": 6}
@@ -28,9 +33,15 @@ def yeni_cizim(birim: str = "cm") -> Drawing:
     for ad, renk in KATMAN_RENKLERI.items():
         doc.layers.add(ad, color=renk)
 
+    # Ölçü yazısının stili çizimde tanımlı olmalı (setup=False ile yalnızca
+    # "Standard" gelir). standartlar.py'de başka bir ad seçilirse burada oluşur.
+    if OLCU_YAZI_STILI not in doc.styles:
+        doc.styles.add(OLCU_YAZI_STILI)
+
     doc.dimstyles.new(
         OLCU_STILI,
         dxfattribs={
+            "dimtxsty": OLCU_YAZI_STILI,  # boşsa AutoCAD ölçü yazısını çizemez
             "dimtxt": OLCU_YAZI_YUKSEKLIGI,  # yazı yüksekliği
             "dimtsz": 5,  # >0 olunca ok yerine tick çizilir
             "dimdec": 0,  # ondalık basamak yok
@@ -39,6 +50,8 @@ def yeni_cizim(birim: str = "cm") -> Drawing:
             "dimgap": 5,  # yazı ile ölçü çizgisi arası
         },
     )
+    # Varsayılan ölçü stili; ezdxf "ISO-25" yazar ama setup=False ile o stil yok.
+    doc.header["$DIMSTYLE"] = OLCU_STILI
     return doc
 
 

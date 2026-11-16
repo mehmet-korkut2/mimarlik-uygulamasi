@@ -112,6 +112,16 @@ Düzenleme:
 **Bilinen sınır:** Ölçüler duvar çizgilerine bağlı (associative) değil. Sadece duvar çizgisi
 taşınırsa ölçü yerinde kalır; bu Faz 1'de beklenen davranış, hata değil.
 
+**Bilinen tuzak — `audit()` temiz olması AutoCAD'de doğru görüneceği anlamına gelmez**
+(2026-11-16, AutoCAD Web'de bulundu): ölçü çizgileri görünüyor, 450/350 yazıları görünmüyordu.
+Sebep: `setup=False` ile oluşturulan `MIMARI` ölçü stilinde yazı stili (`dimtxsty`) boştu ve
+başlıktaki `$DIMSTYLE` var olmayan `ISO-25`'i gösteriyordu. AutoCAD açılışta ölçüyü yeniden
+oluştururken yazıyı çizemiyordu. ezdxf `audit()` ikisini de hata saymıyor. Düzeltme: `dimtxsty`
+= `standartlar.OLCU_YAZI_STILI` ("Standard"), `$DIMSTYLE` = `OLCU_STILI`; üç regresyon testi
+`test_dxf_yazici.py` sonunda. **Ders:** DXF'e eklenen her yeni stil/tablo referansı, var olan
+bir kayda işaret ediyor mu diye testle kontrol edilmeli ve sonuç her zaman AutoCAD'de açılarak
+doğrulanmalı.
+
 ## Varsayımlar (mimara sorulacaklar listesine ek)
 
 Kullanıcının onayladıkları: cm, 25/10 cm duvar, 90 cm kapı, ASCII katman adları, R2010.

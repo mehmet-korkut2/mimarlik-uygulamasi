@@ -14,6 +14,7 @@ from mimarlik.standartlar import (
     KATMAN_OLCU,
     KATMAN_RENKLERI,
     OLCU_STILI,
+    OLCU_YAZI_STILI,
     OLCU_YAZI_YUKSEKLIGI,
 )
 
@@ -216,3 +217,32 @@ def test_kaydet_gorunumu_cizime_ortalar(tmp_path):
     vp = okunan.viewports.get("*Active")[0]
     assert tuple(vp.dxf.center)[:2] == pytest.approx((1225, 2175))
     assert vp.dxf.height >= 350
+
+
+# --- AutoCAD'de ölçü yazısı görünmüyordu (audit() bunu yakalamaz) -----------
+# Testler diske yazılıp geri okunan dosyada yapılır: AutoCAD'in gördüğü budur.
+
+@pytest.fixture
+def olculu_okunan(tmp_path):
+    doc = yeni_cizim()
+    olcu_ekle(doc, (0, 0), (450, 0), -60, KATMAN_OLCU)
+    return ezdxf.readfile(kaydet(doc, tmp_path / "t.dxf"))
+
+
+def test_olcu_stili_var_olan_yazi_stiline_isaret_eder(olculu_okunan):
+    stil = olculu_okunan.dimstyles.get(OLCU_STILI)
+    assert stil.dxf.get("dimtxsty") == OLCU_YAZI_STILI
+    assert OLCU_YAZI_STILI in olculu_okunan.styles
+
+
+def test_baslik_dimstyle_cizimde_var(olculu_okunan):
+    assert olculu_okunan.header["$DIMSTYLE"] == OLCU_STILI
+    assert olculu_okunan.header["$DIMSTYLE"] in olculu_okunan.dimstyles
+
+
+def test_olcu_blogundaki_yazinin_stili_tanimli(olculu_okunan):
+    dim = olculu_okunan.modelspace().query("DIMENSION")[0]
+    blok = olculu_okunan.blocks.get(dim.dxf.geometry)
+    yazilar = [e for e in blok if e.dxftype() == "MTEXT"]
+    assert len(yazilar) == 1
+    assert yazilar[0].dxf.style in olculu_okunan.styles
