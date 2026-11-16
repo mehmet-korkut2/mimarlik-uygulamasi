@@ -16,3 +16,6 @@ Thumbs.db
 
 # Üretilen çıktılar (koddan tekrar üretilebilir)
 output/
+
+# Örnek el çizimleri (müşteri işi olabilir, GitHub'a gönderilmez)
+ornekler/

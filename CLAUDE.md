@@ -12,7 +12,7 @@
 - Projeyi **tek başıma, sıfırdan** yapıyorum; ileride ekip gerekeceğini biliyorum.
 - **Temelden, adım adım** ilerlemek istiyorum: her adımda ne yaptığımızı ve nedenini açıkla, büyük kod bloklarını tek seferde yığma.
 - Bir şey önerdiğimde hemen onaylama; önce mantıklı mı diye değerlendir, **artılarını ve eksilerini** söyle.
-- Alan danışmanlarım: **abim (mimar)** ve **yengem (iç mimar)**. Mimari kurallar, çizim standartları ve gerçek iş akışı konusunda onlara soruyorum.
+- Alan danışmanlarım: bir **mimar** ve bir **iç mimar** (ailemden; onlardan "mimar" ve "iç mimar" diye bahset). Mimari kurallar, çizim standartları ve gerçek iş akışı konusunda onlara soruyorum.
 
 ## 2. Proje özeti
 
@@ -24,7 +24,7 @@ Mimarların ve iç mimarların çizim işini otomatikleştiren bir uygulama.
 
 ### Planlanan sıra
 1. **El çizimi → AutoCAD** (çekirdek ürün)
-2. **AutoCAD çizimine mobilya/obje ekleme** (6 kişilik masa, yatak, kanepe vb. 2D bloklar). Bu, abimin fikri.
+2. **AutoCAD çizimine mobilya/obje ekleme** (6 kişilik masa, yatak, kanepe vb. 2D bloklar). Bu, iç mimarın fikri.
 3. **3D modelleme** (en son; bu konuda henüz pek fikrim yok)
 
 ## 3. Temel teknik kararlar (taslak, tartışmaya açık)
@@ -41,7 +41,7 @@ Mimarların ve iç mimarların çizim işini otomatikleştiren bir uygulama.
 ## 4. Yol haritası
 
 ### Faz 0 — Hazırlık (1–2 hafta)
-- [ ] Abim ve yengemle görüşme: elle çizilmiş **gerçek örnek planlar** topla (en az 10–20 adet, farklı çizim stilleri).
+- [ ] Mimar ve iç mimarla görüşme: elle çizilmiş **gerçek örnek planlar** topla (en az 10–20 adet, farklı çizim stilleri).
 - [ ] Onlardan şunları öğren: duvar kalınlıkları, kapı/pencere sembolleri, ölçek alışkanlıkları (1/50, 1/100), AutoCAD'de katman (layer) düzenleri.
 - [ ] Her örnek plan için mümkünse **aynı planın AutoCAD versiyonunu** da iste (doğruluğu ölçmek için referans olur).
 - [ ] Python ortamı kur: `venv`, `opencv-python`, `ezdxf`, `numpy`, `pytest`.
@@ -56,32 +56,39 @@ Mimarların ve iç mimarların çizim işini otomatikleştiren bir uygulama.
 
 **Bitti sayılır:** Koddan ürettiğim bir oda planı AutoCAD'de düzgün açılıyor ve düzenlenebiliyor.
 
-### Faz 2 — Temiz çizimden vektöre (2–4 hafta)
-Önce **kolay girdiyle** başla: cetvelle, kareli kâğıda, düz çekilmiş net çizim.
-- [ ] Görüntü ön işleme: gri tonlama, eşikleme (threshold), gürültü temizleme, perspektif düzeltme (fotoğraf yamuk çekildiyse).
-- [ ] Çizgi tespiti: Hough Line Transform / kontur bulma.
-- [ ] Çizgileri sadeleştirme: yakın çizgileri birleştirme, açıları 0°/90°'ye yakalama (snap), köşeleri birleştirme.
-- [ ] Ölçek kalibrasyonu: kullanıcı bilinen bir ölçüyü girsin (örn. "bu duvar 400 cm") ve tüm çizim buna göre ölçeklensin.
-- [ ] Sonucu DXF'e yaz.
+### Faz 2 — Tek oda krokisinden DXF'e (3–5 hafta)
+> **Yaklaşım değişikliği (2026-11-16):** Gerçek röleve krokileri ölçekli değil; kâğıtta aynı boyda çizilmiş iki duvarın yanında 180 ve 140 yazabiliyor. Doğru bilgi **duvarların yanına yazılan sayılar**. Bu yüzden "bir ölçü gir, pikselden ölçekle" yaklaşımı bırakıldı: program krokiden duvarların **sırasını ve yönünü** çıkarır, **sayıları okur**, geometriyi sayılardan kurar. Sayı okuma (OCR) bu yüzden Faz 3'ten Faz 2'ye alındı.
 
-**Bitti sayılır:** Temiz bir el çiziminin fotoğrafından, duvarları doğru yerde ve doğru ölçekte olan bir DXF çıkıyor.
+Girdi: `ornekler/01_*`, `ornekler/02_*` (tek oda, tek çizgi, dik açılı, çizgili defter).
+- [ ] Ön işleme: perspektif düzeltme, defterin çizgi/noktalarını temizleme, mürekkebi ayırma (renk ipucu: bazı krokilerde ölçüler farklı renkte).
+- [ ] Duvar dizisini çıkarma: çizgi tespiti + 0°/90° yakalama → kapalı poligonun kenar sırası ve yönleri.
+- [ ] Ölçü sayılarını okuma: el yazısı, virgüllü, yan/ters yazılmış. Klasik OCR (EasyOCR/Tesseract) ile görüntü anlayan bir yapay zekâ modelini 01–02 üzerinde karşılaştır; doğruluk, maliyet ve bağımlılık açısından seç.
+- [ ] Sayıyı doğru duvarla eşleştirme (en yakın kenar, tick işareti).
+- [ ] Geometriyi sayılardan kurma; şekil kapanmıyorsa (toplamlar tutmuyorsa) nerede tutmadığını göster.
+- [ ] Kullanıcı onayı: okunan sayıların düzeltilebilir listesi. Hedef "%100 otomatik" değil, "taslak + hızlı düzeltme".
+- [ ] Sonucu DXF'e yaz (Faz 1 modülü `mimarlik/dxf_yazici.py`).
 
-### Faz 3 — Anlamlandırma (4–8 hafta, en zor kısım)
-- [ ] Duvar ile diğer çizgileri ayırt et (çift çizgi = duvar gibi kurallar).
-- [ ] Kapı ve pencere sembollerini tanı (önce kural tabanlı, sonra gerekirse makine öğrenmesi).
-- [ ] OCR ile ölçü yazılarını ve oda adlarını oku, doğru çizgiyle eşleştir.
+**Bitti sayılır:** 01 ve 02 krokilerinin fotoğrafından, mimarın verdiği "doğru ölçülerle" aynı DXF çıkıyor; kullanıcı en fazla birkaç sayıyı düzeltiyor.
+
+### Faz 3 — Çok odalı planlar ve semboller (4–8 hafta, en zor kısım)
+Girdi: `ornekler/03_*` – `ornekler/07_*`.
+- [ ] Çift çizgili / taralı duvarlar ve duvar kalınlığı.
+- [ ] Kapı, pencere, kolon sembolleri (önce kural tabanlı, sonra gerekirse makine öğrenmesi).
+- [ ] Eğik duvarlar; köşegen ölçülerle (kutu içindeki sayılar olabilir, mimara sorulacak) üçgenleme.
+- [ ] Yükseklik notları (`H=`, `h1`, `h2`), kesikli çizgiler, oda adları.
+- [ ] Birden fazla oda ve ortak duvarlar.
 - [ ] Her öğeyi doğru katmana yerleştir.
-- [ ] Doğruluk ölçümü: Faz 0'daki referans AutoCAD dosyalarıyla karşılaştır.
+- [ ] Doğruluk ölçümü: mimarın verdiği "doğru cevap" ölçüleri / AutoCAD dosyalarıyla karşılaştır.
 
-**Bitti sayılır:** Çıktı DXF'te duvar, kapı ve pencere ayrı katmanlarda; abim dosyayı açınca "bunu düzeltmek sıfırdan çizmekten hızlı" diyor.
+**Bitti sayılır:** Çıktı DXF'te duvar, kapı ve pencere ayrı katmanlarda; mimar dosyayı açınca "bunu düzeltmek sıfırdan çizmekten hızlı" diyor.
 
 ### Faz 4 — Kullanılabilir prototip (2–3 hafta)
 - [ ] FastAPI ile backend: görsel yükle → DXF indir.
-- [ ] Basit web arayüzü: yükleme, önizleme, ölçek girme, indirme.
-- [ ] Abim ve yengeme gerçek işlerinde denet, geri bildirim topla.
+- [ ] Basit web arayüzü: yükleme, önizleme, okunan ölçüleri düzeltme, indirme.
+- [ ] Mimar ve iç mimara gerçek işlerinde denet, geri bildirim topla.
 
 ### Faz 5 — Mobilya/obje ekleme modülü
-- [ ] 2D mobilya blok kütüphanesi (masa, yatak, kanepe, dolap vb.); yengemden standart ölçüler al.
+- [ ] 2D mobilya blok kütüphanesi (masa, yatak, kanepe, dolap vb.); iç mimardan standart ölçüler al.
 - [ ] Mevcut bir DXF'i oku, odaları tespit et.
 - [ ] Komutla ekleme: "salona 6 kişilik masa ekle" → doğru bloğu uygun konuma yerleştir.
 - [ ] Sonra: yazılı komutları anlamak için LLM entegrasyonu.
@@ -94,7 +101,7 @@ Mimarların ve iç mimarların çizim işini otomatikleştiren bir uygulama.
 
 **Artılar**
 - Gerçek bir problem: elle çizilen planı AutoCAD'e aktarmak zaman alan, sıkıcı bir iş.
-- Alan uzmanlarına (abim, yengem) doğrudan erişimim var; çoğu kişide bu yok.
+- Alan uzmanlarına (mimar, iç mimar) doğrudan erişimim var; çoğu kişide bu yok.
 - Modüler yapı: her faz kendi başına gösterilebilir bir çıktı. CV'ye ve portfolyoya yazılabilir.
 
 **Eksiler / riskler**
@@ -104,18 +111,33 @@ Mimarların ve iç mimarların çizim işini otomatikleştiren bir uygulama.
 - **Kapsam şişmesi:** Faz 3 bitmeden 3D'ye veya mobil uygulamaya geçme.
 - **Zaman:** Okul, bitirme projesi ve staj başvurularıyla paralel yürüyor; fazların süreleri tahmini.
 
+## 5.1 Örnek çizimler
+
+`ornekler/` klasöründe, zorluk sırasıyla adlandırılmış 7 gerçek röleve krokisi var (fotoğraf). **Klasör `.gitignore`'da: müşteri işi olabilir, GitHub'a gönderilmez.** Hiçbirinin AutoCAD karşılığı yok; doğrulama için mimardan 01 ve 02'nin "doğru ölçüleri" istenecek.
+
+| Dosya | Zorluk | Not |
+|---|---|---|
+| `01_kolay_tek_oda_180x140.jpg` | Kolay | Tek oda, tek çizgi, dik açılı. Sayıların okunuşu belirsiz (15/90/10), mimara sorulacak |
+| `02_kolay_tek_oda_300x240.jpg` | Kolay | Tek oda, tek çizgi, dik açılı |
+| `03_orta_egik_duvar.jpg` | Orta | Eğik duvar, kapılar, kesikli çizgi, `h1`/`h2` |
+| `04_orta_oda2_wc.jpg` | Orta | Taralı çift çizgili duvarlar, WC, iki oda |
+| `05_zor_oda3_balkon.jpg` | Zor | Çok ölçü, köşegenler (kutu içinde), iki renk |
+| `06_zor_salon_balkon.jpg` | Zor | Çok oda, köşegenler, kolonlar |
+| `07_zor_sauna_yan_cekilmis.jpg` | Zor | Yan çekilmiş, ölçüler kırmızı, duvarlar mavi |
+
 ## 6. Claude'a notlar
 
 - Şu an hangi fazda olduğumu her oturumun başında söyleyeceğim. Söylemezsem sor.
 - Kodu küçük, test edilebilir parçalar halinde yaz; her parça için nasıl test edeceğimi göster.
 - Kütüphane veya yaklaşım seçerken alternatifleri kısaca karşılaştır.
-- Mimari bir varsayım yapman gerektiğinde (duvar kalınlığı, sembol vb.) bunu belirt; abime/yengeme danışmam gereken soruları listele.
+- Mimari bir varsayım yapman gerektiğinde (duvar kalınlığı, sembol vb.) bunu belirt; mimara/iç mimara danışmam gereken soruları listele.
 
 ## 7. İlerleme günlüğü
 
 | Tarih | Faz | Ne yapıldı | Sonraki adım |
 |---|---|---|---|
-| 2026-11-14 | 0 | Yol haritası hazırlandı | Abim ve yengemden örnek el çizimleri toplamak |
+| 2026-11-14 | 0 | Yol haritası hazırlandı | Mimar ve iç mimardan örnek el çizimleri toplamak |
 | 2026-11-15 | 0 | Claude Code + Superpowers kuruldu, proje klasörü ve CLAUDE.md oluşturuldu | Git reposu, Python ortamı |
 | 2026-11-15 | 1 | DXF yazıcı modülü (`mimarlik/dxf_yazici.py`) + örnek oda demosu, 27 test geçiyor | `output/oda_demo.dxf` AutoCAD'de açılıp bir duvar ve bir ölçü düzenlenecek (mimar); açık sorular mimara |
 | 2026-11-16 | 1 | Bağımsız inceleme düzeltmeleri (NaN/sonsuz, yay/ölçü doğrulaması, zoom extents) + AutoCAD Web'de bulunan hata: ölçü yazıları görünmüyordu (`dimtxsty` boş, `$DIMSTYLE` yok) → düzeltildi, 43 test geçiyor. Ders: `audit()` temiz ≠ AutoCAD'de doğru | Yeni `oda_demo.dxf`'te 450/350 yazılarını AutoCAD Web'de kontrol et; mimarla elle doğrulama |
+| 2026-11-16 | 0→2 | 7 gerçek röleve krokisi alındı (`ornekler/`). Krokiler ölçekli değil → Faz 2 yaklaşımı değişti: geometri yazılı ölçülerden kurulacak, OCR Faz 2'ye alındı | Mimara: 01–02'nin doğru ölçüleri ve yazım alışkanlıkları (kutu içi sayılar, `H=`, kesikli çizgi) |
