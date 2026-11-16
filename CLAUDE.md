@@ -118,3 +118,4 @@ Mimarların ve iç mimarların çizim işini otomatikleştiren bir uygulama.
 | 2026-11-14 | 0 | Yol haritası hazırlandı | Abim ve yengemden örnek el çizimleri toplamak |
 | 2026-11-15 | 0 | Claude Code + Superpowers kuruldu, proje klasörü ve CLAUDE.md oluşturuldu | Git reposu, Python ortamı |
 | 2026-11-15 | 1 | DXF yazıcı modülü (`mimarlik/dxf_yazici.py`) + örnek oda demosu, 27 test geçiyor | `output/oda_demo.dxf` AutoCAD'de açılıp bir duvar ve bir ölçü düzenlenecek (mimar); açık sorular mimara |
+| 2026-11-16 | 1 | Bağımsız inceleme düzeltmeleri (NaN/sonsuz, yay/ölçü doğrulaması, zoom extents) + AutoCAD Web'de bulunan hata: ölçü yazıları görünmüyordu (`dimtxsty` boş, `$DIMSTYLE` yok) → düzeltildi, 43 test geçiyor. Ders: `audit()` temiz ≠ AutoCAD'de doğru | Yeni `oda_demo.dxf`'te 450/350 yazılarını AutoCAD Web'de kontrol et; mimarla elle doğrulama |
