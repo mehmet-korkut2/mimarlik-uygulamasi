@@ -49,3 +49,57 @@ def test_bos_maske():
     sonuc = kenarlari_bul(np.zeros((100, 100), bool), 20)
     assert sonuc.kenarlar == ()
     assert sonuc.kontur_sirasi == ()
+
+
+# --- Görev 4: duvar/işaret ayrımı, açıklık, parçalar, kontur ---
+
+def _parcalar(sonuc):
+    return [p for k in sonuc.kenarlar for p in k.parcalar]
+
+
+@pytest.mark.parametrize("aci", [0, 4])
+def test_kenar_ve_parca_sayilari(aci):
+    sonuc, beklenen = _bul(aci)
+    assert len(sonuc.kenarlar) == beklenen["kenar_sayisi"]
+    assert len(_parcalar(sonuc)) == beklenen["parca_sayisi"]
+    assert sum(p.tur == "aciklik" for p in _parcalar(sonuc)) == beklenen["aciklik_sayisi"]
+
+
+@pytest.mark.parametrize("aci", [0, 4])
+def test_acikli_kenarin_parca_turleri(aci):
+    sonuc, _ = _bul(aci)
+    acikli = [k for k in sonuc.kenarlar if any(p.tur == "aciklik" for p in k.parcalar)]
+    assert len(acikli) == 1
+    assert [p.tur for p in acikli[0].parcalar] in (["duvar", "aciklik", "duvar"],)
+
+
+def test_kisa_duvar_isaret_sayilmaz():
+    sonuc, beklenen = _bul(0)
+    a, b = beklenen["kenarlar"]["FA_alt"]
+    assert any(_uc_uzakligi(p, a, b) <= 10 and p.tur == "duvar" for p in _parcalar(sonuc))
+
+
+@pytest.mark.parametrize("aci", [0, 4])
+def test_isaretler(aci):
+    sonuc, beklenen = _bul(aci)
+    assert len(sonuc.isaretler) == beklenen["isaret_sayisi"]
+    duvarlar = [p for p in _parcalar(sonuc) if p.tur == "duvar"]
+    from mimarlik.eslestirme import nokta_parca_mesafesi
+    for isaret in sonuc.isaretler:
+        assert min(nokta_parca_mesafesi(isaret.bas, p) for p in duvarlar) <= 5
+
+
+@pytest.mark.parametrize("aci", [0, 4])
+def test_kontur_sirasi(aci):
+    sonuc, beklenen = _bul(aci)
+    assert len(sonuc.kontur_sirasi) == 6
+    ilk = next(k for k in sonuc.kenarlar if k.id == sonuc.kontur_sirasi[0])
+    a, b = beklenen["kenarlar"]["AB"]
+    assert all(k.konturda for k in sonuc.kenarlar)
+    assert _uc_uzakligi(ilk.parcalar[0], a, b) <= 10 or \
+        _uc_uzakligi(_birlesik(ilk), a, b) <= 10
+
+
+def _birlesik(kenar):
+    from mimarlik.eslestirme import Parca
+    return Parca("x", "x", "duvar", kenar.parcalar[0].bas, kenar.parcalar[-1].bit)

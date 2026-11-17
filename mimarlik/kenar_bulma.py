@@ -9,10 +9,13 @@ import math
 import cv2
 import numpy as np
 
-from mimarlik.eslestirme import Kenar, KenarSonucu, Parca
+from mimarlik.eslestirme import IsaretAdayi, Kenar, KenarSonucu, Parca
 
 ACI_TOLERANSI = 15.0      # derece: eksene bu kadar yakın çizgi yatay/dikey sayılır
-BIRLESTIRME_ACISI = 10.0  # derece: doğrudaş sayılmak için en büyük açı farkı
+BIRLESTIRME_ACISI = 20.0  # derece: kısa kalın çizgilerde Hough açısı ±12° oynar; doğrudaşlığı dik mesafe denetler
+DUVAR_UZUNLUGU = 3        # h katı: bundan uzun çizgi kendiliğinden duvar
+ACIKLIK_ARALIGI = (1, 8)  # h katı: aynı doğrudaki iki duvar arasındaki boşluk bu aralıktaysa açıklık
+SARKAN_SINIRI = 6         # h katı: bir ucu boşta kalan bundan kısa "duvar" budanır (işaret + yazı birleşmesi)
 
 
 class _Cizgi:
@@ -135,13 +138,299 @@ def _birlestir(parcalar, h):
     return [_uydur(g) for g in gruplar.values()]
 
 
+# --- Bağlantılar: köşeler ve T-birleşimler ---------------------------------------------------------
+
+def _segment_mesafesi(p, c):
+    (x1, y1), (x2, y2) = c.bas, c.bit
+    dx, dy = x2 - x1, y2 - y1
+    n2 = dx * dx + dy * dy
+    t = 0.0 if n2 == 0 else max(0.0, min(1.0, ((p[0] - x1) * dx + (p[1] - y1) * dy) / n2))
+    return math.hypot(p[0] - x1 - t * dx, p[1] - y1 - t * dy)
+
+
+def _kesisim(a, b):
+    (x1, y1), (x2, y2), (x3, y3), (x4, y4) = a.bas, a.bit, b.bas, b.bit
+    d = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+    if abs(d) < 1e-9:
+        return None
+    t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / d
+    return (x1 + t * (x2 - x1), y1 + t * (y2 - y1))
+
+
+def _t(c, p):
+    """p'nin c doğrultusundaki izdüşüm konumu (c.bas'tan piksel)."""
+    ux, uy = c.bit[0] - c.bas[0], c.bit[1] - c.bas[1]
+    n = math.hypot(ux, uy)
+    return ((p[0] - c.bas[0]) * ux + (p[1] - c.bas[1]) * uy) / n
+
+
+def _uc(c, p, tol):
+    """p, c'nin hangi ucunda: "bas" | "bit" | None (ortada)."""
+    t = _t(c, p)
+    if t <= tol:
+        return "bas"
+    if t >= c.uzunluk - tol:
+        return "bit"
+    return None
+
+
+def _baglantilar(cizgiler, yonler, tol):
+    """[(i, j, P)]: farklı yönlü iki çizginin, ikisine de ≤ tol uzaklıktaki kesişimi."""
+    sonuc = []
+    for i in range(len(cizgiler)):
+        for j in range(i + 1, len(cizgiler)):
+            if yonler[i] == yonler[j]:
+                continue
+            p = _kesisim(cizgiler[i], cizgiler[j])
+            if p and _segment_mesafesi(p, cizgiler[i]) <= tol and _segment_mesafesi(p, cizgiler[j]) <= tol:
+                sonuc.append((i, j, p))
+    return sonuc
+
+
+# --- Duvar / işaret / açıklık ---------------------------------------------------------------------
+
+def _uca_bagli_duvar(i, uc, baglantilar, duvar, cizgiler, tol):
+    """i'nin `uc` ucunda bir duvara bağlantı noktası (yoksa None)."""
+    for a, b, p in baglantilar:
+        if i in (a, b):
+            diger = b if a == i else a
+            if diger in duvar and _uc(cizgiler[i], p, tol) == uc:
+                return p
+    return None
+
+
+def _acik_cift(a, b, h):
+    """a ve b aynı doğrudaysa ve aralarındaki boşluk açıklık aralığındaysa (a'nın boşluğa bakan ucu, b'ninki)."""
+    if _aci_farki(a.aci, b.aci) > BIRLESTIRME_ACISI:
+        return None
+    ux, uy = (a.bit[0] - a.bas[0]) / a.uzunluk, (a.bit[1] - a.bas[1]) / a.uzunluk
+    if max(abs((p[0] - a.bas[0]) * uy - (p[1] - a.bas[1]) * ux) for p in (b.bas, b.bit)) > h / 2:
+        return None
+    tb = sorted((_t(a, b.bas), _t(a, b.bit)))
+    alt, ust = ACIKLIK_ARALIGI[0] * h, ACIKLIK_ARALIGI[1] * h
+    if alt <= tb[0] - a.uzunluk <= ust:   # b, a'nın bit ucunun ötesinde
+        return "bit", ("bas" if _t(a, b.bas) < _t(a, b.bit) else "bit")
+    if alt <= -tb[1] <= ust:              # b, a'nın bas ucunun gerisinde
+        return "bas", ("bit" if _t(a, b.bas) < _t(a, b.bit) else "bas")
+    return None
+
+
+def _diger_uc(uc):
+    return "bit" if uc == "bas" else "bas"
+
+
+def _siniflandir(cizgiler, baglantilar, h, tol):
+    """Döner: (duvar indeksleri, açıklık çiftleri [(i, j)])."""
+    duvar = {i for i, c in enumerate(cizgiler) if c.uzunluk >= DUVAR_UZUNLUGU * h}
+    ciftler = []
+    degisti = True
+    while degisti:
+        degisti = False
+        for i in range(len(cizgiler)):
+            if i not in duvar and all(_uca_bagli_duvar(i, u, baglantilar, duvar, cizgiler, tol)
+                                      for u in ("bas", "bit")):
+                duvar.add(i)
+                degisti = True
+        for i in range(len(cizgiler)):
+            for j in range(i + 1, len(cizgiler)):
+                if (i, j) in ciftler:
+                    continue
+                cift = _acik_cift(cizgiler[i], cizgiler[j], h)
+                if not cift:
+                    continue
+                ui, uj = cift  # boşluğa bakan uçlar; uzak uçlar duvara bağlı olmalı (ya da kendisi duvar)
+                if all(k in duvar or _uca_bagli_duvar(k, _diger_uc(u), baglantilar, duvar, cizgiler, tol)
+                       for k, u in ((i, ui), (j, uj))):
+                    ciftler.append((i, j))
+                    duvar.update((i, j))
+                    degisti = True
+    return _sarkanlari_buda(cizgiler, baglantilar, duvar, ciftler, h, tol)
+
+
+def _sarkanlari_buda(cizgiler, baglantilar, duvar, ciftler, h, tol):
+    """Bir ucu hiçbir duvara bağlı olmayan kısa (< SARKAN_SINIRI·h) "duvarları" eler.
+
+    Ölçü işareti rakam çizgileriyle birleşince 3h'yi aşabiliyor ("240"); bu çizgiler bir ucu boşta
+    kaldığı için ayırt edilir. Açıklığa bakan uçlar boşta sayılmaz. Uzun duvarlar hiç budanmaz: bir köşe
+    kaçırılırsa budamanın bütün dış hatta yayılmasın.
+    """
+    duvar = set(duvar)
+    korunan = set()
+    for i, j in ciftler:
+        ui, uj = _acik_cift(cizgiler[i], cizgiler[j], h)
+        korunan |= {(i, ui), (j, uj)}
+    degisti = True
+    while degisti:
+        degisti = False
+        for i in sorted(duvar):
+            if cizgiler[i].uzunluk >= SARKAN_SINIRI * h:
+                continue
+            if any((i, u) not in korunan and not _uca_bagli_duvar(i, u, baglantilar, duvar, cizgiler, tol)
+                   for u in ("bas", "bit")):
+                duvar.discard(i)
+                degisti = True
+    return duvar, [(i, j) for i, j in ciftler if i in duvar and j in duvar]
+
+
+def _isaretler(cizgiler, baglantilar, duvar, h, tol):
+    """Tek ucu bir duvara bağlı, diğer ucu boşta çizgiler. Uzunluk sınırı yok: işaret yazıyla birleşebilir."""
+    adaylar = []
+    for i, c in enumerate(cizgiler):
+        if i in duvar or c.uzunluk >= SARKAN_SINIRI * h:
+            continue
+        uclar = {u: _uca_bagli_duvar(i, u, baglantilar, duvar, cizgiler, tol) for u in ("bas", "bit")}
+        bagli = [u for u, p in uclar.items() if p]
+        if len(bagli) == 1:
+            u = bagli[0]
+            adaylar.append((c.uzunluk, uclar[u], c.bit if u == "bas" else c.bas))
+    secilen = []  # aynı duvar noktasına değen kopyalardan uzun olanı kalır
+    for uzunluk, bas, bit in sorted(adaylar, key=lambda a: -a[0]):
+        if all(math.dist(bas, s.bas) > h / 2 for s in secilen):
+            secilen.append(IsaretAdayi(bas=bas, bit=tuple(bit)))
+    return secilen
+
+
+# --- Kenarlar ve parçalar -------------------------------------------------------------------------
+
+def _kenar_parcalari(grup, cizgiler, baglantilar, duvar, tol):
+    """Bir kenar grubunun (açıklıkla ayrılmış doğrudaş duvarlar) parça listesi: [(tür, bas, bit)]."""
+    eksen = _uydur([cizgiler[i] for i in grup])
+    araliklar = sorted(tuple(sorted((_t(eksen, cizgiler[i].bas), _t(eksen, cizgiler[i].bit)))) for i in grup)
+    duvar_araliklari = [list(araliklar[0])]
+    for a, b in araliklar[1:]:
+        if a <= duvar_araliklari[-1][1] + tol:
+            duvar_araliklari[-1][1] = max(duvar_araliklari[-1][1], b)
+        else:
+            duvar_araliklari.append([a, b])
+    t0, t1 = duvar_araliklari[0][0], duvar_araliklari[-1][1]
+
+    def nokta(t):
+        ux, uy = (eksen.bit[0] - eksen.bas[0]) / eksen.uzunluk, (eksen.bit[1] - eksen.bas[1]) / eksen.uzunluk
+        return (eksen.bas[0] + t * ux, eksen.bas[1] + t * uy)
+
+    uc_noktalari = {}
+    kirilmalar = set()
+    for a, b, p in baglantilar:
+        if (a in grup) == (b in grup):
+            continue
+        diger = b if a in grup else a
+        if diger not in duvar:
+            continue
+        t = _t(eksen, p)
+        if abs(t - t0) <= tol:
+            uc_noktalari[0] = p
+        elif abs(t - t1) <= tol:
+            uc_noktalari[1] = p
+        elif t0 < t < t1:
+            kirilmalar.add(round(t, 1))
+    sinirlar = sorted({t0, t1, *kirilmalar, *(x for ar in duvar_araliklari for x in ar)})
+    sade = [sinirlar[0]]
+    for t in sinirlar[1:]:
+        if t - sade[-1] > tol:
+            sade.append(t)
+    sade[-1] = t1
+
+    def aciklikta(t):
+        return not any(a - tol <= t <= b + tol for a, b in duvar_araliklari)
+
+    parcalar = []
+    for k, (a, b) in enumerate(zip(sade, sade[1:])):
+        pa = uc_noktalari.get(0, nokta(a)) if k == 0 else nokta(a)
+        pb = uc_noktalari.get(1, nokta(b)) if k == len(sade) - 2 else nokta(b)
+        parcalar.append(("aciklik" if aciklikta((a + b) / 2) else "duvar", pa, pb))
+    return parcalar
+
+
+def _dis_bolge(parca_listeleri, sekil, kalinlik):
+    """Kenarların dışında kalan (görüntü kenarından ulaşılabilen) pikseller için bool maske."""
+    yuk, gen = sekil
+    tuval = np.zeros((yuk + 2, gen + 2), np.uint8)
+    for parcalar in parca_listeleri:
+        for _, a, b in parcalar:
+            cv2.line(tuval, (int(round(a[0])) + 1, int(round(a[1])) + 1),
+                     (int(round(b[0])) + 1, int(round(b[1])) + 1), 255, kalinlik)
+    doldurma = np.zeros((yuk + 4, gen + 4), np.uint8)
+    cv2.floodFill(tuval, doldurma, (0, 0), 128)
+    return (tuval == 128)[1:-1, 1:-1]
+
+
 def kenarlari_bul(maske: np.ndarray, h: float) -> KenarSonucu:
+    tol = h / 2
     parcalar = _cizgi_parcalari(maske, h)
     eksen = _eksen_acisi(parcalar)
-    eksenli = [p for p in parcalar if _yon(p.aci, eksen)]
-    cizgiler = _birlestir(eksenli, h)
+    cizgiler = _birlestir([p for p in parcalar if _yon(p.aci, eksen)], h)
+    yonler = [_yon(c.aci, eksen) for c in cizgiler]
+    baglantilar = _baglantilar(cizgiler, yonler, tol)
+    duvar, ciftler = _siniflandir(cizgiler, baglantilar, h, tol)
+    isaretler = _isaretler(cizgiler, baglantilar, duvar, h, tol)
+    if not duvar:
+        return KenarSonucu(eksen, (), (), tuple(isaretler))
+
+    # açıklık çiftleriyle bağlı duvarlar tek kenar grubudur
+    ebeveyn = {i: i for i in duvar}
+
+    def kok(i):
+        while ebeveyn[i] != i:
+            i = ebeveyn[i]
+        return i
+
+    for i, j in ciftler:
+        ebeveyn[kok(i)] = kok(j)
+    gruplar = {}
+    for i in sorted(duvar):
+        gruplar.setdefault(kok(i), set()).add(i)
+    gruplar = list(gruplar.values())
+    parca_listeleri = [_kenar_parcalari(g, cizgiler, baglantilar, duvar, tol) for g in gruplar]
+
+    # dış kontur: bir yanı dışarıda, diğer yanı içeride olan kenarlar; saat yönünde yönlendirilir
+    dis = _dis_bolge(parca_listeleri, maske.shape, 3)
+    adim = max(4.0, h / 2)
+
+    def disarida(p):
+        x, y = int(round(p[0])), int(round(p[1]))
+        return not (0 <= y < dis.shape[0] and 0 <= x < dis.shape[1]) or bool(dis[y, x])
+
+    kayitlar = []  # (konturda, parça listesi, yön)
+    for g, pl in zip(gruplar, parca_listeleri):
+        bas, bit = pl[0][1], pl[-1][2]
+        dx, dy = bit[0] - bas[0], bit[1] - bas[1]
+        n = math.hypot(dx, dy)
+        nx, ny = -dy / n, dx / n
+        en_uzun = max(pl, key=lambda q: math.dist(q[1], q[2]))
+        m = ((en_uzun[1][0] + en_uzun[2][0]) / 2, (en_uzun[1][1] + en_uzun[2][1]) / 2)
+        s1, s2 = disarida((m[0] + nx * adim, m[1] + ny * adim)), disarida((m[0] - nx * adim, m[1] - ny * adim))
+        yon = _yon(math.degrees(math.atan2(dy, dx)), eksen)
+        konturda = s1 != s2
+        ters = s1 if konturda else ((dx < 0) if yon == "yatay" else (dy < 0))
+        if ters:
+            pl = [(t, b, a) for t, a, b in reversed(pl)]
+        kayitlar.append((konturda, pl, yon))
+
+    ic = ~dis
+    konturlar, _ = cv2.findContours(ic.astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    sira = []
+    if konturlar:
+        k = max(konturlar, key=cv2.contourArea).reshape(-1, 2).astype(float)
+        if np.sum(k[:, 0] * np.roll(k[:, 1], -1) - np.roll(k[:, 0], -1) * k[:, 1]) < 0:
+            k = k[::-1]  # saat yönü (görüntü koordinatında pozitif alan)
+        for idx, (konturda, pl, _) in enumerate(kayitlar):
+            if konturda:
+                a, b = pl[0][1], pl[-1][2]
+                q = (a[0] + 0.25 * (b[0] - a[0]), a[1] + 0.25 * (b[1] - a[1]))
+                sira.append((int(np.argmin(((k - q) ** 2).sum(1))), idx))
+        sira.sort()
+        if sira:
+            ilk = min(range(len(sira)), key=lambda s: sum(kayitlar[sira[s][1]][1][0][1]))
+            sira = sira[ilk:] + sira[:ilk]
+    kontur_idx = [idx for _, idx in sira]
+    ic_idx = sorted((i for i, r in enumerate(kayitlar) if i not in kontur_idx),
+                    key=lambda i: (kayitlar[i][1][0][1][1], kayitlar[i][1][0][1][0]))
+
     kenarlar = []
-    for i, c in enumerate(sorted(cizgiler, key=lambda c: (c.bas[1], c.bas[0])), 1):
-        kid = f"K{i}"
-        kenarlar.append(Kenar(kid, _yon(c.aci, eksen), (Parca(f"{kid}.1", kid, "duvar", c.bas, c.bit),), False))
-    return KenarSonucu(eksen, tuple(kenarlar), (), ())
+    for no, idx in enumerate(kontur_idx + ic_idx, 1):
+        konturda, pl, yon = kayitlar[idx]
+        kid = f"K{no}"
+        kenarlar.append(Kenar(kid, yon, tuple(Parca(f"{kid}.{m}", kid, t, a, b) for m, (t, a, b) in enumerate(pl, 1)),
+                              konturda and idx in kontur_idx))
+    return KenarSonucu(eksen, tuple(kenarlar), tuple(f"K{n}" for n in range(1, len(kontur_idx) + 1)),
+                       tuple(isaretler))
