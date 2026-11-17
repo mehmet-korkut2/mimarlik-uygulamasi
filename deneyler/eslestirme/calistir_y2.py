@@ -2,7 +2,10 @@
 
 Tek seferlik karşılaştırma (tasarım 7.3): 01 ve 02, 3'er çalıştırma -> sonuclar/y2.json
 Girdi görseli (çizgileri silinmiş fotoğraf + etiketler) gorseller/y2_girdi_*.jpg (.gitignore'da).
-Çalıştırma (repo kökünden): PYTHONIOENCODING=utf-8 deneyler/.venv/Scripts/python deneyler/eslestirme/calistir_y2.py [karisik]
+Çalıştırma (repo kökünden): PYTHONIOENCODING=utf-8 deneyler/.venv/Scripts/python deneyler/eslestirme/calistir_y2.py [bulunan] [karisik]
+
+"bulunan": gerçek parçalar yerine mimarlik.kenar_bulma'nın bulduğu parçalar çizilir (gerçekçi Y2). Çiftler
+bulunan parça kimliğiyle kaydedilir; olcum.py bunları ara katmandaki gibi gerçek parçalara eşleyip puanlar.
 
 "karisik": P numaraları kontur sırası yerine sabit tohumlu rastgele sırayla verilir (kontrol: model
 konuma mı bakıyor, yoksa sayıları kâğıttaki sırayla listeleyip numaralarla mı eşliyor?) -> sonuclar/y2_karisik.json
@@ -45,19 +48,30 @@ def y2_ciftleri(metin: str, eslem: dict[str, str]) -> list[tuple[int, str]]:
     return ciftler
 
 
-def girdi_gorseli(kod, karisik=False):
-    """Çizgileri silinmiş fotoğraf + gerçek parçalar (ince kırmızı) + P etiketleri. Döner: (PIL resim, eşlem)."""
+def _parcalar(kod, bulunan, bgr):
+    """[(parça id, tür, baş, bit)]: gerçek cevaptan ya da kenar bulmadan."""
+    if not bulunan:
+        from gercek_eslestirme import KENARLAR
+        return [p for parcalar in KENARLAR[kod].values() for p in parcalar]
+    from mimarlik.kenar_bulma import kenarlari_bul
+    from mimarlik.on_isleme import karakter_yuksekligi, murekkep_maskesi
+    maske = murekkep_maskesi(bgr)
+    sonuc = kenarlari_bul(maske, karakter_yuksekligi(maske))
+    return [(p.id, p.tur, p.bas, p.bit) for k in sonuc.kenarlar for p in k.parcalar]
+
+
+def girdi_gorseli(kod, karisik=False, bulunan=False):
+    """Çizgileri silinmiş fotoğraf + parçalar (ince kırmızı) + P etiketleri. Döner: (PIL resim, eşlem)."""
     import cv2
     from PIL import Image, ImageDraw
 
-    from gercek_eslestirme import KENARLAR
     from mimarlik.on_isleme import cizgileri_sil
     from ortak import KROKILER, _font
 
     bgr = cv2.imread(str(REPO / KROKILER[kod]))
     resim = Image.fromarray(cv2.cvtColor(cizgileri_sil(bgr), cv2.COLOR_BGR2RGB))
     kalem, font = ImageDraw.Draw(resim), _font(22)
-    tum = [p for parcalar in KENARLAR[kod].values() for p in parcalar]
+    tum = _parcalar(kod, bulunan, bgr)
     numaralar = list(range(1, len(tum) + 1))
     if karisik:
         import random
@@ -79,14 +93,15 @@ def main():
 
     import ollama
 
-    karisik = len(sys.argv) > 1 and sys.argv[1] == "karisik"
-    ek = "_karisik" if karisik else ""
-    sonuc = {"model": MODEL, "num_ctx": NUM_CTX, "istem": ISTEM, "karisik": karisik, "krokiler": {}}
+    karisik, bulunan = "karisik" in sys.argv[1:], "bulunan" in sys.argv[1:]
+    ek = ("_bulunan" if bulunan else "") + ("_karisik" if karisik else "")
+    sonuc = {"model": MODEL, "num_ctx": NUM_CTX, "istem": ISTEM, "karisik": karisik,
+             "parcalar": "bulunan" if bulunan else "gercek", "krokiler": {}}
     (KLASOR / "gorseller").mkdir(exist_ok=True)
     (KLASOR / "sonuclar").mkdir(exist_ok=True)
     kodlar = ["01", "02"]
     for kod in kodlar:
-        resim, eslem = girdi_gorseli(kod, karisik)
+        resim, eslem = girdi_gorseli(kod, karisik, bulunan)
         resim.save(KLASOR / "gorseller" / f"y2{ek}_girdi_{kod}.jpg", quality=90)
         tampon = io.BytesIO()
         resim.save(tampon, format="PNG")

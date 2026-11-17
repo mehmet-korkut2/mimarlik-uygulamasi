@@ -31,6 +31,7 @@ Fazla: doğru olmayan bağlama sayısı (yanlış parça, uydurma ya da fazla ok
 | Y3 taban | bulunan | Qwen kutusu | Qwen | 9/13/13 | 10/14/14 | 8/12/12 | 8/12/12 | 18/16/12 |
 | Y2 numaralı parçalar (kontur sırası) | gerçek | — | Qwen | 21/22/22 | 22/22/22 | 16/16/16 | 16/16/16 | 5/4/4 |
 | Y2 numaralı parçalar (karışık sıra) | gerçek | — | Qwen | 19/18/19 | 20/21/19 | 14/15/14 | 14/15/14 | 7/8/7 |
+| **Y2 numaralı parçalar (karışık sıra)** | bulunan | — | Qwen | 13/17/12 | 13/18/13 | 12/16/11 | 12/16/11 | 13/9/14 |
 
 ### Kroki kroki (katı)
 
@@ -44,6 +45,7 @@ Fazla: doğru olmayan bağlama sayısı (yanlış parça, uydurma ya da fazla ok
 | Y3_bulunan | 5/4/6 | 4/9/7 |
 | Y2 | 10/10/10 | 11/12/12 |
 | Y2_karisik | 8/6/8 | 11/12/11 |
+| Y2_bulunan | 3/6/3 | 10/11/9 |
 
 ## Değer atama (G; doğru değeri alan bölge / atanan, çalıştırma başına)
 
@@ -62,10 +64,11 @@ Fazla: doğru olmayan bağlama sayısı (yanlış parça, uydurma ya da fazla ok
 
 ## Süre (kroki başına, Qwen hariç)
 
-- 01: kenar + bölge bulma 0.36 s, atama + bağlama 147 ms
-- 02: kenar + bölge bulma 0.85 s, atama + bağlama 1 ms
+- 01: kenar + bölge bulma 0.35 s, atama + bağlama 260 ms
+- 02: kenar + bölge bulma 0.81 s, atama + bağlama 1 ms
 - Y2 (Qwen, kroki başına): 70, 70, 68, 78, 78, 79 s
 - Y2_karisik (Qwen, kroki başına): 59, 67, 66, 78, 78, 79 s
+- Y2_bulunan (Qwen, kroki başına): 57, 59, 59, 87, 89, 89 s
 
 ## Ayrıntı: Ü ve A katmanında her sayı
 

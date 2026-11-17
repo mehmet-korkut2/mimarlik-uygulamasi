@@ -34,6 +34,7 @@ from ortak import KROKILER, _font  # noqa: E402
 QWEN = KLASOR.parent / "konum_deneyi" / "sonuclar" / "qwen_konum.json"
 Y2 = KLASOR / "sonuclar" / "y2.json"
 Y2_KARISIK = KLASOR / "sonuclar" / "y2_karisik.json"
+Y2_BULUNAN = KLASOR / "sonuclar" / "y2_bulunan_karisik.json"
 GORSELLER = KLASOR / "gorseller"
 KIRP = (40, 300, 1152, 1250)
 YESIL, KIRMIZI, TURUNCU, GRI = (0, 150, 0), (220, 0, 0), (230, 120, 0), (170, 170, 170)
@@ -188,7 +189,7 @@ def _neden_dagilimi(ogeler):
 
 def olc():
     qwen = json.loads(QWEN.read_text(encoding="utf-8"))
-    y2 = {ad: json.loads(yol.read_text(encoding="utf-8")) for ad, yol in (("Y2", Y2), ("Y2_karisik", Y2_KARISIK))
+    y2 = {ad: json.loads(yol.read_text(encoding="utf-8")) for ad, yol in (("Y2", Y2), ("Y2_karisik", Y2_KARISIK), ("Y2_bulunan", Y2_BULUNAN))
           if yol.exists()}
     GORSELLER.mkdir(exist_ok=True)
     sonuc = {"krokiler": {}}
@@ -217,7 +218,8 @@ def olc():
             r[f"Y3_{uzay}"] = [{"puan": k.puanla(katman_y3(k, qwen_ogeleri(k, cal), uzay), uzay)}
                                for cal in qwen["krokiler"][kod]["calistirmalar"]]
         for ad, veri in y2.items():
-            r[ad] = [{"puan": k.puanla([tuple(c) for c in cal["ciftler"]], "gercek"), "sure_s": cal["sure_s"]}
+            uzay = "bulunan" if veri.get("parcalar") == "bulunan" else "gercek"
+            r[ad] = [{"puan": k.puanla([tuple(c) for c in cal["ciftler"]], uzay), "sure_s": cal["sure_s"]}
                      for cal in veri["krokiler"][kod]["calistirmalar"]]
         sonuc["krokiler"][kod] = r
         print(f"{kod}: Ü {r['U']['puan']['kati']}, A {r['A']['puan']['kati']}, "
@@ -282,9 +284,11 @@ def rapor(sonuc):
         satir("Y2 numaralı parçalar (kontur sırası)", "gerçek", "—", "Qwen", "Y2", True)
     if all("Y2_karisik" in r for r in kr.values()):
         satir("Y2 numaralı parçalar (karışık sıra)", "gerçek", "—", "Qwen", "Y2_karisik", True)
+    if all("Y2_bulunan" in r for r in kr.values()):
+        satir("**Y2 numaralı parçalar (karışık sıra)**", "bulunan", "—", "Qwen", "Y2_bulunan", True)
 
     s += ["", "### Kroki kroki (katı)", "", "| Katman | 01 /10 | 02 /14 |", "|---|---|---|"]
-    for anahtar in ("U", "A", "G_hane", "G_ipucusuz", "Y3_gercek", "Y3_bulunan", "Y2", "Y2_karisik"):
+    for anahtar in ("U", "A", "G_hane", "G_ipucusuz", "Y3_gercek", "Y3_bulunan", "Y2", "Y2_karisik", "Y2_bulunan"):
         if not all(anahtar in r for r in kr.values()):
             continue
         hucre = []
@@ -321,7 +325,7 @@ def rapor(sonuc):
     for kod, r in kr.items():
         atama = sum(g["atama"]["sure_s"] for g in r["G_hane"]) / len(r["G_hane"])
         s.append(f"- {kod}: kenar + bölge bulma {r['bulma_s']:.2f} s, atama + bağlama {atama * 1000:.0f} ms")
-    for ad in ("Y2", "Y2_karisik"):
+    for ad in ("Y2", "Y2_karisik", "Y2_bulunan"):
         if all(ad in r for r in kr.values()):
             s.append(f"- {ad} (Qwen, kroki başına): {', '.join(f'{c['sure_s']:.0f}' for r in kr.values() for c in r[ad])} s")
 

@@ -1,6 +1,6 @@
 # Sayı–Duvar Eşleştirme Raporu
 
-Tarih: 2026-11-18 · Tasarım: `docs/superpowers/specs/2026-11-17-sayi-duvar-eslestirme-design.md` ·
+Tarih: 2026-11-18 (Y2 bulunan kenar ölçümü eklendi) · Tasarım: `docs/superpowers/specs/2026-11-17-sayi-duvar-eslestirme-design.md` ·
 Plan: `docs/superpowers/plans/2026-11-17-sayi-duvar-eslestirme.md` · Tablolar: [`olcumler.md`](olcumler.md)
 (`olcum.py` üretir) · Ham sonuçlar: `sonuclar/` · Kontrol görselleri: `gorseller/` (**`.gitignore`'da**)
 
@@ -14,9 +14,19 @@ Y2 bunu kendi okuduğu değerlerle yapıyor; Y1'in üst sınırı ise gerçek de
 kullanıyor. **Y1'in gerçekçi hali** (bulunan kenarlar + bulunan bölgeler + Qwen değerleri) **10–14**'te
 kaldı, ve taban çizgisinden (Y3) belirgin şekilde iyi değil.
 
-**Karar henüz verilemez.** Y2 yalnız **gerçek** kenarlarla ölçüldü. Asıl soru, **bulunan** kenarlarla
-Y2'nin Y1'in gerçekçi halini geçip geçmediği. Bu sonraki adım. Şimdiki işaret Y2 lehine: Y2'nin
-gerektirdiği tek ön adım kenar bulma, Y1 ise ayrıca bölge bulma ve değer atamada kayıp veriyor.
+**Bulunan kenarlarla (gerçekçi koşul) Y2 biraz önde ama kesin değil:**
+- Y2: **13 / 17 / 12** (ortalama 14,0).
+- Y1 gerçekçi: 13 / 14 / 10 (ortalama 12,3).
+
+Y2 çalıştırmalar arasında çok oynuyor. İki yolun da tavanını **kenar bulma** belirliyor:
+- Kenarı bulunamayan sayı hiçbir yolla bağlanamıyor.
+- Bulunan kenarlarla en fazla 17/24 bağlanabiliyor (01'de 6, 02'de 11).
+- Y2 bir çalıştırmada bu tavana ulaştı.
+
+**Öneri:** Önce kenar bulmayı iyileştirmek (iki yolun da tavanı). Ana yol olarak Y2'ye yönelmek
+mantıklı: daha basit (bölge bulma ve değer atama yok, okuma ve bağlama tek çağrıda), ortalamada önde.
+Ama oynaklığı (01'de köşe sayılarının yer değiştirmesi) ve gürültü parçalarına yazdığı uydurma
+değerler, geometrik denetimle (bkz. sonraki adım 3) ve kullanıcı onayıyla yakalanmalı. Karar senin.
 
 | Yaklaşım | Kenarlar | Katı /24 (çalıştırma başına) | Mimara bağlılar hariç /17 | Fazla bağlama |
 |---|---|---|---|---|
@@ -26,7 +36,8 @@ gerektirdiği tek ön adım kenar bulma, Y1 ise ayrıca bölge bulma ve değer a
 | Y3 taban (Qwen kutusu → en yakın parça) | gerçek | 13 / 15 / 17 | 9 / 13 / 13 | 14 / 14 / 8 |
 | Y3 taban | bulunan | 9 / 13 / 13 | 8 / 12 / 12 | 18 / 16 / 12 |
 | Y2, kontur sırasıyla numaralı | gerçek | 21 / 22 / 22 | 16 / 16 / 16 | 5 / 4 / 4 |
-| **Y2, karışık numaralı** | gerçek | **19 / 18 / 19** | **14 / 15 / 14** | 7 / 8 / 7 |
+| Y2, karışık numaralı | gerçek | 19 / 18 / 19 | 14 / 15 / 14 | 7 / 8 / 7 |
+| **Y2, karışık numaralı** | **bulunan** | **13 / 17 / 12** | **12 / 16 / 11** | 13 / 9 / 14 |
 
 **Fazla bağlama:** Doğru olmayan bağlama sayısı (yanlış parça, uydurma ya da fazla okunan değer).
 Tasarım 7.3'e göre fazla okunan bir değerin bir yere bağlanması hatadır; "katı" sütunu bunu
@@ -69,6 +80,24 @@ bağlama üretiyor (aşağıda).
   gevşek, neredeyse hiçbir çifti yasaklamıyor. Sınırı daraltmak doğru değerleri de düşürebilir
   (Qwen'in kutuları 02'de bir sayı boyundan fazla kaymıştı). Bu yeni bir ayar olduğu için bu
   çalışmada değiştirilmedi; etkisi "Fazla bağlama" sütununda görünüyor.
+
+## Y2 bulunan kenarlarla (gerçekçi koşul)
+
+Ayarlar gerçek kenarlı Y2 ile aynı (karışık numara, tohum 17, 3'er çalıştırma). Fotoğrafa
+`kenarlari_bul`'un bulduğu parçalar çizildi: 01'de 6, 02'de 22. Puanlama ara katmandaki gibi yapıldı:
+bulunan parça, uçları ≤ 25 px olan gerçek parçaya eşlendi; eşleşmeyen parçaya yazılan sayı yanlış
+sayıldı.
+
+| Kroki | Katı (1/2/3) | Bulunan kenarlarla en fazla | Ne oldu |
+|---|---|---|---|
+| 01 /10 | 3 / 6 / 3 | 6 | `10/90/15` ve `120` kenarları bulunamadığı için numarasız. 2. çalıştırma tavana ulaştı; 1. ve 3.'de köşedeki `180`, `50`, `40` komşu parçalara kaydı |
+| 02 /14 | 10 / 11 / 9 | 11 | İç kapının `15/90`'ı numarasız. `300` bölünmemiş üst kenara yazıldı (gevşek ölçütte doğru). `102` → `162` okuma hatası |
+
+- **Fazla bağlama** 9–14. Çoğu 02'nin iç odasındaki gürültü parçalarına (kapı kanadı, yay, `X`)
+  yazılmış uydurma değerler: `180`, `150`, `40`. Y1 gerçekçinin fazlası (14–15) ile aynı düzeyde.
+- **Süre:** 01'de ~58 s, 02'de ~88 s. Parça sayısı arttıkça cevap uzuyor.
+- **Sonuç:** Y2 ile Y1 gerçekçi arasındaki fark, aralarındaki oynaklıktan büyük değil. İkisini de
+  kenar bulma sınırlıyor.
 
 ## Y2 nerede iyi, nerede yanılıyor
 
@@ -144,11 +173,8 @@ yeniden ölçülmeli.
 
 ## Sonraki adım önerisi
 
-1. **Y2'yi bulunan kenarlarla ölçmek** (karışık numaralı, 3'er çalıştırma). Kararın asıl sınavı bu:
-   Y1 gerçekçi (10–14) ile karşılaştırılacak.
-   - 02'de dış kontur doğru bulunduğu için sonucun yakın çıkması beklenir.
-   - 01'de eksik kenarlar (`10/90/15`, `120`) numarasız kalacak.
-2. **Kenar bulmada kısa parçalar.** 01'in sol alt kenarı ve kısa ölçü tireleri için en kısa çizgi
+1. ~~Y2'yi bulunan kenarlarla ölçmek~~ (yapıldı, yukarıda).
+2. **Kenar bulmada kısa parçalar (öncelikli; iki yolun da tavanı).** 01'in sol alt kenarı ve kısa ölçü tireleri için en kısa çizgi
    sınırını h/2'ye indirmek. Gürültüyü artırır; budama kuralıyla birlikte yeniden ölçülmeli. İki yol
    için de gerekli.
 3. **İki yolu birleştirmek:** Y1'in ölçü işaretiyle yaptığı bağlamalar 9/9 doğru. Y2 ile çeliştiklerinde
