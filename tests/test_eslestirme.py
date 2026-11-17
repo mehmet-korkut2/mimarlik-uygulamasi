@@ -95,3 +95,65 @@ def test_hane_ipucu_karari_degistirir():
     assert dict((d, b) for b, d in hane_ile)[240] == genis
     ipucusuz, _, _ = degerleri_ata([dar, genis], ogeler, BOYUT, w_hane=0)
     assert dict((d, b) for b, d in ipucusuz)[40] == genis
+
+
+# --- Görev 7: bağlama ve Kroki ---
+
+from mimarlik.bolge_bulma import bolge_olustur  # noqa: E402
+from mimarlik.eslestirme import anlam, bagla, kroki_kur  # noqa: E402
+from mimarlik.kenar_bulma import kenarlari_bul  # noqa: E402
+from mimarlik.on_isleme import karakter_yuksekligi, murekkep_maskesi  # noqa: E402
+from tests.sentetik import sentetik_kroki  # noqa: E402
+
+
+def _sentetik():
+    bgr, beklenen = sentetik_kroki()
+    maske = murekkep_maskesi(bgr)
+    h = karakter_yuksekligi(maske)
+    return maske, h, kenarlari_bul(maske, h), beklenen
+
+
+def _kenar_bul(sonuc, a, b, tol=10):
+    """Uçları (yön fark etmez) a, b'ye ≤ tol olan kenar."""
+    import math
+    for k in sonuc.kenarlar:
+        bas, bit = k.parcalar[0].bas, k.parcalar[-1].bit
+        if (math.dist(bas, a) <= tol and math.dist(bit, b) <= tol) or (math.dist(bas, b) <= tol and math.dist(bit, a) <= tol):
+            return k
+    raise AssertionError(f"kenar yok: {a}-{b}")
+
+
+@pytest.mark.parametrize("sayi, kenar_adi, nedenler", [
+    ("180", "AB", {"isaret"}),
+    ("240", "DE", {"isaret"}),
+    ("60", "EF", {"en_yakin"}),
+    ("102", "EF", {"isaret", "temas"}),   # işaret rakamların içinden geçiyor (Review Focus 4)
+])
+def test_bagla(sayi, kenar_adi, nedenler):
+    maske, h, sonuc, beklenen = _sentetik()
+    bolge = bolge_olustur(maske, beklenen["sayilar"][sayi], sonuc, h)
+    parca, neden = bagla(bolge, sonuc, h)
+    kenar = _kenar_bul(sonuc, *beklenen["kenarlar"][kenar_adi])
+    assert parca is not None and parca.kenar_id == kenar.id
+    assert neden in nedenler
+
+
+def test_anlam():
+    _, _, sonuc, beklenen = _sentetik()
+    acikli = next(k for k in sonuc.kenarlar if any(p.tur == "aciklik" for p in k.parcalar))
+    ab = _kenar_bul(sonuc, *beklenen["kenarlar"]["AB"])
+    assert anlam(next(p for p in acikli.parcalar if p.tur == "aciklik"), acikli) == "bilinmiyor"
+    assert anlam(next(p for p in acikli.parcalar if p.tur == "duvar"), acikli) == "bilinmiyor"
+    assert anlam(ab.parcalar[0], ab) == "uzunluk"
+
+
+def test_kroki_kur():
+    maske, h, sonuc, beklenen = _sentetik()
+    atanmis = [(bolge_olustur(maske, beklenen["sayilar"][s], sonuc, h), int(s)) for s in ("180", "60")]
+    kroki = kroki_kur(sonuc, atanmis, [45], [], h)
+    assert len(kroki.olculer) == 2
+    assert kroki.yeri_bulunamayan == (45,)
+    assert kroki.kontur_sirasi == sonuc.kontur_sirasi
+    veri = json.loads(json.dumps(kroki_sozluk(kroki)))
+    assert {o["deger"] for o in veri["olculer"]} == {180, 60}
+    assert all(o["anlam"] == "uzunluk" for o in veri["olculer"])

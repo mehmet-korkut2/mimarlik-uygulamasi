@@ -140,3 +140,46 @@ def degerleri_ata(bolgeler, ogeler, boyut, w_hane: float = W_HANE):
     yok = [ogeler[j][0] for j in range(len(ogeler)) if j not in kullanilan_o]
     okunmamis = [bolgeler[i] for i in range(len(bolgeler)) if i not in kullanilan_b]
     return atanmis, yok, okunmamis
+
+
+# --- Bölgeyi parçaya bağlama ve Kroki (tasarım 5.5, 6) --------------------------------------------
+
+EN_YAKIN_SINIRI = 6   # h katı: en yakın parça bundan uzaksa bağlanmaz
+
+
+def _kutu_icinde(p: Nokta, kutu: Kutu, pay: float) -> bool:
+    return kutu[0] - pay <= p[0] <= kutu[2] + pay and kutu[1] - pay <= p[1] <= kutu[3] + pay
+
+
+def bagla(bolge: Bolge, sonuc: KenarSonucu, h: float) -> tuple[Parca | None, str | None]:
+    """Bölgeyi bir parçaya bağlar. Sıra: ölçü işareti -> temas -> en yakın parça."""
+    merkez = _merkez(bolge.kutu)
+    adaylar = [i for i in sonuc.isaretler if _kutu_icinde(i.bit, bolge.kutu, h / 2)]
+    for isaret in sorted(adaylar, key=lambda i: math.dist(i.bit, merkez)):
+        parca = parcayi_bul(isaret.bas, sonuc.kenarlar, h / 2)
+        if parca:
+            return parca, "isaret"
+    if bolge.temas is not None:
+        parca = parcayi_bul(bolge.temas, sonuc.kenarlar, h / 2)
+        if parca:
+            return parca, "temas"
+    parca = parcayi_bul(merkez, sonuc.kenarlar, EN_YAKIN_SINIRI * h)
+    return (parca, "en_yakin") if parca else (None, None)
+
+
+def anlam(parca: Parca, kenar: Kenar) -> str:
+    """Açıklığa ya da çok parçalı kenarın bir parçasına yazılan sayının anlamı mimara bağlı."""
+    return "bilinmiyor" if parca.tur == "aciklik" or len(kenar.parcalar) > 1 else "uzunluk"
+
+
+def kroki_kur(sonuc: KenarSonucu, atanmis, yeri_bulunamayan, okunmamis, h: float) -> Kroki:
+    kenar_sozlugu = {k.id: k for k in sonuc.kenarlar}
+    olculer = []
+    for bolge, deger in atanmis:
+        parca, neden = bagla(bolge, sonuc, h)
+        olculer.append(Olcu(deger=int(deger), bolge=bolge.kutu, parca_id=parca.id if parca else None, neden=neden,
+                            anlam=anlam(parca, kenar_sozlugu[parca.kenar_id]) if parca else "bilinmiyor"))
+    return Kroki(eksen_acisi_derece=sonuc.eksen_acisi_derece, kenarlar=sonuc.kenarlar,
+                 kontur_sirasi=sonuc.kontur_sirasi, olculer=tuple(olculer),
+                 yeri_bulunamayan=tuple(int(d) for d in yeri_bulunamayan),
+                 okunmamis_bolgeler=tuple(b.kutu for b in okunmamis))
