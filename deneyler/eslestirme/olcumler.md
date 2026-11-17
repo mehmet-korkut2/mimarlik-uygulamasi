@@ -27,6 +27,8 @@
 | **G** gerçekçi, ipuçsuz | bulunan | bulunan bölge | Qwen | 12/13/9 | 13/13/10 | 11/12/8 | 11/12/8 |
 | Y3 taban | gerçek | Qwen kutusu | Qwen | 16/15/16 | 16/16/16 | 11/12/11 | 11/12/11 |
 | Y3 taban | bulunan | Qwen kutusu | Qwen | 11/13/11 | 12/14/12 | 10/12/10 | 10/12/10 |
+| Y2 numaralı parçalar (kontur sırası) | gerçek | — | Qwen | 21/22/22 | 22/22/22 | 16/16/16 | 16/16/16 |
+| Y2 numaralı parçalar (karışık sıra) | gerçek | — | Qwen | 19/18/19 | 20/21/19 | 14/15/14 | 14/15/14 |
 
 ### Kroki kroki (katı)
 
@@ -38,6 +40,8 @@
 | G_ipucusuz | 5/5/3 | 7/8/6 |
 | Y3_gercek | 9/6/10 | 7/9/6 |
 | Y3_bulunan | 5/4/6 | 6/9/5 |
+| Y2 | 10/10/10 | 11/12/12 |
+| Y2_karisik | 8/6/8 | 11/12/11 |
 
 ## Değer atama (G; doğru değeri alan bölge / atanan, çalıştırma başına)
 
@@ -56,8 +60,10 @@
 
 ## Süre (kroki başına, Qwen hariç)
 
-- 01: kenar + bölge bulma 0.36 s, atama + bağlama 146 ms
-- 02: kenar + bölge bulma 0.85 s, atama + bağlama 1 ms
+- 01: kenar + bölge bulma 0.44 s, atama + bağlama 326 ms
+- 02: kenar + bölge bulma 1.03 s, atama + bağlama 1 ms
+- Y2 (Qwen, kroki başına): 70, 70, 68, 78, 78, 79 s
+- Y2_karisik (Qwen, kroki başına): 59, 67, 66, 78, 78, 79 s
 
 ## Ayrıntı: Ü ve A katmanında her sayı
 

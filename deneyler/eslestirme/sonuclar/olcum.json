@@ -3,7 +3,7 @@
   "01": {
    "h": 37.0,
    "eksen": -3.7093327395979148,
-   "bulma_s": 0.35889550000138115,
+   "bulma_s": 0.4412638999929186,
    "kenar_puani": {
     "bulunan": 6,
     "kaciran": 4,
@@ -390,7 +390,7 @@
       "deger_dogru": 10,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 3,
-      "sure_s": 0.43882809999922756
+      "sure_s": 0.9783152000018163
      },
      "nedenler": {
       "isaret": {
@@ -576,7 +576,7 @@
       "deger_dogru": 8,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 3,
-      "sure_s": 0.0003065999917453155
+      "sure_s": 0.00036839999665971845
      },
      "nedenler": {
       "isaret": {
@@ -762,7 +762,7 @@
       "deger_dogru": 7,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 2,
-      "sure_s": 0.0002832999889506027
+      "sure_s": 0.0003851000074064359
      },
      "nedenler": {
       "isaret": {
@@ -965,7 +965,7 @@
       "deger_dogru": 10,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 3,
-      "sure_s": 0.0002573999954620376
+      "sure_s": 0.0002690000110305846
      },
      "nedenler": {
       "isaret": {
@@ -1151,7 +1151,7 @@
       "deger_dogru": 9,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 3,
-      "sure_s": 0.0003056999994441867
+      "sure_s": 0.0002921999985119328
      },
      "nedenler": {
       "isaret": {
@@ -1337,7 +1337,7 @@
       "deger_dogru": 7,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 2,
-      "sure_s": 0.00028049999673385173
+      "sure_s": 0.00027480001153890043
      },
      "nedenler": {
       "isaret": {
@@ -1583,12 +1583,76 @@
       "tahmin_sayisi": 11
      }
     }
+   ],
+   "Y2": [
+    {
+     "puan": {
+      "kati": 10,
+      "gevsek": 10,
+      "kati_haric": 7,
+      "gevsek_haric": 7,
+      "tahmin_sayisi": 10
+     },
+     "sure_s": 69.95
+    },
+    {
+     "puan": {
+      "kati": 10,
+      "gevsek": 10,
+      "kati_haric": 7,
+      "gevsek_haric": 7,
+      "tahmin_sayisi": 10
+     },
+     "sure_s": 69.67
+    },
+    {
+     "puan": {
+      "kati": 10,
+      "gevsek": 10,
+      "kati_haric": 7,
+      "gevsek_haric": 7,
+      "tahmin_sayisi": 10
+     },
+     "sure_s": 67.53
+    }
+   ],
+   "Y2_karisik": [
+    {
+     "puan": {
+      "kati": 8,
+      "gevsek": 8,
+      "kati_haric": 5,
+      "gevsek_haric": 5,
+      "tahmin_sayisi": 10
+     },
+     "sure_s": 59.3
+    },
+    {
+     "puan": {
+      "kati": 6,
+      "gevsek": 8,
+      "kati_haric": 5,
+      "gevsek_haric": 5,
+      "tahmin_sayisi": 10
+     },
+     "sure_s": 66.92
+    },
+    {
+     "puan": {
+      "kati": 8,
+      "gevsek": 8,
+      "kati_haric": 5,
+      "gevsek_haric": 5,
+      "tahmin_sayisi": 10
+     },
+     "sure_s": 66.48
+    }
    ]
   },
   "02": {
    "h": 23.5,
    "eksen": -4.838931797172585,
-   "bulma_s": 0.8458972999942489,
+   "bulma_s": 1.0280178999964846,
    "kenar_puani": {
     "bulunan": 11,
     "kaciran": 5,
@@ -2095,7 +2159,7 @@
       "deger_dogru": 10,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 11,
-      "sure_s": 0.0008335000020451844
+      "sure_s": 0.0011225000052945688
      },
      "nedenler": {
       "isaret": {
@@ -2386,7 +2450,7 @@
       "deger_dogru": 10,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 9,
-      "sure_s": 0.0009157000022241846
+      "sure_s": 0.001073999999789521
      },
      "nedenler": {
       "isaret": {
@@ -2707,7 +2771,7 @@
       "deger_dogru": 9,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 14,
-      "sure_s": 0.0007839000027161092
+      "sure_s": 0.000723299992387183
      },
      "nedenler": {
       "isaret": {
@@ -2955,7 +3019,7 @@
       "deger_dogru": 10,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 11,
-      "sure_s": 0.001010599997243844
+      "sure_s": 0.0008832000021357089
      },
      "nedenler": {
       "isaret": {
@@ -3246,7 +3310,7 @@
       "deger_dogru": 10,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 9,
-      "sure_s": 0.0009084000048460439
+      "sure_s": 0.0011837999918498099
      },
      "nedenler": {
       "isaret": {
@@ -3567,7 +3631,7 @@
       "deger_dogru": 8,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 14,
-      "sure_s": 0.0006346999871311709
+      "sure_s": 0.000714000008883886
      },
      "nedenler": {
       "isaret": {
@@ -3857,6 +3921,70 @@
       "gevsek_haric": 4,
       "tahmin_sayisi": 14
      }
+    }
+   ],
+   "Y2": [
+    {
+     "puan": {
+      "kati": 11,
+      "gevsek": 12,
+      "kati_haric": 9,
+      "gevsek_haric": 9,
+      "tahmin_sayisi": 16
+     },
+     "sure_s": 77.53
+    },
+    {
+     "puan": {
+      "kati": 12,
+      "gevsek": 12,
+      "kati_haric": 9,
+      "gevsek_haric": 9,
+      "tahmin_sayisi": 16
+     },
+     "sure_s": 78.19
+    },
+    {
+     "puan": {
+      "kati": 12,
+      "gevsek": 12,
+      "kati_haric": 9,
+      "gevsek_haric": 9,
+      "tahmin_sayisi": 16
+     },
+     "sure_s": 78.92
+    }
+   ],
+   "Y2_karisik": [
+    {
+     "puan": {
+      "kati": 11,
+      "gevsek": 12,
+      "kati_haric": 9,
+      "gevsek_haric": 9,
+      "tahmin_sayisi": 16
+     },
+     "sure_s": 77.65
+    },
+    {
+     "puan": {
+      "kati": 12,
+      "gevsek": 13,
+      "kati_haric": 10,
+      "gevsek_haric": 10,
+      "tahmin_sayisi": 16
+     },
+     "sure_s": 77.75
+    },
+    {
+     "puan": {
+      "kati": 11,
+      "gevsek": 11,
+      "kati_haric": 9,
+      "gevsek_haric": 9,
+      "tahmin_sayisi": 16
+     },
+     "sure_s": 78.96
     }
    ]
   }
