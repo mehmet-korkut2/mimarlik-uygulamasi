@@ -4,6 +4,20 @@ Tarih: 2026-11-18 (Y2 bulunan kenar ölçümü eklendi) · Tasarım: `docs/super
 Plan: `docs/superpowers/plans/2026-11-17-sayi-duvar-eslestirme.md` · Tablolar: [`olcumler.md`](olcumler.md)
 (`olcum.py` üretir) · Ham sonuçlar: `sonuclar/` · Kontrol görselleri: `gorseller/` (**`.gitignore`'da**)
 
+## Karar (kullanıcı, 2026-11-18)
+
+**İki yol birleştirilecek:**
+- **Ölçü işareti (tire) bulunan sayılar** geometrik bağlamayla bağlanır (Y1, `neden = "isaret"`).
+  Bu bağlamalar ölçümde 9/9 doğruydu.
+- **Diğer sayılar** Y2 ile bağlanır (numaralı parçaları Qwen'e sormak).
+- **Kullanıcıya sorulur:**
+  - iki yol aynı sayı için farklı parça söylediğinde (çelişki);
+  - Y2 sayısı olmaması gereken bir parçaya değer yazdığında (gürültü parçası; ör. 02'deki `X`'li
+    parçalara yazılan `180`, `150`).
+- **Kenar bulma şimdilik iyileştirilmiyor.** Kısa parçaların (`15/90/10`, `15/9-0/40`) anlamı mimardan
+  öğrenilmeden (M1) yeni kural yazılmayacak. Mimarla görüşmeden sonra devam edilecek.
+- Dal (`sayi-duvar-eslestirme`) `main`'e birleştirilmeden kalıyor.
+
 ## Kısa cevap
 
 **Aynı (gerçek) kenarlar verildiğinde Y2 ile geometrik yolun üst sınırı berabere.**
@@ -26,7 +40,7 @@ Y2 çalıştırmalar arasında çok oynuyor. İki yolun da tavanını **kenar bu
 **Öneri:** Önce kenar bulmayı iyileştirmek (iki yolun da tavanı). Ana yol olarak Y2'ye yönelmek
 mantıklı: daha basit (bölge bulma ve değer atama yok, okuma ve bağlama tek çağrıda), ortalamada önde.
 Ama oynaklığı (01'de köşe sayılarının yer değiştirmesi) ve gürültü parçalarına yazdığı uydurma
-değerler, geometrik denetimle (bkz. sonraki adım 3) ve kullanıcı onayıyla yakalanmalı. Karar senin.
+değerler, geometrik denetimle (bkz. sonraki adım 3) ve kullanıcı onayıyla yakalanmalı. Karar: yukarıda.
 
 | Yaklaşım | Kenarlar | Katı /24 (çalıştırma başına) | Mimara bağlılar hariç /17 | Fazla bağlama |
 |---|---|---|---|---|
@@ -174,7 +188,7 @@ yeniden ölçülmeli.
 ## Sonraki adım önerisi
 
 1. ~~Y2'yi bulunan kenarlarla ölçmek~~ (yapıldı, yukarıda).
-2. **Kenar bulmada kısa parçalar (öncelikli; iki yolun da tavanı).** 01'in sol alt kenarı ve kısa ölçü tireleri için en kısa çizgi
+2. **Kenar bulmada kısa parçalar (iki yolun da tavanı; mimarla görüşmeye kadar ertelendi, bkz. Karar).** 01'in sol alt kenarı ve kısa ölçü tireleri için en kısa çizgi
    sınırını h/2'ye indirmek. Gürültüyü artırır; budama kuralıyla birlikte yeniden ölçülmeli. İki yol
    için de gerekli.
 3. **İki yolu birleştirmek:** Y1'in ölçü işaretiyle yaptığı bağlamalar 9/9 doğru. Y2 ile çeliştiklerinde
