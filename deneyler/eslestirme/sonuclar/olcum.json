@@ -1,0 +1,3864 @@
+{
+ "krokiler": {
+  "01": {
+   "h": 37.0,
+   "eksen": -3.7093327395979148,
+   "bulma_s": 0.35889550000138115,
+   "kenar_puani": {
+    "bulunan": 6,
+    "kaciran": 4,
+    "fazla": 0,
+    "tur_dogru": 6,
+    "kontur_dogru": false
+   },
+   "bolge_puani": {
+    "bulunan": 10,
+    "yazi_olmayan": 3,
+    "bolunmus": 0,
+    "birlesmis": 0
+   },
+   "bolge_sayisi": 13,
+   "U": {
+    "puan": {
+     "kati": 8,
+     "gevsek": 8,
+     "kati_haric": 5,
+     "gevsek_haric": 5,
+     "tahmin_sayisi": 10
+    },
+    "nedenler": {
+     "isaret": {
+      "adet": 3,
+      "dogru": 3
+     },
+     "temas": {
+      "adet": 0,
+      "dogru": 0
+     },
+     "en_yakin": {
+      "adet": 7,
+      "dogru": 5
+     },
+     "null": {
+      "adet": 0,
+      "dogru": 0
+     }
+    },
+    "ogeler": [
+     {
+      "ad": "180",
+      "deger": 180,
+      "kutu": [
+       228,
+       478,
+       318,
+       535
+      ],
+      "parca": "K1.1",
+      "gercek_parca": "K1.1",
+      "neden": "isaret",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "108",
+      "deger": 108,
+      "kutu": [
+       130,
+       665,
+       210,
+       712
+      ],
+      "parca": "K1.1",
+      "gercek_parca": "K1.1",
+      "neden": "en_yakin",
+      "dogru": false,
+      "mimara": false
+     },
+     {
+      "ad": "120 sol",
+      "deger": 120,
+      "kutu": [
+       145,
+       765,
+       235,
+       812
+      ],
+      "parca": "K7.1",
+      "gercek_parca": "K7.1",
+      "neden": "en_yakin",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "15",
+      "deger": 15,
+      "kutu": [
+       295,
+       865,
+       350,
+       900
+      ],
+      "parca": "K6.3",
+      "gercek_parca": "K6.3",
+      "neden": "en_yakin",
+      "dogru": true,
+      "mimara": true
+     },
+     {
+      "ad": "90",
+      "deger": 90,
+      "kutu": [
+       295,
+       945,
+       380,
+       995
+      ],
+      "parca": "K6.2",
+      "gercek_parca": "K6.2",
+      "neden": "en_yakin",
+      "dogru": true,
+      "mimara": true
+     },
+     {
+      "ad": "10",
+      "deger": 10,
+      "kutu": [
+       175,
+       1120,
+       235,
+       1170
+      ],
+      "parca": "K6.1",
+      "gercek_parca": "K6.1",
+      "neden": "en_yakin",
+      "dogru": true,
+      "mimara": true
+     },
+     {
+      "ad": "140",
+      "deger": 140,
+      "kutu": [
+       475,
+       1115,
+       580,
+       1165
+      ],
+      "parca": "K5.1",
+      "gercek_parca": "K5.1",
+      "neden": "en_yakin",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "50",
+      "deger": 50,
+      "kutu": [
+       585,
+       605,
+       665,
+       655
+      ],
+      "parca": "K2.1",
+      "gercek_parca": "K2.1",
+      "neden": "isaret",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "40",
+      "deger": 40,
+      "kutu": [
+       690,
+       650,
+       760,
+       690
+      ],
+      "parca": "K4.1",
+      "gercek_parca": "K4.1",
+      "neden": "en_yakin",
+      "dogru": false,
+      "mimara": false
+     },
+     {
+      "ad": "120 sağ",
+      "deger": 120,
+      "kutu": [
+       765,
+       845,
+       875,
+       890
+      ],
+      "parca": "K4.1",
+      "gercek_parca": "K4.1",
+      "neden": "isaret",
+      "dogru": true,
+      "mimara": false
+     }
+    ]
+   },
+   "A": {
+    "puan": {
+     "kati": 5,
+     "gevsek": 5,
+     "kati_haric": 5,
+     "gevsek_haric": 5,
+     "tahmin_sayisi": 10
+    },
+    "nedenler": {
+     "isaret": {
+      "adet": 3,
+      "dogru": 3
+     },
+     "temas": {
+      "adet": 0,
+      "dogru": 0
+     },
+     "en_yakin": {
+      "adet": 7,
+      "dogru": 2
+     },
+     "null": {
+      "adet": 0,
+      "dogru": 0
+     }
+    },
+    "ogeler": [
+     {
+      "ad": "180",
+      "deger": 180,
+      "kutu": [
+       228,
+       478,
+       318,
+       535
+      ],
+      "parca": "K2.1",
+      "gercek_parca": "K1.1",
+      "neden": "isaret",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "108",
+      "deger": 108,
+      "kutu": [
+       130,
+       665,
+       210,
+       712
+      ],
+      "parca": "K2.1",
+      "gercek_parca": "K1.1",
+      "neden": "en_yakin",
+      "dogru": false,
+      "mimara": false
+     },
+     {
+      "ad": "120 sol",
+      "deger": 120,
+      "kutu": [
+       145,
+       765,
+       235,
+       812
+      ],
+      "parca": "K3.1",
+      "gercek_parca": "K8.1",
+      "neden": "en_yakin",
+      "dogru": false,
+      "mimara": false
+     },
+     {
+      "ad": "15",
+      "deger": 15,
+      "kutu": [
+       295,
+       865,
+       350,
+       900
+      ],
+      "parca": "K6.1",
+      "gercek_parca": "K5.1",
+      "neden": "en_yakin",
+      "dogru": false,
+      "mimara": true
+     },
+     {
+      "ad": "90",
+      "deger": 90,
+      "kutu": [
+       295,
+       945,
+       380,
+       995
+      ],
+      "parca": "K6.1",
+      "gercek_parca": "K5.1",
+      "neden": "en_yakin",
+      "dogru": false,
+      "mimara": true
+     },
+     {
+      "ad": "10",
+      "deger": 10,
+      "kutu": [
+       175,
+       1120,
+       235,
+       1170
+      ],
+      "parca": "K6.1",
+      "gercek_parca": "K5.1",
+      "neden": "en_yakin",
+      "dogru": false,
+      "mimara": true
+     },
+     {
+      "ad": "140",
+      "deger": 140,
+      "kutu": [
+       475,
+       1115,
+       580,
+       1165
+      ],
+      "parca": "K6.1",
+      "gercek_parca": "K5.1",
+      "neden": "en_yakin",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "50",
+      "deger": 50,
+      "kutu": [
+       585,
+       605,
+       665,
+       655
+      ],
+      "parca": "K1.1",
+      "gercek_parca": "K2.1",
+      "neden": "isaret",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "40",
+      "deger": 40,
+      "kutu": [
+       690,
+       650,
+       760,
+       690
+      ],
+      "parca": "K5.1",
+      "gercek_parca": "K3.1",
+      "neden": "en_yakin",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "120 sağ",
+      "deger": 120,
+      "kutu": [
+       765,
+       845,
+       875,
+       890
+      ],
+      "parca": "K4.1",
+      "gercek_parca": "K4.1",
+      "neden": "isaret",
+      "dogru": true,
+      "mimara": false
+     }
+    ]
+   },
+   "G_hane": [
+    {
+     "puan": {
+      "kati": 5,
+      "gevsek": 5,
+      "kati_haric": 5,
+      "gevsek_haric": 5,
+      "tahmin_sayisi": 10
+     },
+     "atama": {
+      "atanan": 10,
+      "deger_dogru": 10,
+      "yeri_bulunamayan": 0,
+      "okunmamis_bolge": 3,
+      "sure_s": 0.43882809999922756
+     },
+     "nedenler": {
+      "isaret": {
+       "adet": 5,
+       "dogru": 4
+      },
+      "temas": {
+       "adet": 0,
+       "dogru": 0
+      },
+      "en_yakin": {
+       "adet": 5,
+       "dogru": 1
+      },
+      "null": {
+       "adet": 0,
+       "dogru": 0
+      }
+     },
+     "ogeler": [
+      {
+       "ad": "180",
+       "deger": 180,
+       "kutu": [
+        230.0,
+        474.0,
+        315.0,
+        535.0
+       ],
+       "parca": "K2.1",
+       "gercek_parca": "K1.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "50",
+       "deger": 50,
+       "kutu": [
+        586.0,
+        606.0,
+        666.0,
+        655.0
+       ],
+       "parca": "K1.1",
+       "gercek_parca": "K2.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "40",
+       "deger": 40,
+       "kutu": [
+        617.0,
+        654.0,
+        758.0,
+        688.0
+       ],
+       "parca": "K5.1",
+       "gercek_parca": "K3.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "108",
+       "deger": 108,
+       "kutu": [
+        135.0,
+        664.0,
+        208.0,
+        714.0
+       ],
+       "parca": "K2.1",
+       "gercek_parca": "K1.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "120 sol",
+       "deger": 120,
+       "kutu": [
+        144.0,
+        762.0,
+        234.0,
+        853.0
+       ],
+       "parca": "K3.1",
+       "gercek_parca": "K8.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "120 sağ",
+       "deger": 120,
+       "kutu": [
+        774.0,
+        837.0,
+        872.0,
+        878.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "15",
+       "deger": 15,
+       "kutu": [
+        239.0,
+        858.0,
+        348.0,
+        917.0
+       ],
+       "parca": "K3.1",
+       "gercek_parca": "K8.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": "90",
+       "deger": 90,
+       "kutu": [
+        268.0,
+        944.0,
+        383.0,
+        996.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K5.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": "140",
+       "deger": 140,
+       "kutu": [
+        476.0,
+        1119.0,
+        582.0,
+        1162.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K5.1",
+       "neden": "en_yakin",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "10",
+       "deger": 10,
+       "kutu": [
+        177.0,
+        1124.0,
+        234.0,
+        1166.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K5.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": true
+      }
+     ]
+    },
+    {
+     "puan": {
+      "kati": 5,
+      "gevsek": 5,
+      "kati_haric": 5,
+      "gevsek_haric": 5,
+      "tahmin_sayisi": 10
+     },
+     "atama": {
+      "atanan": 10,
+      "deger_dogru": 8,
+      "yeri_bulunamayan": 0,
+      "okunmamis_bolge": 3,
+      "sure_s": 0.0003065999917453155
+     },
+     "nedenler": {
+      "isaret": {
+       "adet": 5,
+       "dogru": 4
+      },
+      "temas": {
+       "adet": 1,
+       "dogru": 0
+      },
+      "en_yakin": {
+       "adet": 4,
+       "dogru": 0
+      },
+      "null": {
+       "adet": 0,
+       "dogru": 0
+      }
+     },
+     "ogeler": [
+      {
+       "ad": "180",
+       "deger": 180,
+       "kutu": [
+        230.0,
+        474.0,
+        315.0,
+        535.0
+       ],
+       "parca": "K2.1",
+       "gercek_parca": "K1.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "50",
+       "deger": 50,
+       "kutu": [
+        586.0,
+        606.0,
+        666.0,
+        655.0
+       ],
+       "parca": "K1.1",
+       "gercek_parca": "K2.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "40",
+       "deger": 40,
+       "kutu": [
+        617.0,
+        654.0,
+        758.0,
+        688.0
+       ],
+       "parca": "K5.1",
+       "gercek_parca": "K3.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "108",
+       "deger": 108,
+       "kutu": [
+        135.0,
+        664.0,
+        208.0,
+        714.0
+       ],
+       "parca": "K2.1",
+       "gercek_parca": "K1.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "120 sol",
+       "deger": 120,
+       "kutu": [
+        144.0,
+        762.0,
+        234.0,
+        853.0
+       ],
+       "parca": "K3.1",
+       "gercek_parca": "K8.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "120 sağ",
+       "deger": 120,
+       "kutu": [
+        774.0,
+        837.0,
+        872.0,
+        878.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "15",
+       "deger": 15,
+       "kutu": [
+        239.0,
+        858.0,
+        348.0,
+        917.0
+       ],
+       "parca": "K3.1",
+       "gercek_parca": "K8.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": "90",
+       "deger": 140,
+       "kutu": [
+        268.0,
+        944.0,
+        383.0,
+        996.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K5.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": null,
+       "deger": 90,
+       "kutu": [
+        221.0,
+        1019.0,
+        292.0,
+        1097.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K5.1",
+       "neden": "temas",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "10",
+       "deger": 10,
+       "kutu": [
+        177.0,
+        1124.0,
+        234.0,
+        1166.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K5.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": true
+      }
+     ]
+    },
+    {
+     "puan": {
+      "kati": 3,
+      "gevsek": 3,
+      "kati_haric": 3,
+      "gevsek_haric": 3,
+      "tahmin_sayisi": 11
+     },
+     "atama": {
+      "atanan": 11,
+      "deger_dogru": 7,
+      "yeri_bulunamayan": 0,
+      "okunmamis_bolge": 2,
+      "sure_s": 0.0002832999889506027
+     },
+     "nedenler": {
+      "isaret": {
+       "adet": 5,
+       "dogru": 2
+      },
+      "temas": {
+       "adet": 1,
+       "dogru": 0
+      },
+      "en_yakin": {
+       "adet": 5,
+       "dogru": 1
+      },
+      "null": {
+       "adet": 0,
+       "dogru": 0
+      }
+     },
+     "ogeler": [
+      {
+       "ad": "180",
+       "deger": 180,
+       "kutu": [
+        230.0,
+        474.0,
+        315.0,
+        535.0
+       ],
+       "parca": "K2.1",
+       "gercek_parca": "K1.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "50",
+       "deger": 40,
+       "kutu": [
+        586.0,
+        606.0,
+        666.0,
+        655.0
+       ],
+       "parca": "K1.1",
+       "gercek_parca": "K2.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "40",
+       "deger": 50,
+       "kutu": [
+        617.0,
+        654.0,
+        758.0,
+        688.0
+       ],
+       "parca": "K5.1",
+       "gercek_parca": "K3.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "108",
+       "deger": 108,
+       "kutu": [
+        135.0,
+        664.0,
+        208.0,
+        714.0
+       ],
+       "parca": "K2.1",
+       "gercek_parca": "K1.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "120 sol",
+       "deger": 120,
+       "kutu": [
+        144.0,
+        762.0,
+        234.0,
+        853.0
+       ],
+       "parca": "K3.1",
+       "gercek_parca": "K8.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "120 sağ",
+       "deger": 120,
+       "kutu": [
+        774.0,
+        837.0,
+        872.0,
+        878.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "15",
+       "deger": 15,
+       "kutu": [
+        239.0,
+        858.0,
+        348.0,
+        917.0
+       ],
+       "parca": "K3.1",
+       "gercek_parca": "K8.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": "90",
+       "deger": 50,
+       "kutu": [
+        268.0,
+        944.0,
+        383.0,
+        996.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K5.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": null,
+       "deger": 90,
+       "kutu": [
+        221.0,
+        1019.0,
+        292.0,
+        1097.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K5.1",
+       "neden": "temas",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "140",
+       "deger": 140,
+       "kutu": [
+        476.0,
+        1119.0,
+        582.0,
+        1162.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K5.1",
+       "neden": "en_yakin",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "10",
+       "deger": 10,
+       "kutu": [
+        177.0,
+        1124.0,
+        234.0,
+        1166.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K5.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": true
+      }
+     ]
+    }
+   ],
+   "G_ipucusuz": [
+    {
+     "puan": {
+      "kati": 5,
+      "gevsek": 5,
+      "kati_haric": 5,
+      "gevsek_haric": 5,
+      "tahmin_sayisi": 10
+     },
+     "atama": {
+      "atanan": 10,
+      "deger_dogru": 10,
+      "yeri_bulunamayan": 0,
+      "okunmamis_bolge": 3,
+      "sure_s": 0.0002573999954620376
+     },
+     "nedenler": {
+      "isaret": {
+       "adet": 5,
+       "dogru": 4
+      },
+      "temas": {
+       "adet": 0,
+       "dogru": 0
+      },
+      "en_yakin": {
+       "adet": 5,
+       "dogru": 1
+      },
+      "null": {
+       "adet": 0,
+       "dogru": 0
+      }
+     },
+     "ogeler": [
+      {
+       "ad": "180",
+       "deger": 180,
+       "kutu": [
+        230.0,
+        474.0,
+        315.0,
+        535.0
+       ],
+       "parca": "K2.1",
+       "gercek_parca": "K1.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "50",
+       "deger": 50,
+       "kutu": [
+        586.0,
+        606.0,
+        666.0,
+        655.0
+       ],
+       "parca": "K1.1",
+       "gercek_parca": "K2.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "40",
+       "deger": 40,
+       "kutu": [
+        617.0,
+        654.0,
+        758.0,
+        688.0
+       ],
+       "parca": "K5.1",
+       "gercek_parca": "K3.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "108",
+       "deger": 108,
+       "kutu": [
+        135.0,
+        664.0,
+        208.0,
+        714.0
+       ],
+       "parca": "K2.1",
+       "gercek_parca": "K1.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "120 sol",
+       "deger": 120,
+       "kutu": [
+        144.0,
+        762.0,
+        234.0,
+        853.0
+       ],
+       "parca": "K3.1",
+       "gercek_parca": "K8.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "120 sağ",
+       "deger": 120,
+       "kutu": [
+        774.0,
+        837.0,
+        872.0,
+        878.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "15",
+       "deger": 15,
+       "kutu": [
+        239.0,
+        858.0,
+        348.0,
+        917.0
+       ],
+       "parca": "K3.1",
+       "gercek_parca": "K8.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": "90",
+       "deger": 90,
+       "kutu": [
+        268.0,
+        944.0,
+        383.0,
+        996.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K5.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": "140",
+       "deger": 140,
+       "kutu": [
+        476.0,
+        1119.0,
+        582.0,
+        1162.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K5.1",
+       "neden": "en_yakin",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "10",
+       "deger": 10,
+       "kutu": [
+        177.0,
+        1124.0,
+        234.0,
+        1166.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K5.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": true
+      }
+     ]
+    },
+    {
+     "puan": {
+      "kati": 5,
+      "gevsek": 5,
+      "kati_haric": 5,
+      "gevsek_haric": 5,
+      "tahmin_sayisi": 10
+     },
+     "atama": {
+      "atanan": 10,
+      "deger_dogru": 9,
+      "yeri_bulunamayan": 0,
+      "okunmamis_bolge": 3,
+      "sure_s": 0.0003056999994441867
+     },
+     "nedenler": {
+      "isaret": {
+       "adet": 5,
+       "dogru": 4
+      },
+      "temas": {
+       "adet": 1,
+       "dogru": 0
+      },
+      "en_yakin": {
+       "adet": 4,
+       "dogru": 0
+      },
+      "null": {
+       "adet": 0,
+       "dogru": 0
+      }
+     },
+     "ogeler": [
+      {
+       "ad": "180",
+       "deger": 180,
+       "kutu": [
+        230.0,
+        474.0,
+        315.0,
+        535.0
+       ],
+       "parca": "K2.1",
+       "gercek_parca": "K1.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "50",
+       "deger": 50,
+       "kutu": [
+        586.0,
+        606.0,
+        666.0,
+        655.0
+       ],
+       "parca": "K1.1",
+       "gercek_parca": "K2.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "40",
+       "deger": 40,
+       "kutu": [
+        617.0,
+        654.0,
+        758.0,
+        688.0
+       ],
+       "parca": "K5.1",
+       "gercek_parca": "K3.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "108",
+       "deger": 108,
+       "kutu": [
+        135.0,
+        664.0,
+        208.0,
+        714.0
+       ],
+       "parca": "K2.1",
+       "gercek_parca": "K1.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "120 sol",
+       "deger": 120,
+       "kutu": [
+        144.0,
+        762.0,
+        234.0,
+        853.0
+       ],
+       "parca": "K3.1",
+       "gercek_parca": "K8.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "120 sağ",
+       "deger": 120,
+       "kutu": [
+        774.0,
+        837.0,
+        872.0,
+        878.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "15",
+       "deger": 15,
+       "kutu": [
+        239.0,
+        858.0,
+        348.0,
+        917.0
+       ],
+       "parca": "K3.1",
+       "gercek_parca": "K8.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": "90",
+       "deger": 90,
+       "kutu": [
+        268.0,
+        944.0,
+        383.0,
+        996.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K5.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": null,
+       "deger": 140,
+       "kutu": [
+        221.0,
+        1019.0,
+        292.0,
+        1097.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K5.1",
+       "neden": "temas",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "10",
+       "deger": 10,
+       "kutu": [
+        177.0,
+        1124.0,
+        234.0,
+        1166.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K5.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": true
+      }
+     ]
+    },
+    {
+     "puan": {
+      "kati": 3,
+      "gevsek": 3,
+      "kati_haric": 3,
+      "gevsek_haric": 3,
+      "tahmin_sayisi": 11
+     },
+     "atama": {
+      "atanan": 11,
+      "deger_dogru": 7,
+      "yeri_bulunamayan": 0,
+      "okunmamis_bolge": 2,
+      "sure_s": 0.00028049999673385173
+     },
+     "nedenler": {
+      "isaret": {
+       "adet": 5,
+       "dogru": 2
+      },
+      "temas": {
+       "adet": 1,
+       "dogru": 0
+      },
+      "en_yakin": {
+       "adet": 5,
+       "dogru": 1
+      },
+      "null": {
+       "adet": 0,
+       "dogru": 0
+      }
+     },
+     "ogeler": [
+      {
+       "ad": "180",
+       "deger": 180,
+       "kutu": [
+        230.0,
+        474.0,
+        315.0,
+        535.0
+       ],
+       "parca": "K2.1",
+       "gercek_parca": "K1.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "50",
+       "deger": 40,
+       "kutu": [
+        586.0,
+        606.0,
+        666.0,
+        655.0
+       ],
+       "parca": "K1.1",
+       "gercek_parca": "K2.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "40",
+       "deger": 50,
+       "kutu": [
+        617.0,
+        654.0,
+        758.0,
+        688.0
+       ],
+       "parca": "K5.1",
+       "gercek_parca": "K3.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "108",
+       "deger": 108,
+       "kutu": [
+        135.0,
+        664.0,
+        208.0,
+        714.0
+       ],
+       "parca": "K2.1",
+       "gercek_parca": "K1.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "120 sol",
+       "deger": 120,
+       "kutu": [
+        144.0,
+        762.0,
+        234.0,
+        853.0
+       ],
+       "parca": "K3.1",
+       "gercek_parca": "K8.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "120 sağ",
+       "deger": 120,
+       "kutu": [
+        774.0,
+        837.0,
+        872.0,
+        878.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "15",
+       "deger": 15,
+       "kutu": [
+        239.0,
+        858.0,
+        348.0,
+        917.0
+       ],
+       "parca": "K3.1",
+       "gercek_parca": "K8.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": "90",
+       "deger": 50,
+       "kutu": [
+        268.0,
+        944.0,
+        383.0,
+        996.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K5.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": null,
+       "deger": 90,
+       "kutu": [
+        221.0,
+        1019.0,
+        292.0,
+        1097.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K5.1",
+       "neden": "temas",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "140",
+       "deger": 140,
+       "kutu": [
+        476.0,
+        1119.0,
+        582.0,
+        1162.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K5.1",
+       "neden": "en_yakin",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "10",
+       "deger": 10,
+       "kutu": [
+        177.0,
+        1124.0,
+        234.0,
+        1166.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K5.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": true
+      }
+     ]
+    }
+   ],
+   "Y3_gercek": [
+    {
+     "puan": {
+      "kati": 9,
+      "gevsek": 9,
+      "kati_haric": 6,
+      "gevsek_haric": 6,
+      "tahmin_sayisi": 10
+     }
+    },
+    {
+     "puan": {
+      "kati": 6,
+      "gevsek": 6,
+      "kati_haric": 4,
+      "gevsek_haric": 4,
+      "tahmin_sayisi": 10
+     }
+    },
+    {
+     "puan": {
+      "kati": 10,
+      "gevsek": 10,
+      "kati_haric": 7,
+      "gevsek_haric": 7,
+      "tahmin_sayisi": 11
+     }
+    }
+   ],
+   "Y3_bulunan": [
+    {
+     "puan": {
+      "kati": 5,
+      "gevsek": 5,
+      "kati_haric": 5,
+      "gevsek_haric": 5,
+      "tahmin_sayisi": 10
+     }
+    },
+    {
+     "puan": {
+      "kati": 4,
+      "gevsek": 4,
+      "kati_haric": 4,
+      "gevsek_haric": 4,
+      "tahmin_sayisi": 10
+     }
+    },
+    {
+     "puan": {
+      "kati": 6,
+      "gevsek": 6,
+      "kati_haric": 6,
+      "gevsek_haric": 6,
+      "tahmin_sayisi": 11
+     }
+    }
+   ]
+  },
+  "02": {
+   "h": 23.5,
+   "eksen": -4.838931797172585,
+   "bulma_s": 0.8458972999942489,
+   "kenar_puani": {
+    "bulunan": 11,
+    "kaciran": 5,
+    "fazla": 11,
+    "tur_dogru": 11,
+    "kontur_dogru": false
+   },
+   "bolge_puani": {
+    "bulunan": 14,
+    "yazi_olmayan": 13,
+    "bolunmus": 1,
+    "birlesmis": 1
+   },
+   "bolge_sayisi": 28,
+   "U": {
+    "puan": {
+     "kati": 10,
+     "gevsek": 10,
+     "kati_haric": 8,
+     "gevsek_haric": 8,
+     "tahmin_sayisi": 14
+    },
+    "nedenler": {
+     "isaret": {
+      "adet": 6,
+      "dogru": 6
+     },
+     "temas": {
+      "adet": 0,
+      "dogru": 0
+     },
+     "en_yakin": {
+      "adet": 8,
+      "dogru": 4
+     },
+     "null": {
+      "adet": 0,
+      "dogru": 0
+     }
+    },
+    "ogeler": [
+     {
+      "ad": "15",
+      "deger": 15,
+      "kutu": [
+       395,
+       415,
+       440,
+       455
+      ],
+      "parca": "K1.2",
+      "gercek_parca": "K1.2",
+      "neden": "en_yakin",
+      "dogru": false,
+      "mimara": true
+     },
+     {
+      "ad": "300",
+      "deger": 300,
+      "kutu": [
+       515,
+       435,
+       625,
+       480
+      ],
+      "parca": "K1.2",
+      "gercek_parca": "K1.2",
+      "neden": "isaret",
+      "dogru": true,
+      "mimara": true
+     },
+     {
+      "ad": "45 üst sol",
+      "deger": 45,
+      "kutu": [
+       865,
+       465,
+       930,
+       505
+      ],
+      "parca": "K4.1",
+      "gercek_parca": "K4.1",
+      "neden": "en_yakin",
+      "dogru": false,
+      "mimara": false
+     },
+     {
+      "ad": "45 üst sağ",
+      "deger": 45,
+      "kutu": [
+       990,
+       470,
+       1065,
+       515
+      ],
+      "parca": "K4.1",
+      "gercek_parca": "K4.1",
+      "neden": "en_yakin",
+      "dogru": false,
+      "mimara": false
+     },
+     {
+      "ad": "90",
+      "deger": 90,
+      "kutu": [
+       405,
+       545,
+       510,
+       615
+      ],
+      "parca": "K1.2",
+      "gercek_parca": "K1.2",
+      "neden": "en_yakin",
+      "dogru": false,
+      "mimara": true
+     },
+     {
+      "ad": "40 üst",
+      "deger": 40,
+      "kutu": [
+       405,
+       650,
+       475,
+       685
+      ],
+      "parca": "K12.3",
+      "gercek_parca": "K12.3",
+      "neden": "isaret",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "45 alt",
+      "deger": 45,
+      "kutu": [
+       300,
+       740,
+       375,
+       775
+      ],
+      "parca": "K11.1",
+      "gercek_parca": "K11.1",
+      "neden": "isaret",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "200 sol",
+      "deger": 200,
+      "kutu": [
+       265,
+       795,
+       365,
+       840
+      ],
+      "parca": "K10.1",
+      "gercek_parca": "K10.1",
+      "neden": "isaret",
+      "dogru": true,
+      "mimara": true
+     },
+     {
+      "ad": "40 orta",
+      "deger": 40,
+      "kutu": [
+       455,
+       830,
+       530,
+       870
+      ],
+      "parca": "K7.1",
+      "gercek_parca": "K7.1",
+      "neden": "en_yakin",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "40 sol alt",
+      "deger": 40,
+      "kutu": [
+       335,
+       960,
+       395,
+       995
+      ],
+      "parca": "K8.1",
+      "gercek_parca": "K8.1",
+      "neden": "isaret",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "40 sağ alt",
+      "deger": 40,
+      "kutu": [
+       630,
+       920,
+       705,
+       965
+      ],
+      "parca": "K6.1",
+      "gercek_parca": "K6.1",
+      "neden": "isaret",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "240",
+      "deger": 240,
+      "kutu": [
+       980,
+       735,
+       1125,
+       790
+      ],
+      "parca": "K4.1",
+      "gercek_parca": "K4.1",
+      "neden": "en_yakin",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "102",
+      "deger": 102,
+      "kutu": [
+       285,
+       1110,
+       400,
+       1160
+      ],
+      "parca": "K9.1",
+      "gercek_parca": "K9.1",
+      "neden": "en_yakin",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "200 alt",
+      "deger": 200,
+      "kutu": [
+       740,
+       1080,
+       870,
+       1130
+      ],
+      "parca": "K5.1",
+      "gercek_parca": "K5.1",
+      "neden": "en_yakin",
+      "dogru": true,
+      "mimara": false
+     }
+    ]
+   },
+   "A": {
+    "puan": {
+     "kati": 9,
+     "gevsek": 10,
+     "kati_haric": 8,
+     "gevsek_haric": 8,
+     "tahmin_sayisi": 14
+    },
+    "nedenler": {
+     "isaret": {
+      "adet": 6,
+      "dogru": 5
+     },
+     "temas": {
+      "adet": 1,
+      "dogru": 0
+     },
+     "en_yakin": {
+      "adet": 7,
+      "dogru": 4
+     },
+     "null": {
+      "adet": 0,
+      "dogru": 0
+     }
+    },
+    "ogeler": [
+     {
+      "ad": "15",
+      "deger": 15,
+      "kutu": [
+       395,
+       415,
+       440,
+       455
+      ],
+      "parca": "K1.1",
+      "gercek_parca": null,
+      "neden": "en_yakin",
+      "dogru": false,
+      "mimara": true
+     },
+     {
+      "ad": "300",
+      "deger": 300,
+      "kutu": [
+       515,
+       435,
+       625,
+       480
+      ],
+      "parca": "K1.1",
+      "gercek_parca": null,
+      "neden": "isaret",
+      "dogru": false,
+      "mimara": true
+     },
+     {
+      "ad": "45 üst sol",
+      "deger": 45,
+      "kutu": [
+       865,
+       465,
+       930,
+       505
+      ],
+      "parca": "K4.1",
+      "gercek_parca": "K4.1",
+      "neden": "en_yakin",
+      "dogru": false,
+      "mimara": false
+     },
+     {
+      "ad": "45 üst sağ",
+      "deger": 45,
+      "kutu": [
+       990,
+       470,
+       1065,
+       515
+      ],
+      "parca": "K4.1",
+      "gercek_parca": "K4.1",
+      "neden": "en_yakin",
+      "dogru": false,
+      "mimara": false
+     },
+     {
+      "ad": "90",
+      "deger": 90,
+      "kutu": [
+       405,
+       545,
+       510,
+       615
+      ],
+      "parca": "K14.1",
+      "gercek_parca": null,
+      "neden": "temas",
+      "dogru": false,
+      "mimara": true
+     },
+     {
+      "ad": "40 üst",
+      "deger": 40,
+      "kutu": [
+       405,
+       650,
+       475,
+       685
+      ],
+      "parca": "K15.1",
+      "gercek_parca": "K12.3",
+      "neden": "isaret",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "45 alt",
+      "deger": 45,
+      "kutu": [
+       300,
+       740,
+       375,
+       775
+      ],
+      "parca": "K16.1",
+      "gercek_parca": "K11.1",
+      "neden": "isaret",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "200 sol",
+      "deger": 200,
+      "kutu": [
+       265,
+       795,
+       365,
+       840
+      ],
+      "parca": "K10.1",
+      "gercek_parca": "K10.1",
+      "neden": "isaret",
+      "dogru": true,
+      "mimara": true
+     },
+     {
+      "ad": "40 orta",
+      "deger": 40,
+      "kutu": [
+       455,
+       830,
+       530,
+       870
+      ],
+      "parca": "K7.1",
+      "gercek_parca": "K7.1",
+      "neden": "en_yakin",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "40 sol alt",
+      "deger": 40,
+      "kutu": [
+       335,
+       960,
+       395,
+       995
+      ],
+      "parca": "K8.1",
+      "gercek_parca": "K8.1",
+      "neden": "isaret",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "40 sağ alt",
+      "deger": 40,
+      "kutu": [
+       630,
+       920,
+       705,
+       965
+      ],
+      "parca": "K6.1",
+      "gercek_parca": "K6.1",
+      "neden": "isaret",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "240",
+      "deger": 240,
+      "kutu": [
+       980,
+       735,
+       1125,
+       790
+      ],
+      "parca": "K4.1",
+      "gercek_parca": "K4.1",
+      "neden": "en_yakin",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "102",
+      "deger": 102,
+      "kutu": [
+       285,
+       1110,
+       400,
+       1160
+      ],
+      "parca": "K9.1",
+      "gercek_parca": "K9.1",
+      "neden": "en_yakin",
+      "dogru": true,
+      "mimara": false
+     },
+     {
+      "ad": "200 alt",
+      "deger": 200,
+      "kutu": [
+       740,
+       1080,
+       870,
+       1130
+      ],
+      "parca": "K5.1",
+      "gercek_parca": "K5.1",
+      "neden": "en_yakin",
+      "dogru": true,
+      "mimara": false
+     }
+    ]
+   },
+   "G_hane": [
+    {
+     "puan": {
+      "kati": 7,
+      "gevsek": 8,
+      "kati_haric": 6,
+      "gevsek_haric": 6,
+      "tahmin_sayisi": 17
+     },
+     "atama": {
+      "atanan": 17,
+      "deger_dogru": 10,
+      "yeri_bulunamayan": 0,
+      "okunmamis_bolge": 11,
+      "sure_s": 0.0008335000020451844
+     },
+     "nedenler": {
+      "isaret": {
+       "adet": 7,
+       "dogru": 4
+      },
+      "temas": {
+       "adet": 5,
+       "dogru": 0
+      },
+      "en_yakin": {
+       "adet": 5,
+       "dogru": 3
+      },
+      "null": {
+       "adet": 0,
+       "dogru": 0
+      }
+     },
+     "ogeler": [
+      {
+       "ad": "15",
+       "deger": 90,
+       "kutu": [
+        389.0,
+        405.0,
+        436.0,
+        492.0
+       ],
+       "parca": "K1.1",
+       "gercek_parca": null,
+       "neden": "temas",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": "300",
+       "deger": 300,
+       "kutu": [
+        516.0,
+        427.0,
+        626.0,
+        480.0
+       ],
+       "parca": "K1.1",
+       "gercek_parca": null,
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": "45 üst sol",
+       "deger": 45,
+       "kutu": [
+        869.0,
+        456.0,
+        926.0,
+        495.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "45 üst sağ",
+       "deger": 45,
+       "kutu": [
+        880.0,
+        466.0,
+        1069.0,
+        533.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "temas",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 40,
+       "kutu": [
+        348.0,
+        508.0,
+        384.0,
+        528.0
+       ],
+       "parca": "K11.1",
+       "gercek_parca": null,
+       "neden": "temas",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 40,
+       "kutu": [
+        254.0,
+        518.0,
+        322.0,
+        563.0
+       ],
+       "parca": "K1.1",
+       "gercek_parca": null,
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "90",
+       "deger": 45,
+       "kutu": [
+        435.0,
+        530.0,
+        511.0,
+        597.0
+       ],
+       "parca": "K13.3",
+       "gercek_parca": null,
+       "neden": "temas",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": null,
+       "deger": 15,
+       "kutu": [
+        170.0,
+        588.0,
+        237.0,
+        646.0
+       ],
+       "parca": "K13.1",
+       "gercek_parca": null,
+       "neden": "temas",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "40 üst",
+       "deger": 40,
+       "kutu": [
+        409.0,
+        655.0,
+        474.0,
+        687.0
+       ],
+       "parca": "K15.1",
+       "gercek_parca": "K12.3",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "45 alt",
+       "deger": 45,
+       "kutu": [
+        297.0,
+        710.0,
+        376.0,
+        769.0
+       ],
+       "parca": "K16.1",
+       "gercek_parca": "K11.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "200 sol",
+       "deger": 200,
+       "kutu": [
+        267.0,
+        799.0,
+        368.0,
+        839.0
+       ],
+       "parca": "K10.1",
+       "gercek_parca": "K10.1",
+       "neden": "en_yakin",
+       "dogru": true,
+       "mimara": true
+      },
+      {
+       "ad": "40 orta",
+       "deger": 40,
+       "kutu": [
+        459.0,
+        829.0,
+        531.0,
+        870.0
+       ],
+       "parca": "K7.1",
+       "gercek_parca": "K7.1",
+       "neden": "en_yakin",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 40,
+       "kutu": [
+        480.0,
+        884.0,
+        487.0,
+        907.0
+       ],
+       "parca": "K7.1",
+       "gercek_parca": "K7.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "40 sağ alt",
+       "deger": 40,
+       "kutu": [
+        635.0,
+        923.0,
+        705.0,
+        961.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K6.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "40 sol alt",
+       "deger": 40,
+       "kutu": [
+        335.0,
+        960.0,
+        397.0,
+        992.0
+       ],
+       "parca": "K8.1",
+       "gercek_parca": "K8.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "200 alt",
+       "deger": 200,
+       "kutu": [
+        729.0,
+        1084.0,
+        870.0,
+        1129.0
+       ],
+       "parca": "K5.1",
+       "gercek_parca": "K5.1",
+       "neden": "en_yakin",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "102",
+       "deger": 162,
+       "kutu": [
+        288.0,
+        1110.0,
+        405.0,
+        1175.0
+       ],
+       "parca": "K9.1",
+       "gercek_parca": "K9.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": false
+      }
+     ]
+    },
+    {
+     "puan": {
+      "kati": 8,
+      "gevsek": 8,
+      "kati_haric": 7,
+      "gevsek_haric": 7,
+      "tahmin_sayisi": 19
+     },
+     "atama": {
+      "atanan": 19,
+      "deger_dogru": 10,
+      "yeri_bulunamayan": 0,
+      "okunmamis_bolge": 9,
+      "sure_s": 0.0009157000022241846
+     },
+     "nedenler": {
+      "isaret": {
+       "adet": 7,
+       "dogru": 3
+      },
+      "temas": {
+       "adet": 6,
+       "dogru": 1
+      },
+      "en_yakin": {
+       "adet": 5,
+       "dogru": 4
+      },
+      "null": {
+       "adet": 1,
+       "dogru": 0
+      }
+     },
+     "ogeler": [
+      {
+       "ad": "15",
+       "deger": 90,
+       "kutu": [
+        389.0,
+        405.0,
+        436.0,
+        492.0
+       ],
+       "parca": "K1.1",
+       "gercek_parca": null,
+       "neden": "temas",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": "300",
+       "deger": 200,
+       "kutu": [
+        516.0,
+        427.0,
+        626.0,
+        480.0
+       ],
+       "parca": "K1.1",
+       "gercek_parca": null,
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": "45 üst sol",
+       "deger": 45,
+       "kutu": [
+        869.0,
+        456.0,
+        926.0,
+        495.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "45 üst sağ",
+       "deger": 45,
+       "kutu": [
+        880.0,
+        466.0,
+        1069.0,
+        533.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "temas",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 300,
+       "kutu": [
+        348.0,
+        508.0,
+        384.0,
+        528.0
+       ],
+       "parca": "K11.1",
+       "gercek_parca": null,
+       "neden": "temas",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 45,
+       "kutu": [
+        254.0,
+        518.0,
+        322.0,
+        563.0
+       ],
+       "parca": "K1.1",
+       "gercek_parca": null,
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "90",
+       "deger": 45,
+       "kutu": [
+        435.0,
+        530.0,
+        511.0,
+        597.0
+       ],
+       "parca": "K13.3",
+       "gercek_parca": null,
+       "neden": "temas",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": null,
+       "deger": 15,
+       "kutu": [
+        170.0,
+        588.0,
+        237.0,
+        646.0
+       ],
+       "parca": "K13.1",
+       "gercek_parca": null,
+       "neden": "temas",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "40 üst",
+       "deger": 40,
+       "kutu": [
+        409.0,
+        655.0,
+        474.0,
+        687.0
+       ],
+       "parca": "K15.1",
+       "gercek_parca": "K12.3",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "45 alt",
+       "deger": 200,
+       "kutu": [
+        297.0,
+        710.0,
+        376.0,
+        769.0
+       ],
+       "parca": "K16.1",
+       "gercek_parca": "K11.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "240",
+       "deger": 240,
+       "kutu": [
+        944.0,
+        739.0,
+        1075.0,
+        784.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "temas",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 45,
+       "kutu": [
+        1102.0,
+        739.0,
+        1129.0,
+        755.0
+       ],
+       "parca": null,
+       "gercek_parca": null,
+       "neden": null,
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "200 sol",
+       "deger": 200,
+       "kutu": [
+        267.0,
+        799.0,
+        368.0,
+        839.0
+       ],
+       "parca": "K10.1",
+       "gercek_parca": "K10.1",
+       "neden": "en_yakin",
+       "dogru": true,
+       "mimara": true
+      },
+      {
+       "ad": "40 orta",
+       "deger": 40,
+       "kutu": [
+        459.0,
+        829.0,
+        531.0,
+        870.0
+       ],
+       "parca": "K7.1",
+       "gercek_parca": "K7.1",
+       "neden": "en_yakin",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 40,
+       "kutu": [
+        480.0,
+        884.0,
+        487.0,
+        907.0
+       ],
+       "parca": "K7.1",
+       "gercek_parca": "K7.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "40 sağ alt",
+       "deger": 40,
+       "kutu": [
+        635.0,
+        923.0,
+        705.0,
+        961.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K6.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "40 sol alt",
+       "deger": 40,
+       "kutu": [
+        335.0,
+        960.0,
+        397.0,
+        992.0
+       ],
+       "parca": "K8.1",
+       "gercek_parca": "K8.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "200 alt",
+       "deger": 200,
+       "kutu": [
+        729.0,
+        1084.0,
+        870.0,
+        1129.0
+       ],
+       "parca": "K5.1",
+       "gercek_parca": "K5.1",
+       "neden": "en_yakin",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "102",
+       "deger": 102,
+       "kutu": [
+        288.0,
+        1110.0,
+        405.0,
+        1175.0
+       ],
+       "parca": "K9.1",
+       "gercek_parca": "K9.1",
+       "neden": "en_yakin",
+       "dogru": true,
+       "mimara": false
+      }
+     ]
+    },
+    {
+     "puan": {
+      "kati": 6,
+      "gevsek": 7,
+      "kati_haric": 5,
+      "gevsek_haric": 5,
+      "tahmin_sayisi": 14
+     },
+     "atama": {
+      "atanan": 14,
+      "deger_dogru": 9,
+      "yeri_bulunamayan": 0,
+      "okunmamis_bolge": 14,
+      "sure_s": 0.0007839000027161092
+     },
+     "nedenler": {
+      "isaret": {
+       "adet": 7,
+       "dogru": 3
+      },
+      "temas": {
+       "adet": 3,
+       "dogru": 1
+      },
+      "en_yakin": {
+       "adet": 4,
+       "dogru": 2
+      },
+      "null": {
+       "adet": 0,
+       "dogru": 0
+      }
+     },
+     "ogeler": [
+      {
+       "ad": "300",
+       "deger": 300,
+       "kutu": [
+        516.0,
+        427.0,
+        626.0,
+        480.0
+       ],
+       "parca": "K1.1",
+       "gercek_parca": null,
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": "45 üst sol",
+       "deger": 45,
+       "kutu": [
+        869.0,
+        456.0,
+        926.0,
+        495.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "45 üst sağ",
+       "deger": 45,
+       "kutu": [
+        880.0,
+        466.0,
+        1069.0,
+        533.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "temas",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 96,
+       "kutu": [
+        348.0,
+        508.0,
+        384.0,
+        528.0
+       ],
+       "parca": "K11.1",
+       "gercek_parca": null,
+       "neden": "temas",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 15,
+       "kutu": [
+        254.0,
+        518.0,
+        322.0,
+        563.0
+       ],
+       "parca": "K1.1",
+       "gercek_parca": null,
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "40 üst",
+       "deger": 40,
+       "kutu": [
+        409.0,
+        655.0,
+        474.0,
+        687.0
+       ],
+       "parca": "K15.1",
+       "gercek_parca": "K12.3",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "45 alt",
+       "deger": 45,
+       "kutu": [
+        297.0,
+        710.0,
+        376.0,
+        769.0
+       ],
+       "parca": "K16.1",
+       "gercek_parca": "K11.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "240",
+       "deger": 240,
+       "kutu": [
+        944.0,
+        739.0,
+        1075.0,
+        784.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "temas",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "200 sol",
+       "deger": 200,
+       "kutu": [
+        267.0,
+        799.0,
+        368.0,
+        839.0
+       ],
+       "parca": "K10.1",
+       "gercek_parca": "K10.1",
+       "neden": "en_yakin",
+       "dogru": true,
+       "mimara": true
+      },
+      {
+       "ad": "40 orta",
+       "deger": 40,
+       "kutu": [
+        459.0,
+        829.0,
+        531.0,
+        870.0
+       ],
+       "parca": "K7.1",
+       "gercek_parca": "K7.1",
+       "neden": "en_yakin",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "40 sağ alt",
+       "deger": 200,
+       "kutu": [
+        635.0,
+        923.0,
+        705.0,
+        961.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K6.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "40 sol alt",
+       "deger": 40,
+       "kutu": [
+        335.0,
+        960.0,
+        397.0,
+        992.0
+       ],
+       "parca": "K8.1",
+       "gercek_parca": "K8.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 40,
+       "kutu": [
+        331.0,
+        1054.0,
+        338.0,
+        1094.0
+       ],
+       "parca": "K9.1",
+       "gercek_parca": "K9.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "102",
+       "deger": 162,
+       "kutu": [
+        288.0,
+        1110.0,
+        405.0,
+        1175.0
+       ],
+       "parca": "K9.1",
+       "gercek_parca": "K9.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": false
+      }
+     ]
+    }
+   ],
+   "G_ipucusuz": [
+    {
+     "puan": {
+      "kati": 7,
+      "gevsek": 8,
+      "kati_haric": 6,
+      "gevsek_haric": 6,
+      "tahmin_sayisi": 17
+     },
+     "atama": {
+      "atanan": 17,
+      "deger_dogru": 10,
+      "yeri_bulunamayan": 0,
+      "okunmamis_bolge": 11,
+      "sure_s": 0.001010599997243844
+     },
+     "nedenler": {
+      "isaret": {
+       "adet": 9,
+       "dogru": 4
+      },
+      "temas": {
+       "adet": 4,
+       "dogru": 0
+      },
+      "en_yakin": {
+       "adet": 4,
+       "dogru": 3
+      },
+      "null": {
+       "adet": 0,
+       "dogru": 0
+      }
+     },
+     "ogeler": [
+      {
+       "ad": "15",
+       "deger": 300,
+       "kutu": [
+        389.0,
+        405.0,
+        436.0,
+        492.0
+       ],
+       "parca": "K1.1",
+       "gercek_parca": null,
+       "neden": "temas",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": "300",
+       "deger": 45,
+       "kutu": [
+        516.0,
+        427.0,
+        626.0,
+        480.0
+       ],
+       "parca": "K1.1",
+       "gercek_parca": null,
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": "45 üst sol",
+       "deger": 45,
+       "kutu": [
+        869.0,
+        456.0,
+        926.0,
+        495.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "45 üst sağ",
+       "deger": 45,
+       "kutu": [
+        880.0,
+        466.0,
+        1069.0,
+        533.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "temas",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 40,
+       "kutu": [
+        336.0,
+        480.0,
+        342.0,
+        497.0
+       ],
+       "parca": "K11.1",
+       "gercek_parca": null,
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 40,
+       "kutu": [
+        348.0,
+        508.0,
+        384.0,
+        528.0
+       ],
+       "parca": "K11.1",
+       "gercek_parca": null,
+       "neden": "temas",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 15,
+       "kutu": [
+        254.0,
+        518.0,
+        322.0,
+        563.0
+       ],
+       "parca": "K1.1",
+       "gercek_parca": null,
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "90",
+       "deger": 90,
+       "kutu": [
+        435.0,
+        530.0,
+        511.0,
+        597.0
+       ],
+       "parca": "K13.3",
+       "gercek_parca": null,
+       "neden": "temas",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": "40 üst",
+       "deger": 40,
+       "kutu": [
+        409.0,
+        655.0,
+        474.0,
+        687.0
+       ],
+       "parca": "K15.1",
+       "gercek_parca": "K12.3",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "45 alt",
+       "deger": 45,
+       "kutu": [
+        297.0,
+        710.0,
+        376.0,
+        769.0
+       ],
+       "parca": "K16.1",
+       "gercek_parca": "K11.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "200 sol",
+       "deger": 200,
+       "kutu": [
+        267.0,
+        799.0,
+        368.0,
+        839.0
+       ],
+       "parca": "K10.1",
+       "gercek_parca": "K10.1",
+       "neden": "en_yakin",
+       "dogru": true,
+       "mimara": true
+      },
+      {
+       "ad": "40 orta",
+       "deger": 40,
+       "kutu": [
+        459.0,
+        829.0,
+        531.0,
+        870.0
+       ],
+       "parca": "K7.1",
+       "gercek_parca": "K7.1",
+       "neden": "en_yakin",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 40,
+       "kutu": [
+        480.0,
+        884.0,
+        487.0,
+        907.0
+       ],
+       "parca": "K7.1",
+       "gercek_parca": "K7.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "40 sağ alt",
+       "deger": 40,
+       "kutu": [
+        635.0,
+        923.0,
+        705.0,
+        961.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K6.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "40 sol alt",
+       "deger": 40,
+       "kutu": [
+        335.0,
+        960.0,
+        397.0,
+        992.0
+       ],
+       "parca": "K8.1",
+       "gercek_parca": "K8.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 162,
+       "kutu": [
+        331.0,
+        1054.0,
+        338.0,
+        1094.0
+       ],
+       "parca": "K9.1",
+       "gercek_parca": "K9.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "200 alt",
+       "deger": 200,
+       "kutu": [
+        729.0,
+        1084.0,
+        870.0,
+        1129.0
+       ],
+       "parca": "K5.1",
+       "gercek_parca": "K5.1",
+       "neden": "en_yakin",
+       "dogru": true,
+       "mimara": false
+      }
+     ]
+    },
+    {
+     "puan": {
+      "kati": 8,
+      "gevsek": 8,
+      "kati_haric": 7,
+      "gevsek_haric": 7,
+      "tahmin_sayisi": 19
+     },
+     "atama": {
+      "atanan": 19,
+      "deger_dogru": 10,
+      "yeri_bulunamayan": 0,
+      "okunmamis_bolge": 9,
+      "sure_s": 0.0009084000048460439
+     },
+     "nedenler": {
+      "isaret": {
+       "adet": 9,
+       "dogru": 3
+      },
+      "temas": {
+       "adet": 4,
+       "dogru": 1
+      },
+      "en_yakin": {
+       "adet": 5,
+       "dogru": 4
+      },
+      "null": {
+       "adet": 1,
+       "dogru": 0
+      }
+     },
+     "ogeler": [
+      {
+       "ad": "300",
+       "deger": 45,
+       "kutu": [
+        516.0,
+        427.0,
+        626.0,
+        480.0
+       ],
+       "parca": "K1.1",
+       "gercek_parca": null,
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": "45 üst sol",
+       "deger": 45,
+       "kutu": [
+        869.0,
+        456.0,
+        926.0,
+        495.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "45 üst sağ",
+       "deger": 45,
+       "kutu": [
+        880.0,
+        466.0,
+        1069.0,
+        533.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "temas",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 300,
+       "kutu": [
+        336.0,
+        480.0,
+        342.0,
+        497.0
+       ],
+       "parca": "K11.1",
+       "gercek_parca": null,
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 90,
+       "kutu": [
+        348.0,
+        508.0,
+        384.0,
+        528.0
+       ],
+       "parca": "K11.1",
+       "gercek_parca": null,
+       "neden": "temas",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 15,
+       "kutu": [
+        254.0,
+        518.0,
+        322.0,
+        563.0
+       ],
+       "parca": "K1.1",
+       "gercek_parca": null,
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "90",
+       "deger": 45,
+       "kutu": [
+        435.0,
+        530.0,
+        511.0,
+        597.0
+       ],
+       "parca": "K13.3",
+       "gercek_parca": null,
+       "neden": "temas",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": "40 üst",
+       "deger": 40,
+       "kutu": [
+        409.0,
+        655.0,
+        474.0,
+        687.0
+       ],
+       "parca": "K15.1",
+       "gercek_parca": "K12.3",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "45 alt",
+       "deger": 200,
+       "kutu": [
+        297.0,
+        710.0,
+        376.0,
+        769.0
+       ],
+       "parca": "K16.1",
+       "gercek_parca": "K11.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "240",
+       "deger": 240,
+       "kutu": [
+        944.0,
+        739.0,
+        1075.0,
+        784.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "temas",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 45,
+       "kutu": [
+        1102.0,
+        739.0,
+        1129.0,
+        755.0
+       ],
+       "parca": null,
+       "gercek_parca": null,
+       "neden": null,
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "200 sol",
+       "deger": 200,
+       "kutu": [
+        267.0,
+        799.0,
+        368.0,
+        839.0
+       ],
+       "parca": "K10.1",
+       "gercek_parca": "K10.1",
+       "neden": "en_yakin",
+       "dogru": true,
+       "mimara": true
+      },
+      {
+       "ad": "40 orta",
+       "deger": 40,
+       "kutu": [
+        459.0,
+        829.0,
+        531.0,
+        870.0
+       ],
+       "parca": "K7.1",
+       "gercek_parca": "K7.1",
+       "neden": "en_yakin",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 200,
+       "kutu": [
+        480.0,
+        884.0,
+        487.0,
+        907.0
+       ],
+       "parca": "K7.1",
+       "gercek_parca": "K7.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "40 sağ alt",
+       "deger": 40,
+       "kutu": [
+        635.0,
+        923.0,
+        705.0,
+        961.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K6.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "40 sol alt",
+       "deger": 40,
+       "kutu": [
+        335.0,
+        960.0,
+        397.0,
+        992.0
+       ],
+       "parca": "K8.1",
+       "gercek_parca": "K8.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 40,
+       "kutu": [
+        331.0,
+        1054.0,
+        338.0,
+        1094.0
+       ],
+       "parca": "K9.1",
+       "gercek_parca": "K9.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "200 alt",
+       "deger": 200,
+       "kutu": [
+        729.0,
+        1084.0,
+        870.0,
+        1129.0
+       ],
+       "parca": "K5.1",
+       "gercek_parca": "K5.1",
+       "neden": "en_yakin",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "102",
+       "deger": 102,
+       "kutu": [
+        288.0,
+        1110.0,
+        405.0,
+        1175.0
+       ],
+       "parca": "K9.1",
+       "gercek_parca": "K9.1",
+       "neden": "en_yakin",
+       "dogru": true,
+       "mimara": false
+      }
+     ]
+    },
+    {
+     "puan": {
+      "kati": 6,
+      "gevsek": 7,
+      "kati_haric": 5,
+      "gevsek_haric": 5,
+      "tahmin_sayisi": 14
+     },
+     "atama": {
+      "atanan": 14,
+      "deger_dogru": 8,
+      "yeri_bulunamayan": 0,
+      "okunmamis_bolge": 14,
+      "sure_s": 0.0006346999871311709
+     },
+     "nedenler": {
+      "isaret": {
+       "adet": 9,
+       "dogru": 3
+      },
+      "temas": {
+       "adet": 2,
+       "dogru": 1
+      },
+      "en_yakin": {
+       "adet": 3,
+       "dogru": 1
+      },
+      "null": {
+       "adet": 0,
+       "dogru": 0
+      }
+     },
+     "ogeler": [
+      {
+       "ad": "300",
+       "deger": 300,
+       "kutu": [
+        516.0,
+        427.0,
+        626.0,
+        480.0
+       ],
+       "parca": "K1.1",
+       "gercek_parca": null,
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": true
+      },
+      {
+       "ad": "45 üst sol",
+       "deger": 45,
+       "kutu": [
+        869.0,
+        456.0,
+        926.0,
+        495.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "45 üst sağ",
+       "deger": 45,
+       "kutu": [
+        880.0,
+        466.0,
+        1069.0,
+        533.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "temas",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 15,
+       "kutu": [
+        336.0,
+        480.0,
+        342.0,
+        497.0
+       ],
+       "parca": "K11.1",
+       "gercek_parca": null,
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 96,
+       "kutu": [
+        254.0,
+        518.0,
+        322.0,
+        563.0
+       ],
+       "parca": "K1.1",
+       "gercek_parca": null,
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "40 üst",
+       "deger": 40,
+       "kutu": [
+        409.0,
+        655.0,
+        474.0,
+        687.0
+       ],
+       "parca": "K15.1",
+       "gercek_parca": "K12.3",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "45 alt",
+       "deger": 45,
+       "kutu": [
+        297.0,
+        710.0,
+        376.0,
+        769.0
+       ],
+       "parca": "K16.1",
+       "gercek_parca": "K11.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "240",
+       "deger": 240,
+       "kutu": [
+        944.0,
+        739.0,
+        1075.0,
+        784.0
+       ],
+       "parca": "K4.1",
+       "gercek_parca": "K4.1",
+       "neden": "temas",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": "200 sol",
+       "deger": 200,
+       "kutu": [
+        267.0,
+        799.0,
+        368.0,
+        839.0
+       ],
+       "parca": "K10.1",
+       "gercek_parca": "K10.1",
+       "neden": "en_yakin",
+       "dogru": true,
+       "mimara": true
+      },
+      {
+       "ad": null,
+       "deger": 40,
+       "kutu": [
+        480.0,
+        884.0,
+        487.0,
+        907.0
+       ],
+       "parca": "K7.1",
+       "gercek_parca": "K7.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "40 sağ alt",
+       "deger": 200,
+       "kutu": [
+        635.0,
+        923.0,
+        705.0,
+        961.0
+       ],
+       "parca": "K6.1",
+       "gercek_parca": "K6.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "40 sol alt",
+       "deger": 40,
+       "kutu": [
+        335.0,
+        960.0,
+        397.0,
+        992.0
+       ],
+       "parca": "K8.1",
+       "gercek_parca": "K8.1",
+       "neden": "isaret",
+       "dogru": true,
+       "mimara": false
+      },
+      {
+       "ad": null,
+       "deger": 40,
+       "kutu": [
+        331.0,
+        1054.0,
+        338.0,
+        1094.0
+       ],
+       "parca": "K9.1",
+       "gercek_parca": "K9.1",
+       "neden": "isaret",
+       "dogru": false,
+       "mimara": false
+      },
+      {
+       "ad": "102",
+       "deger": 162,
+       "kutu": [
+        288.0,
+        1110.0,
+        405.0,
+        1175.0
+       ],
+       "parca": "K9.1",
+       "gercek_parca": "K9.1",
+       "neden": "en_yakin",
+       "dogru": false,
+       "mimara": false
+      }
+     ]
+    }
+   ],
+   "Y3_gercek": [
+    {
+     "puan": {
+      "kati": 7,
+      "gevsek": 7,
+      "kati_haric": 5,
+      "gevsek_haric": 5,
+      "tahmin_sayisi": 17
+     }
+    },
+    {
+     "puan": {
+      "kati": 9,
+      "gevsek": 10,
+      "kati_haric": 8,
+      "gevsek_haric": 8,
+      "tahmin_sayisi": 19
+     }
+    },
+    {
+     "puan": {
+      "kati": 6,
+      "gevsek": 6,
+      "kati_haric": 4,
+      "gevsek_haric": 4,
+      "tahmin_sayisi": 14
+     }
+    }
+   ],
+   "Y3_bulunan": [
+    {
+     "puan": {
+      "kati": 6,
+      "gevsek": 7,
+      "kati_haric": 5,
+      "gevsek_haric": 5,
+      "tahmin_sayisi": 17
+     }
+    },
+    {
+     "puan": {
+      "kati": 9,
+      "gevsek": 10,
+      "kati_haric": 8,
+      "gevsek_haric": 8,
+      "tahmin_sayisi": 19
+     }
+    },
+    {
+     "puan": {
+      "kati": 5,
+      "gevsek": 6,
+      "kati_haric": 4,
+      "gevsek_haric": 4,
+      "tahmin_sayisi": 14
+     }
+    }
+   ]
+  }
+ }
+}

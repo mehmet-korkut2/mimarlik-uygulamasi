@@ -14,7 +14,9 @@ from mimarlik.on_isleme import kalin_lekeleri_sil
 
 DUVAR_SILME = 0.6      # h katı: duvar parçaları bu kalınlıkta silinir (kalem izi + pay)
 ISARET_SILME = 0.2     # h katı: işaret adayları bu kalınlıkta silinir (rakamı fazla bozmadan)
-GRUPLAMA = (0.6, 0.3)  # h katı: rakamları sayıya birleştiren genişletme (yatay, dikey)
+GRUPLAMA = (1.0, 0.3)  # h katı: rakamları sayıya birleştiren genişletme (yatay, dikey);
+                       # gevşek el yazısında rakam aralığı ~1 karakter boyu (02: "2 0 0")
+EN_AZ_YUKSEKLIK = 0.5  # h katı: daha alçak bölge rakam değil (duvar silme artığı)
 TEMAS_TOLERANSI = 0.5  # h katı: kutu bir duvara bu kadar yakınsa "temas" var
 
 
@@ -71,6 +73,8 @@ def bolgeleri_bul(maske: np.ndarray, sonuc: KenarSonucu, h: float) -> list[Bolge
     for g in range(1, adet):
         ys, xs = np.nonzero((grup == g) & (temiz > 0))
         if len(xs) == 0:
+            continue
+        if ys.max() + 1 - ys.min() < EN_AZ_YUKSEKLIK * h:
             continue
         bolgeler.append(bolge_olustur(maske, (xs.min(), ys.min(), xs.max() + 1, ys.max() + 1), sonuc, h))
     return sorted(bolgeler, key=lambda b: (b.kutu[1], b.kutu[0]))

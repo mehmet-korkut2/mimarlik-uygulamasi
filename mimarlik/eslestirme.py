@@ -145,6 +145,7 @@ def degerleri_ata(bolgeler, ogeler, boyut, w_hane: float = W_HANE):
 # --- Bölgeyi parçaya bağlama ve Kroki (tasarım 5.5, 6) --------------------------------------------
 
 EN_YAKIN_SINIRI = 6   # h katı: en yakın parça bundan uzaksa bağlanmaz
+ISARET_PAYI = 0.5     # h katı: işaretin boştaki ucu bölge kutusuna en fazla bu kadar uzak
 
 
 def _kutu_icinde(p: Nokta, kutu: Kutu, pay: float) -> bool:
@@ -154,7 +155,7 @@ def _kutu_icinde(p: Nokta, kutu: Kutu, pay: float) -> bool:
 def bagla(bolge: Bolge, sonuc: KenarSonucu, h: float) -> tuple[Parca | None, str | None]:
     """Bölgeyi bir parçaya bağlar. Sıra: ölçü işareti -> temas -> en yakın parça."""
     merkez = _merkez(bolge.kutu)
-    adaylar = [i for i in sonuc.isaretler if _kutu_icinde(i.bit, bolge.kutu, h / 2)]
+    adaylar = [i for i in sonuc.isaretler if _kutu_icinde(i.bit, bolge.kutu, ISARET_PAYI * h)]
     for isaret in sorted(adaylar, key=lambda i: math.dist(i.bit, merkez)):
         parca = parcayi_bul(isaret.bas, sonuc.kenarlar, h / 2)
         if parca:

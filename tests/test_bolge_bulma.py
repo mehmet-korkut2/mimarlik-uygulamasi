@@ -60,3 +60,32 @@ def test_duvara_bitisik_kutu_temas_noktasi_verir():
 def test_duvardan_uzak_kutu_temas_yok():
     maske, h, sonuc, beklenen = _hazirla()
     assert bolge_olustur(maske, beklenen["sayilar"]["60"], sonuc, h).temas is None
+
+
+def test_aralikli_yazilmis_sayi_tek_bolge():
+    """Gevşek el yazısında rakam aralığı ~0.7–1 karakter boyu olabilir (02"deki "2 0 0")."""
+    import cv2
+    from tests.sentetik import FONT, MUREKKEP, OLCEK, YAZI_KALINLIK
+    bgr, _ = sentetik_kroki()
+    maske0 = murekkep_maskesi(bgr)
+    h = karakter_yuksekligi(maske0)
+    x = 450
+    for rakam in "200":
+        cv2.putText(bgr, rakam, (x, 400), FONT, OLCEK, MUREKKEP, YAZI_KALINLIK, cv2.LINE_AA)
+        (g, _), _ = cv2.getTextSize(rakam, FONT, OLCEK, YAZI_KALINLIK)
+        x += g + int(0.6 * h)   # yazı tipi kenar boşluklarıyla mürekkep aralığı ≈ 0.7h
+    maske = murekkep_maskesi(bgr)
+    sonuc = kenarlari_bul(maske, h)
+    kutu = (450, 400 - 30, x, 400)
+    assert len([b for b in bolgeleri_bul(maske, sonuc, h) if _ortusme(b.kutu, kutu) > 0.1]) == 1
+
+
+def test_duvar_dibindeki_kucuk_artik_bolge_degil():
+    import cv2
+    from tests.sentetik import MUREKKEP
+    bgr, _ = sentetik_kroki()
+    cv2.rectangle(bgr, (300, 106), (310, 112), MUREKKEP, -1)   # üst duvarın hemen altında 10x6 px leke
+    maske = murekkep_maskesi(bgr)
+    h = karakter_yuksekligi(maske)
+    bolgeler = bolgeleri_bul(maske, kenarlari_bul(maske, h), h)
+    assert not [b for b in bolgeler if _ortusme((300, 106, 310, 112), b.kutu) > 0]
