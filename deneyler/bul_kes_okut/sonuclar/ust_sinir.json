@@ -1,0 +1,1343 @@
+{
+  "deney": "üst sınır: gerçek kutulardan kesit",
+  "model": "qwen3-vl:4b-instruct",
+  "num_ctx": 8192,
+  "istem": "Bu görüntü, elle çizilmiş bir mimari krokiden kesilmiş küçük bir parça. İçinde el yazısıyla yazılmış bir ölçü sayısı (cm) var mı? Varsa sadece o sayıyı yaz (ör. 120). Sayı yoksa ya da okunamıyorsa sadece YOK yaz. Kenarlarda yarım kalmış başka yazılar varsa onları dikkate alma.",
+  "krokiler": {
+    "01": {
+      "calistirmalar": [
+        {
+          "okumalar": [
+            {
+              "ad": "180",
+              "beklenen": 180,
+              "okunan": 180,
+              "ham": "180",
+              "sure_s": 24.6,
+              "ollama": {
+                "model_yukleme": 6.65,
+                "girdi_isleme": 17.56,
+                "uretim": 0.34,
+                "girdi_token": 1178
+              },
+              "kesit_boyu": [
+                289,
+                224
+              ]
+            },
+            {
+              "ad": "108",
+              "beklenen": 108,
+              "okunan": 108,
+              "ham": "108",
+              "sure_s": 17.33,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 16.88,
+                "uretim": 0.32,
+                "girdi_token": 1169
+              },
+              "kesit_boyu": [
+                302,
+                224
+              ]
+            },
+            {
+              "ad": "120 sol",
+              "beklenen": 120,
+              "okunan": 120,
+              "ham": "120",
+              "sure_s": 17.96,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.5,
+                "uretim": 0.33,
+                "girdi_token": 1158
+              },
+              "kesit_boyu": [
+                325,
+                224
+              ]
+            },
+            {
+              "ad": "15",
+              "beklenen": 15,
+              "okunan": 15,
+              "ham": "15",
+              "sure_s": 17.38,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.06,
+                "uretim": 0.23,
+                "girdi_token": 1178
+              },
+              "kesit_boyu": [
+                287,
+                224
+              ]
+            },
+            {
+              "ad": "90",
+              "beklenen": 90,
+              "okunan": 90,
+              "ham": "90",
+              "sure_s": 17.23,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 16.89,
+                "uretim": 0.22,
+                "girdi_token": 1169
+              },
+              "kesit_boyu": [
+                302,
+                224
+              ]
+            },
+            {
+              "ad": "10",
+              "beklenen": 10,
+              "okunan": 10,
+              "ham": "10",
+              "sure_s": 18.08,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.75,
+                "uretim": 0.22,
+                "girdi_token": 1159
+              },
+              "kesit_boyu": [
+                246,
+                224
+              ]
+            },
+            {
+              "ad": "140",
+              "beklenen": 140,
+              "okunan": 140,
+              "ham": "140",
+              "sure_s": 17.55,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.08,
+                "uretim": 0.34,
+                "girdi_token": 1145
+              },
+              "kesit_boyu": [
+                347,
+                224
+              ]
+            },
+            {
+              "ad": "50",
+              "beklenen": 50,
+              "okunan": 50,
+              "ham": "50",
+              "sure_s": 17.55,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.19,
+                "uretim": 0.23,
+                "girdi_token": 1178
+              },
+              "kesit_boyu": [
+                291,
+                224
+              ]
+            },
+            {
+              "ad": "40",
+              "beklenen": 40,
+              "okunan": null,
+              "ham": "YOK",
+              "sure_s": 17.36,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.0,
+                "uretim": 0.22,
+                "girdi_token": 1169
+              },
+              "kesit_boyu": [
+                308,
+                224
+              ]
+            },
+            {
+              "ad": "120 sağ",
+              "beklenen": 120,
+              "okunan": 120,
+              "ham": "120",
+              "sure_s": 17.83,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.26,
+                "uretim": 0.43,
+                "girdi_token": 1180
+              },
+              "kesit_boyu": [
+                388,
+                224
+              ]
+            }
+          ],
+          "sayilar": [
+            180,
+            108,
+            120,
+            15,
+            90,
+            10,
+            140,
+            50,
+            120
+          ],
+          "toplam_sure_s": 183.64
+        },
+        {
+          "okumalar": [
+            {
+              "ad": "180",
+              "beklenen": 180,
+              "okunan": 180,
+              "ham": "180",
+              "sure_s": 26.05,
+              "ollama": {
+                "model_yukleme": 7.99,
+                "girdi_isleme": 17.69,
+                "uretim": 0.33,
+                "girdi_token": 1178
+              },
+              "kesit_boyu": [
+                289,
+                224
+              ]
+            },
+            {
+              "ad": "108",
+              "beklenen": 108,
+              "okunan": 80,
+              "ham": "80",
+              "sure_s": 17.36,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.0,
+                "uretim": 0.24,
+                "girdi_token": 1169
+              },
+              "kesit_boyu": [
+                302,
+                224
+              ]
+            },
+            {
+              "ad": "120 sol",
+              "beklenen": 120,
+              "okunan": 120,
+              "ham": "120",
+              "sure_s": 18.03,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.56,
+                "uretim": 0.33,
+                "girdi_token": 1158
+              },
+              "kesit_boyu": [
+                325,
+                224
+              ]
+            },
+            {
+              "ad": "15",
+              "beklenen": 15,
+              "okunan": 15,
+              "ham": "15",
+              "sure_s": 17.53,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.17,
+                "uretim": 0.23,
+                "girdi_token": 1178
+              },
+              "kesit_boyu": [
+                287,
+                224
+              ]
+            },
+            {
+              "ad": "90",
+              "beklenen": 90,
+              "okunan": 90,
+              "ham": "90",
+              "sure_s": 17.33,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 16.99,
+                "uretim": 0.22,
+                "girdi_token": 1169
+              },
+              "kesit_boyu": [
+                302,
+                224
+              ]
+            },
+            {
+              "ad": "10",
+              "beklenen": 10,
+              "okunan": 10,
+              "ham": "10",
+              "sure_s": 17.97,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.64,
+                "uretim": 0.22,
+                "girdi_token": 1159
+              },
+              "kesit_boyu": [
+                246,
+                224
+              ]
+            },
+            {
+              "ad": "140",
+              "beklenen": 140,
+              "okunan": 140,
+              "ham": "140",
+              "sure_s": 17.53,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.11,
+                "uretim": 0.31,
+                "girdi_token": 1145
+              },
+              "kesit_boyu": [
+                347,
+                224
+              ]
+            },
+            {
+              "ad": "50",
+              "beklenen": 50,
+              "okunan": 50,
+              "ham": "50",
+              "sure_s": 17.65,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.31,
+                "uretim": 0.22,
+                "girdi_token": 1178
+              },
+              "kesit_boyu": [
+                291,
+                224
+              ]
+            },
+            {
+              "ad": "40",
+              "beklenen": 40,
+              "okunan": null,
+              "ham": "YOK",
+              "sure_s": 17.42,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.11,
+                "uretim": 0.21,
+                "girdi_token": 1169
+              },
+              "kesit_boyu": [
+                308,
+                224
+              ]
+            },
+            {
+              "ad": "120 sağ",
+              "beklenen": 120,
+              "okunan": 120,
+              "ham": "120",
+              "sure_s": 17.71,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.29,
+                "uretim": 0.32,
+                "girdi_token": 1180
+              },
+              "kesit_boyu": [
+                388,
+                224
+              ]
+            }
+          ],
+          "sayilar": [
+            180,
+            80,
+            120,
+            15,
+            90,
+            10,
+            140,
+            50,
+            120
+          ],
+          "toplam_sure_s": 184.67
+        },
+        {
+          "okumalar": [
+            {
+              "ad": "180",
+              "beklenen": 180,
+              "okunan": 180,
+              "ham": "180",
+              "sure_s": 24.58,
+              "ollama": {
+                "model_yukleme": 6.66,
+                "girdi_isleme": 17.58,
+                "uretim": 0.31,
+                "girdi_token": 1178
+              },
+              "kesit_boyu": [
+                289,
+                224
+              ]
+            },
+            {
+              "ad": "108",
+              "beklenen": 108,
+              "okunan": 108,
+              "ham": "108",
+              "sure_s": 17.42,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 16.98,
+                "uretim": 0.31,
+                "girdi_token": 1169
+              },
+              "kesit_boyu": [
+                302,
+                224
+              ]
+            },
+            {
+              "ad": "120 sol",
+              "beklenen": 120,
+              "okunan": 120,
+              "ham": "120",
+              "sure_s": 18.0,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.57,
+                "uretim": 0.32,
+                "girdi_token": 1158
+              },
+              "kesit_boyu": [
+                325,
+                224
+              ]
+            },
+            {
+              "ad": "15",
+              "beklenen": 15,
+              "okunan": 15,
+              "ham": "15",
+              "sure_s": 17.52,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.17,
+                "uretim": 0.23,
+                "girdi_token": 1178
+              },
+              "kesit_boyu": [
+                287,
+                224
+              ]
+            },
+            {
+              "ad": "90",
+              "beklenen": 90,
+              "okunan": null,
+              "ham": "YOK",
+              "sure_s": 17.35,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 16.99,
+                "uretim": 0.22,
+                "girdi_token": 1169
+              },
+              "kesit_boyu": [
+                302,
+                224
+              ]
+            },
+            {
+              "ad": "10",
+              "beklenen": 10,
+              "okunan": 10,
+              "ham": "10",
+              "sure_s": 17.8,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.49,
+                "uretim": 0.21,
+                "girdi_token": 1159
+              },
+              "kesit_boyu": [
+                246,
+                224
+              ]
+            },
+            {
+              "ad": "140",
+              "beklenen": 140,
+              "okunan": 140,
+              "ham": "140",
+              "sure_s": 17.35,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 16.94,
+                "uretim": 0.32,
+                "girdi_token": 1145
+              },
+              "kesit_boyu": [
+                347,
+                224
+              ]
+            },
+            {
+              "ad": "50",
+              "beklenen": 50,
+              "okunan": 50,
+              "ham": "50",
+              "sure_s": 17.45,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.15,
+                "uretim": 0.21,
+                "girdi_token": 1178
+              },
+              "kesit_boyu": [
+                291,
+                224
+              ]
+            },
+            {
+              "ad": "40",
+              "beklenen": 40,
+              "okunan": null,
+              "ham": "YOK",
+              "sure_s": 17.28,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 16.97,
+                "uretim": 0.22,
+                "girdi_token": 1169
+              },
+              "kesit_boyu": [
+                308,
+                224
+              ]
+            },
+            {
+              "ad": "120 sağ",
+              "beklenen": 120,
+              "okunan": 120,
+              "ham": "120",
+              "sure_s": 17.61,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.17,
+                "uretim": 0.31,
+                "girdi_token": 1180
+              },
+              "kesit_boyu": [
+                388,
+                224
+              ]
+            }
+          ],
+          "sayilar": [
+            180,
+            108,
+            120,
+            15,
+            10,
+            140,
+            50,
+            120
+          ],
+          "toplam_sure_s": 182.45
+        }
+      ]
+    },
+    "02": {
+      "calistirmalar": [
+        {
+          "okumalar": [
+            {
+              "ad": "15",
+              "beklenen": 15,
+              "okunan": 15,
+              "ham": "15",
+              "sure_s": 22.99,
+              "ollama": {
+                "model_yukleme": 5.55,
+                "girdi_isleme": 17.2,
+                "uretim": 0.21,
+                "girdi_token": 1161
+              },
+              "kesit_boyu": [
+                238,
+                224
+              ]
+            },
+            {
+              "ad": "300",
+              "beklenen": 300,
+              "okunan": 300,
+              "ham": "300",
+              "sure_s": 17.57,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.16,
+                "uretim": 0.31,
+                "girdi_token": 1180
+              },
+              "kesit_boyu": [
+                388,
+                224
+              ]
+            },
+            {
+              "ad": "45 üst sol",
+              "beklenen": 45,
+              "okunan": 5,
+              "ham": "5",
+              "sure_s": 17.11,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 16.92,
+                "uretim": 0.11,
+                "girdi_token": 1141
+              },
+              "kesit_boyu": [
+                294,
+                224
+              ]
+            },
+            {
+              "ad": "45 üst sağ",
+              "beklenen": 45,
+              "okunan": 55,
+              "ham": "55",
+              "sure_s": 17.3,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 16.99,
+                "uretim": 0.21,
+                "girdi_token": 1169
+              },
+              "kesit_boyu": [
+                300,
+                224
+              ]
+            },
+            {
+              "ad": "90",
+              "beklenen": 90,
+              "okunan": 960,
+              "ham": "960",
+              "sure_s": 17.76,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.31,
+                "uretim": 0.34,
+                "girdi_token": 1149
+              },
+              "kesit_boyu": [
+                280,
+                224
+              ]
+            },
+            {
+              "ad": "40 üst",
+              "beklenen": 40,
+              "okunan": 40,
+              "ham": "40",
+              "sure_s": 17.56,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.21,
+                "uretim": 0.22,
+                "girdi_token": 1185
+              },
+              "kesit_boyu": [
+                334,
+                224
+              ]
+            },
+            {
+              "ad": "45 alt",
+              "beklenen": 45,
+              "okunan": 15,
+              "ham": "15",
+              "sure_s": 17.29,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 16.95,
+                "uretim": 0.21,
+                "girdi_token": 1145
+              },
+              "kesit_boyu": [
+                350,
+                224
+              ]
+            },
+            {
+              "ad": "200 sol",
+              "beklenen": 200,
+              "okunan": 200,
+              "ham": "200",
+              "sure_s": 17.48,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.06,
+                "uretim": 0.31,
+                "girdi_token": 1171
+              },
+              "kesit_boyu": [
+                362,
+                224
+              ]
+            },
+            {
+              "ad": "40 orta",
+              "beklenen": 40,
+              "okunan": 40,
+              "ham": "40",
+              "sure_s": 17.89,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.56,
+                "uretim": 0.21,
+                "girdi_token": 1158
+              },
+              "kesit_boyu": [
+                322,
+                224
+              ]
+            },
+            {
+              "ad": "40 sol alt",
+              "beklenen": 40,
+              "okunan": 120,
+              "ham": "120",
+              "sure_s": 17.43,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 16.99,
+                "uretim": 0.33,
+                "girdi_token": 1169
+              },
+              "kesit_boyu": [
+                303,
+                224
+              ]
+            },
+            {
+              "ad": "40 sağ alt",
+              "beklenen": 40,
+              "okunan": null,
+              "ham": "YOK",
+              "sure_s": 17.34,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.0,
+                "uretim": 0.22,
+                "girdi_token": 1169
+              },
+              "kesit_boyu": [
+                300,
+                224
+              ]
+            },
+            {
+              "ad": "240",
+              "beklenen": 240,
+              "okunan": null,
+              "ham": "YOK",
+              "sure_s": 17.09,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 16.77,
+                "uretim": 0.21,
+                "girdi_token": 1137
+              },
+              "kesit_boyu": [
+                404,
+                224
+              ]
+            },
+            {
+              "ad": "102",
+              "beklenen": 102,
+              "okunan": 162,
+              "ham": "162",
+              "sure_s": 18.04,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.55,
+                "uretim": 0.38,
+                "girdi_token": 1155
+              },
+              "kesit_boyu": [
+                370,
+                224
+              ]
+            },
+            {
+              "ad": "200 alt",
+              "beklenen": 200,
+              "okunan": 200,
+              "ham": "200",
+              "sure_s": 17.18,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 16.78,
+                "uretim": 0.31,
+                "girdi_token": 1137
+              },
+              "kesit_boyu": [
+                403,
+                224
+              ]
+            }
+          ],
+          "sayilar": [
+            15,
+            300,
+            5,
+            55,
+            960,
+            40,
+            15,
+            200,
+            40,
+            120,
+            162,
+            200
+          ],
+          "toplam_sure_s": 250.17
+        },
+        {
+          "okumalar": [
+            {
+              "ad": "15",
+              "beklenen": 15,
+              "okunan": 15,
+              "ham": "15",
+              "sure_s": 24.07,
+              "ollama": {
+                "model_yukleme": 6.69,
+                "girdi_isleme": 17.14,
+                "uretim": 0.2,
+                "girdi_token": 1161
+              },
+              "kesit_boyu": [
+                238,
+                224
+              ]
+            },
+            {
+              "ad": "300",
+              "beklenen": 300,
+              "okunan": 300,
+              "ham": "300",
+              "sure_s": 17.53,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.14,
+                "uretim": 0.3,
+                "girdi_token": 1180
+              },
+              "kesit_boyu": [
+                388,
+                224
+              ]
+            },
+            {
+              "ad": "45 üst sol",
+              "beklenen": 45,
+              "okunan": 25,
+              "ham": "25",
+              "sure_s": 17.12,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 16.84,
+                "uretim": 0.2,
+                "girdi_token": 1141
+              },
+              "kesit_boyu": [
+                294,
+                224
+              ]
+            },
+            {
+              "ad": "45 üst sağ",
+              "beklenen": 45,
+              "okunan": 55,
+              "ham": "55",
+              "sure_s": 17.3,
+              "ollama": {
+                "model_yukleme": 0.02,
+                "girdi_isleme": 16.98,
+                "uretim": 0.21,
+                "girdi_token": 1169
+              },
+              "kesit_boyu": [
+                300,
+                224
+              ]
+            },
+            {
+              "ad": "90",
+              "beklenen": 90,
+              "okunan": 960,
+              "ham": "960",
+              "sure_s": 17.71,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.3,
+                "uretim": 0.31,
+                "girdi_token": 1149
+              },
+              "kesit_boyu": [
+                280,
+                224
+              ]
+            },
+            {
+              "ad": "40 üst",
+              "beklenen": 40,
+              "okunan": 40,
+              "ham": "40",
+              "sure_s": 17.68,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.35,
+                "uretim": 0.21,
+                "girdi_token": 1185
+              },
+              "kesit_boyu": [
+                334,
+                224
+              ]
+            },
+            {
+              "ad": "45 alt",
+              "beklenen": 45,
+              "okunan": null,
+              "ham": "YOK",
+              "sure_s": 17.42,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.09,
+                "uretim": 0.2,
+                "girdi_token": 1145
+              },
+              "kesit_boyu": [
+                350,
+                224
+              ]
+            },
+            {
+              "ad": "200 sol",
+              "beklenen": 200,
+              "okunan": 200,
+              "ham": "200",
+              "sure_s": 17.62,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.2,
+                "uretim": 0.31,
+                "girdi_token": 1171
+              },
+              "kesit_boyu": [
+                362,
+                224
+              ]
+            },
+            {
+              "ad": "40 orta",
+              "beklenen": 40,
+              "okunan": 40,
+              "ham": "40",
+              "sure_s": 17.93,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.61,
+                "uretim": 0.21,
+                "girdi_token": 1158
+              },
+              "kesit_boyu": [
+                322,
+                224
+              ]
+            },
+            {
+              "ad": "40 sol alt",
+              "beklenen": 40,
+              "okunan": 120,
+              "ham": "120",
+              "sure_s": 17.56,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.12,
+                "uretim": 0.33,
+                "girdi_token": 1169
+              },
+              "kesit_boyu": [
+                303,
+                224
+              ]
+            },
+            {
+              "ad": "40 sağ alt",
+              "beklenen": 40,
+              "okunan": null,
+              "ham": "YOK",
+              "sure_s": 17.5,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.14,
+                "uretim": 0.21,
+                "girdi_token": 1169
+              },
+              "kesit_boyu": [
+                300,
+                224
+              ]
+            },
+            {
+              "ad": "240",
+              "beklenen": 240,
+              "okunan": null,
+              "ham": "YOK",
+              "sure_s": 17.24,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 16.93,
+                "uretim": 0.21,
+                "girdi_token": 1137
+              },
+              "kesit_boyu": [
+                404,
+                224
+              ]
+            },
+            {
+              "ad": "102",
+              "beklenen": 102,
+              "okunan": 162,
+              "ham": "162",
+              "sure_s": 18.0,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.57,
+                "uretim": 0.33,
+                "girdi_token": 1155
+              },
+              "kesit_boyu": [
+                370,
+                224
+              ]
+            },
+            {
+              "ad": "200 alt",
+              "beklenen": 200,
+              "okunan": 200,
+              "ham": "200",
+              "sure_s": 17.33,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 16.89,
+                "uretim": 0.32,
+                "girdi_token": 1137
+              },
+              "kesit_boyu": [
+                403,
+                224
+              ]
+            }
+          ],
+          "sayilar": [
+            15,
+            300,
+            25,
+            55,
+            960,
+            40,
+            200,
+            40,
+            120,
+            162,
+            200
+          ],
+          "toplam_sure_s": 252.15
+        },
+        {
+          "okumalar": [
+            {
+              "ad": "15",
+              "beklenen": 15,
+              "okunan": 15,
+              "ham": "15",
+              "sure_s": 24.54,
+              "ollama": {
+                "model_yukleme": 6.97,
+                "girdi_isleme": 17.32,
+                "uretim": 0.21,
+                "girdi_token": 1161
+              },
+              "kesit_boyu": [
+                238,
+                224
+              ]
+            },
+            {
+              "ad": "300",
+              "beklenen": 300,
+              "okunan": 300,
+              "ham": "300",
+              "sure_s": 17.68,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.27,
+                "uretim": 0.32,
+                "girdi_token": 1180
+              },
+              "kesit_boyu": [
+                388,
+                224
+              ]
+            },
+            {
+              "ad": "45 üst sol",
+              "beklenen": 45,
+              "okunan": 15,
+              "ham": "15",
+              "sure_s": 17.29,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.0,
+                "uretim": 0.21,
+                "girdi_token": 1141
+              },
+              "kesit_boyu": [
+                294,
+                224
+              ]
+            },
+            {
+              "ad": "45 üst sağ",
+              "beklenen": 45,
+              "okunan": 55,
+              "ham": "55",
+              "sure_s": 17.41,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.1,
+                "uretim": 0.21,
+                "girdi_token": 1169
+              },
+              "kesit_boyu": [
+                300,
+                224
+              ]
+            },
+            {
+              "ad": "90",
+              "beklenen": 90,
+              "okunan": 960,
+              "ham": "960",
+              "sure_s": 17.88,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.44,
+                "uretim": 0.31,
+                "girdi_token": 1149
+              },
+              "kesit_boyu": [
+                280,
+                224
+              ]
+            },
+            {
+              "ad": "40 üst",
+              "beklenen": 40,
+              "okunan": 40,
+              "ham": "40",
+              "sure_s": 17.68,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.34,
+                "uretim": 0.21,
+                "girdi_token": 1185
+              },
+              "kesit_boyu": [
+                334,
+                224
+              ]
+            },
+            {
+              "ad": "45 alt",
+              "beklenen": 45,
+              "okunan": 15,
+              "ham": "15",
+              "sure_s": 17.43,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.08,
+                "uretim": 0.22,
+                "girdi_token": 1145
+              },
+              "kesit_boyu": [
+                350,
+                224
+              ]
+            },
+            {
+              "ad": "200 sol",
+              "beklenen": 200,
+              "okunan": 200,
+              "ham": "200",
+              "sure_s": 17.75,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.31,
+                "uretim": 0.32,
+                "girdi_token": 1171
+              },
+              "kesit_boyu": [
+                362,
+                224
+              ]
+            },
+            {
+              "ad": "40 orta",
+              "beklenen": 40,
+              "okunan": 40,
+              "ham": "40",
+              "sure_s": 18.03,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.71,
+                "uretim": 0.21,
+                "girdi_token": 1158
+              },
+              "kesit_boyu": [
+                322,
+                224
+              ]
+            },
+            {
+              "ad": "40 sol alt",
+              "beklenen": 40,
+              "okunan": 120,
+              "ham": "120",
+              "sure_s": 17.74,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.26,
+                "uretim": 0.31,
+                "girdi_token": 1169
+              },
+              "kesit_boyu": [
+                303,
+                224
+              ]
+            },
+            {
+              "ad": "40 sağ alt",
+              "beklenen": 40,
+              "okunan": null,
+              "ham": "YOK",
+              "sure_s": 17.59,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.25,
+                "uretim": 0.21,
+                "girdi_token": 1169
+              },
+              "kesit_boyu": [
+                300,
+                224
+              ]
+            },
+            {
+              "ad": "240",
+              "beklenen": 240,
+              "okunan": null,
+              "ham": "YOK",
+              "sure_s": 17.43,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.08,
+                "uretim": 0.23,
+                "girdi_token": 1137
+              },
+              "kesit_boyu": [
+                404,
+                224
+              ]
+            },
+            {
+              "ad": "102",
+              "beklenen": 102,
+              "okunan": 162,
+              "ham": "162",
+              "sure_s": 18.15,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.7,
+                "uretim": 0.32,
+                "girdi_token": 1155
+              },
+              "kesit_boyu": [
+                370,
+                224
+              ]
+            },
+            {
+              "ad": "200 alt",
+              "beklenen": 200,
+              "okunan": 200,
+              "ham": "200",
+              "sure_s": 17.71,
+              "ollama": {
+                "model_yukleme": 0.01,
+                "girdi_isleme": 17.26,
+                "uretim": 0.32,
+                "girdi_token": 1137
+              },
+              "kesit_boyu": [
+                403,
+                224
+              ]
+            }
+          ],
+          "sayilar": [
+            15,
+            300,
+            15,
+            55,
+            960,
+            40,
+            15,
+            200,
+            40,
+            120,
+            162,
+            200
+          ],
+          "toplam_sure_s": 254.46
+        }
+      ]
+    }
+  }
+}
