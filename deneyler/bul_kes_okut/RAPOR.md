@@ -53,6 +53,10 @@ neden görünüyor: **defterin dikey çizgisi tam `0`'ın ortasından geçiyor**
 benziyor. Yani bu hata bağlam eksikliğinden değil, defter çizgisinden kaynaklanıyor olabilir.
 Önceki deneyde önerilen **"kes, büyüt, tekrar okut" bu hatayı tek başına düzeltmedi.**
 
+> **Düzeltme (aynı gün, `../cizgi_silme/RAPOR.md`):** Defter çizgileri silindikten sonra da `0`'ın
+> içindeki çizgi kaldı. Yani çizgi mürekkep, büyük olasılıkla ölçü işareti. "Defter çizgisi" hipotezi
+> büyük olasılıkla yanlış.
+
 ## Neden daha kötü? (hipotezler, test edilmedi)
 
 1. **Bağlam kaybı:** Bütün fotoğrafta model aynı el yazısının "4"ünü birçok kez görüyor; ayrıca sayının

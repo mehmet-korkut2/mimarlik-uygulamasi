@@ -1,0 +1,186 @@
+{
+  "yontem": "Qwen3-VL (Ollama), defter çizgileri silinmiş",
+  "model": "qwen3-vl:4b-instruct",
+  "num_ctx": 8192,
+  "istem": "Bu fotoğraf, bir mimarın bir odanın duvarlarını elle çizdiği bir kroki. Duvarların yanına el yazısıyla ölçü sayıları (cm) yazılmış. Fotoğraftaki el yazısı ölçü sayılarının HEPSİNİ listele; aynı sayı birden fazla kez yazılmışsa her birini ayrı yaz. Okuyamadığın bir sayıyı tahmin etme, atla. Sadece bir JSON dizi döndür, başka hiçbir şey yazma. Örnek: [180, 50, 40]",
+  "krokiler": {
+    "01": {
+      "on_isleme_s": 0.045,
+      "calistirmalar": [
+        {
+          "ham": "[180, 108, 120, 15, 90, 10, 140, 50, 40, 120]",
+          "sayilar": [
+            180,
+            108,
+            120,
+            15,
+            90,
+            10,
+            140,
+            50,
+            40,
+            120
+          ],
+          "sure_s": 56.8,
+          "ollama_sureleri_s": {
+            "toplam": 56.79,
+            "model_yukleme": 6.24,
+            "girdi_isleme": 42.46,
+            "uretim": 8.01
+          },
+          "token": {
+            "girdi": 2443,
+            "cikti": 46
+          }
+        },
+        {
+          "ham": "[180, 108, 120, 15, 90, 10, 140, 50, 40, 120]",
+          "sayilar": [
+            180,
+            108,
+            120,
+            15,
+            90,
+            10,
+            140,
+            50,
+            40,
+            120
+          ],
+          "sure_s": 55.84,
+          "ollama_sureleri_s": {
+            "toplam": 55.83,
+            "model_yukleme": 5.13,
+            "girdi_isleme": 42.71,
+            "uretim": 7.93
+          },
+          "token": {
+            "girdi": 2443,
+            "cikti": 46
+          }
+        },
+        {
+          "ham": "[180, 108, 120, 15, 90, 10, 140, 50, 40, 120]",
+          "sayilar": [
+            180,
+            108,
+            120,
+            15,
+            90,
+            10,
+            140,
+            50,
+            40,
+            120
+          ],
+          "sure_s": 55.91,
+          "ollama_sureleri_s": {
+            "toplam": 55.9,
+            "model_yukleme": 5.05,
+            "girdi_isleme": 42.73,
+            "uretim": 8.07
+          },
+          "token": {
+            "girdi": 2443,
+            "cikti": 46
+          }
+        }
+      ]
+    },
+    "02": {
+      "on_isleme_s": 0.054,
+      "calistirmalar": [
+        {
+          "ham": "[15, 300, 45, 45, 90, 40, 45, 200, 40, 40, 40, 200, 162, 240]",
+          "sayilar": [
+            15,
+            300,
+            45,
+            45,
+            90,
+            40,
+            45,
+            200,
+            40,
+            40,
+            40,
+            200,
+            162,
+            240
+          ],
+          "sure_s": 58.72,
+          "ollama_sureleri_s": {
+            "toplam": 58.72,
+            "model_yukleme": 5.05,
+            "girdi_isleme": 42.81,
+            "uretim": 10.8
+          },
+          "token": {
+            "girdi": 2443,
+            "cikti": 62
+          }
+        },
+        {
+          "ham": "[15, 300, 45, 45, 90, 40, 45, 200, 40, 40, 40, 200, 162, 240]",
+          "sayilar": [
+            15,
+            300,
+            45,
+            45,
+            90,
+            40,
+            45,
+            200,
+            40,
+            40,
+            40,
+            200,
+            162,
+            240
+          ],
+          "sure_s": 58.71,
+          "ollama_sureleri_s": {
+            "toplam": 58.71,
+            "model_yukleme": 5.06,
+            "girdi_isleme": 43.03,
+            "uretim": 10.56
+          },
+          "token": {
+            "girdi": 2443,
+            "cikti": 62
+          }
+        },
+        {
+          "ham": "[15, 300, 45, 45, 90, 40, 45, 200, 40, 40, 40, 200, 240, 162]",
+          "sayilar": [
+            15,
+            300,
+            45,
+            45,
+            90,
+            40,
+            45,
+            200,
+            40,
+            40,
+            40,
+            200,
+            240,
+            162
+          ],
+          "sure_s": 59.44,
+          "ollama_sureleri_s": {
+            "toplam": 59.43,
+            "model_yukleme": 5.76,
+            "girdi_isleme": 43.06,
+            "uretim": 10.55
+          },
+          "token": {
+            "girdi": 2443,
+            "cikti": 62
+          }
+        }
+      ]
+    }
+  }
+}
