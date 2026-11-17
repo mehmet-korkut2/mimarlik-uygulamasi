@@ -6,45 +6,49 @@ Plan: `docs/superpowers/plans/2026-11-17-sayi-duvar-eslestirme.md` · Tablolar: 
 
 ## Kısa cevap
 
-**Kazanan yaklaşım Y2: numaralı parçaları Qwen'e sormak.** Kenar parçaları verildiğinde Qwen3-VL 4B,
-24 sayıdan **19/18/19**'unu doğru parçaya bağladı (P numaraları karışık sırayla). Geometrik ana yolun
-(Y1) üst sınırı bile 18. Gerçekçi hali, yani bulunan kenarlar + bulunan bölgeler + Qwen değerleri ise
-**9–13**'te kaldı.
+**Aynı (gerçek) kenarlar verildiğinde Y2 ile geometrik yolun üst sınırı berabere.**
+- **Y2** (numaralı parçaları Qwen'e sormak, numaralar karışık sırayla): 24 sayıdan **19/18/19**.
+- **Y1 üst sınır** (gerçek kenar + gerçek kutu + gerçek değer): **19**.
 
-**Öneri:** Ana yolu değiştirmek. Kenar bulma (Y1'in ilk adımı) kalsın; kenarlar fotoğrafa
-numaralanarak çizilsin ve sayı okuma ile bağlama tek bir Qwen çağrısında yapılsın. Ancak Y2 burada
-**gerçek** kenarlarla ölçüldü. **Bulunan** kenarlarla ölçülmedi; kararın asıl sınavı bu ve sonraki
-adım (aşağıda).
+Y2 bunu kendi okuduğu değerlerle yapıyor; Y1'in üst sınırı ise gerçek değerleri ve gerçek kutuları
+kullanıyor. **Y1'in gerçekçi hali** (bulunan kenarlar + bulunan bölgeler + Qwen değerleri) **10–14**'te
+kaldı, ve taban çizgisinden (Y3) belirgin şekilde iyi değil.
 
-| Yaklaşım | Katı /24 (çalıştırma başına) | Ne gösteriyor |
-|---|---|---|
-| Y1 üst sınır (gerçek kenar + gerçek kutu + gerçek değer) | 18 | Bağlama kuralının kendi tavanı |
-| Y1 ara (bulunan kenar + gerçek kutu + gerçek değer) | 14 | Kenar bulmanın maliyeti: −4 |
-| Y1 gerçekçi, hane ipuçlu | 12 / 13 / 9 | Uçtan uca |
-| Y3 taban (Qwen kutusu → en yakın parça), gerçek kenar | 16 / 15 / 16 | |
-| Y3 taban, bulunan kenar | 11 / 13 / 11 | Y1 gerçekçiyle aynı düzeyde |
-| **Y2, kontur sırasıyla numaralı** | **21 / 22 / 22** | Sıradan da yararlanıyor (aşağıda) |
-| **Y2, karışık numaralı** | **19 / 18 / 19** | Asıl Y2 sonucu |
+**Karar henüz verilemez.** Y2 yalnız **gerçek** kenarlarla ölçüldü. Asıl soru, **bulunan** kenarlarla
+Y2'nin Y1'in gerçekçi halini geçip geçmediği. Bu sonraki adım. Şimdiki işaret Y2 lehine: Y2'nin
+gerektirdiği tek ön adım kenar bulma, Y1 ise ayrıca bölge bulma ve değer atamada kayıp veriyor.
 
-Mimara bağlı 7 sayı (`15/90/10`, `15/9-0`, `300`, `200`) hariç (/17): Y1 üst sınır 13, Y1 gerçekçi
-8–12, Y2 karışık 14–15.
+| Yaklaşım | Kenarlar | Katı /24 (çalıştırma başına) | Mimara bağlılar hariç /17 | Fazla bağlama |
+|---|---|---|---|---|
+| Y1 üst sınır (gerçek kutu + gerçek değer) | gerçek | 19 | 15 | 5 |
+| Y1 ara (gerçek kutu + gerçek değer) | bulunan | 14 | 13 | 10 |
+| Y1 gerçekçi (bulunan bölge + Qwen), hane ipuçlu | bulunan | 13 / 14 / 10 | 12 / 13 / 9 | 14 / 15 / 15 |
+| Y3 taban (Qwen kutusu → en yakın parça) | gerçek | 13 / 15 / 17 | 9 / 13 / 13 | 14 / 14 / 8 |
+| Y3 taban | bulunan | 9 / 13 / 13 | 8 / 12 / 12 | 18 / 16 / 12 |
+| Y2, kontur sırasıyla numaralı | gerçek | 21 / 22 / 22 | 16 / 16 / 16 | 5 / 4 / 4 |
+| **Y2, karışık numaralı** | gerçek | **19 / 18 / 19** | **14 / 15 / 14** | 7 / 8 / 7 |
+
+**Fazla bağlama:** Doğru olmayan bağlama sayısı (yanlış parça, uydurma ya da fazla okunan değer).
+Tasarım 7.3'e göre fazla okunan bir değerin bir yere bağlanması hatadır; "katı" sütunu bunu
+cezalandırmıyor, bu yüzden ayrıca gösteriliyor. Y1'in gerçekçi hali çalıştırma başına 14–15 fazla
+bağlama üretiyor (aşağıda).
 
 ## Hata nereden geliyor (Y1)
 
-**1. Bağlama kuralının kendisi zayıf: üst sınır 18/24.**
-- Ölçü işaretiyle bağlananlar 9/9 doğru, "en yakın parça" ile bağlananlar 15'te 9 doğru.
-- Kaybedilen 6 sayının hepsi köşe yakınında. İşaret bulunamayınca sayı komşu duvara gidiyor:
+**1. Bağlama kuralının tavanı: üst sınır 19/24.**
+- Ölçü işaretiyle bağlananlar 9/9 doğru, "en yakın parça" ile bağlananlar 15'te 10 doğru.
+- Kaybedilen 5 sayının hepsi köşe yakınında ve ölçü işaretleri bulunamamış:
   - 01: `108` sol duvar yerine üst duvara gidiyor.
-  - 01: `40`, kırık bir kılavuz çizgiyle bağlı.
-  - 02: iki `45` sağ üst basamakta.
-  - 02: `15/9-0` iç kapıda.
+  - 01: `10`, köşedeki kısa duvara kavisli bir kılavuz çizgiyle bağlı.
+  - 02: `45` sağ üst basamakta.
+  - 02: iç kapıdaki `15` ve `90`.
 - **Asıl neden:** kısa ölçü tireleri (`-108`, `-45`) karakter yüksekliğinden kısa olduğu için çizgi
-  olarak hiç bulunamıyor.
+  olarak bulunamıyor.
 
-**2. Kenar bulma: −4.**
+**2. Kenar bulma: −5 (19 → 14).**
 - 01'in sol alt kenarındaki `10/90/15` parçaları 33 ve 50 px. Çizgi bulucunun en kısa çizgi sınırının
-  (h = 37 px) altında kaldıkları için bulunamıyor. Bunun sonucu olarak komşu `120` duvarı da
-  budanıyor (bir ucu boşta kalıyor). 01'de 10 gerçek parçanın 6'sı bulundu, kontur kapanmıyor.
+  (h = 37 px) altında kaldıkları için bulunamıyor. Komşu `120` duvarı da bir ucu boşta kaldığı için
+  budanıyor. 01'de 10 gerçek parçanın 6'sı bulundu, kontur kapanmıyor.
 - 02'de dış konturun 10 kenarı sıra olarak gerçekle aynı, ama parça düzeyinde iki fark var:
   - Üst kenar, iç duvarın üst ucu bulunamadığı için T-birleşimde bölünmedi. Bu yüzden ara katmanda
     `300` kaybediliyor.
@@ -53,14 +57,20 @@ Mimara bağlı 7 sayı (`15/90/10`, `15/9-0`, `300`, `200`) hariç (/17): Y1 üs
   Bu yüzden puanlama "kontur doğru: hayır" diyor. 16 gerçek parçanın 11'i bulundu. Fazla 11 parça sol
   üstteki küçük odadan geliyor: kapı kanadı, kapı yayı, `9/0` ve `X` çizgileri.
 
-**3. Bölge bulma + değer atama: −2 ile −5.**
-- Bölge bulma iki krokide de 24 sayının hepsini kapsıyor. Ama 02'de 28 bölgenin 13'ü yazı değil.
+**3. Bölge bulma ve değer atama: 0 ile −4.**
+- Bölge bulma iki krokide de 24 sayının hepsini kapsıyor, ama 02'de 28 bölgenin 13'ü yazı değil.
 - Değeri bölgeye Qwen'in kutularıyla atamak 02'de zayıf: 17 atamanın yalnız ~10'u doğru değeri
   alıyor. Qwen kutuları 02'de kaymıştı (konum deneyi).
-- Sonuç olarak Y1'in gerçekçi hali, Qwen kutusunu doğrudan en yakın parçaya bağlamaktan (Y3, bulunan
-  kenar) daha iyi değil.
+- **Tasarımdan sapma: fazla değerler eşsiz kalmıyor.** Qwen 02'de 14 sayı için 17, 19 ve 14 değer
+  döndürdü. Hepsi atandı (`yeri_bulunamayan` 6 çalıştırmanın hepsinde 0); fazlalar yazı olmayan
+  bölgelere dağıldı.
 
-## Y2 neden iyi, nerede yanılıyor
+  Neden: mesafe üst sınırı (köşegenin %20'si ≈ 400 px) karakter yüksekliğine (23–37 px) göre çok
+  gevşek, neredeyse hiçbir çifti yasaklamıyor. Sınırı daraltmak doğru değerleri de düşürebilir
+  (Qwen'in kutuları 02'de bir sayı boyundan fazla kaymıştı). Bu yeni bir ayar olduğu için bu
+  çalışmada değiştirilmedi; etkisi "Fazla bağlama" sütununda görünüyor.
+
+## Y2 nerede iyi, nerede yanılıyor
 
 - **Okuma ile bağlamayı aynı anda yapıyor;** sayının yerini ayrıca bulmaya gerek kalmıyor.
   Konum deneyinde Qwen'in kutuları kötüydü, ama "bu parçanın yanındaki sayı" sorusunu çok daha iyi
@@ -68,7 +78,7 @@ Mimara bağlı 7 sayı (`15/90/10`, `15/9-0`, `300`, `200`) hariç (/17): Y1 üs
 - **Sıra kontrolü:**
   - Kontur sırasıyla numaralandırınca (P1 = sol üstten saat yönünde ilk kenar) 21–22 aldı.
   - Numaralar karışınca 18–19'a düştü. Kayıp çoğunlukla 01'de: `50` ve `40` köşede yer değiştirdi.
-  - Yani sıranın 2–4 sayılık katkısı var, ama bağlamanın büyük kısmı gerçek.
+  - Yani sıranın 2–4 sayılık katkısı var. Gerçek sonuç karışık sıradaki 18–19.
 - **Kalan hataları:**
   - `102` → `162` okuma hatası (bağlama doğru, değer yanlış).
   - İç kapı bölgesinde `15/90/40` karışıyor.
@@ -78,14 +88,32 @@ Mimara bağlı 7 sayı (`15/90/10`, `15/9-0`, `300`, `200`) hariç (/17): Y1 üs
 - **Süre:** kroki başına ~70–80 s (sadece okuma ~56–60 s). Ayrı bir okuma çağrısına gerek kalmadığı için
   toplamda daha kısa.
 
+## İnceleme düzeltmeleri (bağımsız inceleme sonrası)
+
+1. **Parça sınırında eşitlik:**
+   - **Sorun:** Bir nokta iki parçanın ortak ucuna düştüğünde (ölçü işaretleri çoğu zaman tam oraya
+     düşer, köşedeki sayılar da iki duvara eşit uzak olur) seçimi parçaların sırası belirliyordu. Alt
+     ve sol kenarlar ters sırada olduğu için bu, sayıyı açıklık parçasına bağlayabiliyordu.
+   - **Düzeltme:** Artık sayının merkezinin izdüşümünün düştüğü parça seçiliyor.
+   - **Etki:**
+     - Ü 18 → 19.
+     - Y1 gerçekçi 12/13/9 → 13/14/10.
+     - Y3 (gerçek kenar) 16/15/16 → 13/15/17. Eski değerler kısmen eşitliklerin şans eseri doğru
+       bozulmasından geliyordu; yeni değerler parça sırasından bağımsız.
+2. **Kenar yönü:** Birleşen iki eğik kısa parça ±15°'lik toleransın dışına çıkınca kenarın yönü boş
+   (`None`) kalabiliyordu ve geometri adımıyla sözleşmeyi ("yatay" | "dikey") bozuyordu. Yön artık
+   parçaların çoğunluğundan alınıyor.
+3. **Fazla bağlama** sütunu eklendi (yukarıda).
+
 ## Hane ipucu ve diğer denemeler
 
 - **Hane ipucu** (kullanıcı eklemesi) eşleştirme puanını **değiştirmedi** (ipuçlu ve ipuçsuz birebir
   aynı). Doğru değeri alan bölge sayısında da net etkisi sıfır: 01'in 2. çalıştırmasında −1, 02'nin
   3. çalıştırmasında +1, diğer 4 çalıştırmada eşit. Bölgeler artık sayıları tam kapsadığı için
   mesafe tek başına yetiyor; ipucu belirleyici olmuyor.
-- **`temas` kuralı etkisiz:** Kapatıldığında Ü, A ve G birebir aynı. Temasla bağlanan bölgelerin
-  çoğu duvar silme artıklarıydı; en yakın kural da onları yanlış bağlıyor.
+- **`temas` kuralı neredeyse hep gürültüde tetikleniyor.** Gerçekçi katmanda 16 bağlamanın 5'i doğru.
+  Bağlanan bölgelerin çoğu duvar silme artığı. Eşitlik düzeltmesinden önce kapatılıp ölçüldüğünde
+  Ü, A ve G birebir aynıydı. Kaldırılması önerilir.
 - **İşaret payı h/2 → h:** 01'de −1, 02'de +1, net 0. Plan değeri (h/2) korundu.
 
 ## Ayarlanan eşikler (hepsi h = karakter yüksekliği cinsinden; gerekçeleriyle)
@@ -94,7 +122,7 @@ Mimara bağlı 7 sayı (`15/90/10`, `15/9-0`, `300`, `200`) hariç (/17): Y1 üs
 
 | Eşik | Plan | Son | Gerekçe | Bedeli (yanlışsa) |
 |---|---|---|---|---|
-| Doğrudaş birleştirme açısı | 10° | 20° | Kısa kalın çizgilerde Hough açısı ±12° oynuyor; doğrudaşlığı dik mesafe denetliyor | Yakın dik çizgiler birleşebilir (dik mesafe engelliyor) |
+| Doğrudaş birleştirme açısı | 10° | 20° | Kısa kalın çizgilerde Hough açısı ±12° oynuyor; doğrudaşlığı dik mesafe denetliyor | Yakın dik çizgiler birleşebilir; yön artık üyelerden alınıyor (inceleme düzeltmesi 2) |
 | İşaret sayılma uzunluğu | < 3h | < 6h, bir ucu boşta | İşaret rakam çizgileriyle birleşip uzuyor (`240`) | Bir ucu boşta kısa gerçek duvar işaret sayılır (01'deki `120` duvarı) |
 | Kalın leke temizliği | yok | çapı h disk | 01'deki mavi kumaş eksen açısını −17° yapıyordu (doğrusu ~−4°) | h'den kalın gerçek duvar silinir |
 | Köşe/bağlantı toleransı | h/2 | 0,75h | Elle çizilen köşeler tam buluşmuyor; 02'nin konturu kapanmıyordu | Yakın çizgiler arasında sahte köşe |
@@ -116,15 +144,15 @@ yeniden ölçülmeli.
 
 ## Sonraki adım önerisi
 
-1. **Y2'yi bulunan kenarlarla ölçmek** (karışık numaralı, 3'er çalıştırma). Kararın asıl sınavı bu.
+1. **Y2'yi bulunan kenarlarla ölçmek** (karışık numaralı, 3'er çalıştırma). Kararın asıl sınavı bu:
+   Y1 gerçekçi (10–14) ile karşılaştırılacak.
    - 02'de dış kontur doğru bulunduğu için sonucun yakın çıkması beklenir.
-   - 01'de eksik kenarlar (`10/90/15`, `120`) numarasız kalacak. Model bu sayıları ya yanlış parçaya
-     yazacak ya da atlayacak.
+   - 01'de eksik kenarlar (`10/90/15`, `120`) numarasız kalacak.
 2. **Kenar bulmada kısa parçalar.** 01'in sol alt kenarı ve kısa ölçü tireleri için en kısa çizgi
-   sınırını h/2'ye indirmek. Gürültüyü artırır; budama kuralıyla birlikte yeniden ölçülmeli. Bu iş Y2
-   için de gerekli, çünkü numarası olmayan kenarın sayısı sorulamaz.
-3. **Y2 cevabını geometriyle denetlemek:** Y1'in ölçü işareti bağlamaları (9/9 doğru) Y2 ile
-   çeliştiğinde kullanıcıya sormak. Boş olması gereken parçalara yazılan değerler de onay listesinde
+   sınırını h/2'ye indirmek. Gürültüyü artırır; budama kuralıyla birlikte yeniden ölçülmeli. İki yol
+   için de gerekli.
+3. **İki yolu birleştirmek:** Y1'in ölçü işaretiyle yaptığı bağlamalar 9/9 doğru. Y2 ile çeliştiklerinde
+   kullanıcıya sorulabilir. Boş olması gereken parçalara yazılan değerler de onay listesinde
    işaretlenir.
 4. **03–07** (mimarın doğru cevaplarıyla) aynı ölçüm.
 
@@ -136,3 +164,5 @@ yeniden ölçülmeli.
 - **Ü katmanındaki ölçü işaretleri** bulunan sonuçtan alındı. Gerçek kenarlarda işaret yok, adaylar
   mürekkepten bulunuyor. Yani Ü, işaret bulmadaki eksikleri de içeriyor (kısa tireler).
 - Y2 tek istemle, iki numaralandırma sırasıyla denendi; istem iyileştirmesi yapılmadı.
+- `olcumler.md`'deki "atama + bağlama" süresinin ilk değeri (01, ~300 ms) `scipy` içe aktarmasını
+  içeriyor. Algoritmanın kendisi ~1 ms.

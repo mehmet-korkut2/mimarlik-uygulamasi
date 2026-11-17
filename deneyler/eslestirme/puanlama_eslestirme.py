@@ -150,3 +150,12 @@ def bolge_puani(bolgeler, gercek_kutular) -> dict:
     bolunmus = sum(sum(_ortusme(k, b.kutu) >= 0.2 for b in bolgeler) >= 2 for k in gercek_kutular)
     birlesmis = sum(sum(_ortusme(k, b.kutu) >= 0.5 for k in gercek_kutular) >= 2 for b in bolgeler)
     return {"bulunan": bulunan, "yazi_olmayan": yazi_olmayan, "bolunmus": bolunmus, "birlesmis": birlesmis}
+
+
+def fazla_cift(tahmin, gercek) -> int:
+    """Doğru olmayan tahmin çifti sayısı (yanlış parça, uydurma ya da fazla okunan değer).
+
+    eslestirme_puani yalnız doğruları sayar (fazla tahmin ceza almaz); tasarım 7.3 fazla değerlerin
+    "eşsiz kalmadıysa hata" sayılmasını istiyor, bu yüzden ayrıca raporlanır.
+    """
+    return len(tahmin) - eslestirme_puani(tahmin, gercek)

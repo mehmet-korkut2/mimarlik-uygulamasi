@@ -112,3 +112,13 @@ def test_kalin_leke_eksen_acisini_bozmaz():
     sonuc = kenarlari_bul(maske, karakter_yuksekligi(maske))
     assert abs(sonuc.eksen_acisi_derece) < 1
     assert len(sonuc.kenarlar) == beklenen["kenar_sayisi"]
+
+
+def test_birlesen_cizginin_yonu_her_zaman_yatay_ya_da_dikey():
+    """İki 14°'lik kısa parça (dik kayma 8.5 px ≤ h/3) birleşince 22°'lik çizgi olur; yön yine "yatay" kalmalı."""
+    from mimarlik.kenar_bulma import _Cizgi, _birlestir
+    a = _Cizgi((0, 0), (29.1, 7.26))
+    b = _Cizgi((25, 15), (54.1, 22.26))
+    sonuc = _birlestir([a, b], 30.0, 0.0)
+    assert len(sonuc) == 1
+    assert sonuc[0][1] == "yatay"

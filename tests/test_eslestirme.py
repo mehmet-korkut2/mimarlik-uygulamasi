@@ -157,3 +157,45 @@ def test_kroki_kur():
     veri = json.loads(json.dumps(kroki_sozluk(kroki)))
     assert {o["deger"] for o in veri["olculer"]} == {180, 60}
     assert all(o["anlam"] == "uzunluk" for o in veri["olculer"])
+
+
+# --- Final inceleme düzeltmeleri ---
+
+from mimarlik.eslestirme import IsaretAdayi  # noqa: E402
+
+
+def _uc_parcali_kenar(ters):
+    """K1: duvar 0–200, açıklık 200–300, duvar 300–600 (y=100). ters=True: alt/sol kenarlardaki gibi ters sıra."""
+    p = [Parca("K1.1", "K1", "duvar", (0, 100), (200, 100)), Parca("K1.2", "K1", "aciklik", (200, 100), (300, 100)),
+         Parca("K1.3", "K1", "duvar", (300, 100), (600, 100))]
+    if ters:
+        p = [Parca(q.id, q.kenar_id, q.tur, q.bit, q.bas) for q in reversed(p)]
+    return KenarSonucu(0.0, (Kenar("K1", "yatay", tuple(p), True),), ("K1",),
+                       (IsaretAdayi(bas=(300, 100), bit=(300, 140)),))
+
+
+@pytest.mark.parametrize("ters", [False, True])
+def test_sinirdaki_isaret_sayinin_ustundeki_parcaya_baglanir(ters):
+    sonuc = _uc_parcali_kenar(ters)
+    parca, neden = bagla(Bolge(kutu=(310, 135, 450, 170), temas=None), sonuc, 30.0)
+    assert (parca.id, neden) == ("K1.3", "isaret")
+
+
+@pytest.mark.parametrize("ters", [False, True])
+def test_sinirdaki_temas_sayinin_ustundeki_parcaya_baglanir(ters):
+    sonuc = _uc_parcali_kenar(ters)
+    sonuc = KenarSonucu(0.0, sonuc.kenarlar, sonuc.kontur_sirasi, ())
+    parca, neden = bagla(Bolge(kutu=(305, 110, 450, 140), temas=(300, 100)), sonuc, 30.0)
+    assert (parca.id, neden) == ("K1.3", "temas")
+
+
+@pytest.mark.parametrize("ters", [False, True])
+def test_kosedeki_en_yakin_sayinin_yanindaki_duvara_baglanir(ters):
+    """Köşe (0,0); sayının merkezi iki duvara da köşe noktası üzerinden eşit uzak ama yatay duvarın izdüşümünde."""
+    yatay = Kenar("K1", "yatay", (Parca("K1.1", "K1", "duvar", (0, 0), (300, 0)),), True)
+    dikey = Kenar("K2", "dikey", (Parca("K2.1", "K2", "duvar", (0, 0), (0, -300)),), True)
+    kenarlar = (dikey, yatay) if ters else (yatay, dikey)
+    sonuc = KenarSonucu(0.0, kenarlar, ("K1", "K2"), ())
+    # merkez (0, 30): yatay duvara dik mesafe 30 (izdüşüm x=0, uçta), dikey duvara da 30 (uç (0,0))
+    parca, neden = bagla(Bolge(kutu=(-20, 20, 20, 40), temas=None), sonuc, 30.0)
+    assert neden == "en_yakin" and parca.id == "K1.1"

@@ -16,7 +16,7 @@ from PIL import Image, ImageDraw
 
 KLASOR = Path(__file__).resolve().parent
 sys.path.insert(0, str(KLASOR))
-from puanlama_eslestirme import (REPO, bolge_puani, ciftleri_cevir, eslestirme_puani, gercek_ciftler,  # noqa: E402
+from puanlama_eslestirme import (REPO, bolge_puani, ciftleri_cevir, eslestirme_puani, fazla_cift, gercek_ciftler,  # noqa: E402
                                  gercek_kenarlar, kenar_puani, kenara_eslestir, mimara_bagli_ciftler,
                                  parcalari_eslestir)
 sys.path.insert(0, str(KLASOR.parent / "konum_deneyi"))
@@ -85,7 +85,7 @@ class Kroki:
                 "gevsek": eslestirme_puani(gevsek, self.dogru, kenar_duzeyi=True),
                 "kati_haric": eslestirme_puani(kati, self.dogru, haric=self.mimara),
                 "gevsek_haric": eslestirme_puani(gevsek, self.dogru, kenar_duzeyi=True, haric=self.mimara),
-                "tahmin_sayisi": len(tahmin)}
+                "fazla": fazla_cift(kati, self.dogru), "tahmin_sayisi": len(tahmin)}
 
 
 def _oge(ad, deger, kutu, parca, neden, kroki, uzay):
@@ -134,7 +134,7 @@ def katman_y3(kroki, ogeler, uzay):
     tahmin = []
     for deger, kutu in ogeler:
         merkez = ((kutu[0] + kutu[2]) / 2, (kutu[1] + kutu[3]) / 2)
-        p = parcayi_bul(merkez, sonuc_k.kenarlar, EN_YAKIN_SINIRI * kroki.h * 100)  # sınırsız: en yakın
+        p = parcayi_bul(merkez, sonuc_k.kenarlar, EN_YAKIN_SINIRI * kroki.h * 100, tercih=merkez)  # sınırsız: en yakın
         tahmin.append((deger, p.id if p else None))
     return tahmin
 
@@ -257,12 +257,14 @@ def rapor(sonuc):
                  f"{bp['bolunmus']} | {bp['birlesmis']} |")
     s += ["", f"## Eşleştirme (01 + 02; katı/gevşek /{payda}, mimara bağlılar hariç /{payda_h})", "",
           "Çalıştırmalı satırlarda değerler çalıştırma başına (1/2/3).", "",
-          "| Katman | Kenarlar | Yerler | Değerler | Katı | Gevşek | Katı (hariç) | Gevşek (hariç) |",
-          "|---|---|---|---|---|---|---|---|"]
+          "Fazla: doğru olmayan bağlama sayısı (yanlış parça, uydurma ya da fazla okunan değer); "
+          "tasarım 7.3'e göre fazla değerin bir yere bağlanması hatadır.", "",
+          "| Katman | Kenarlar | Yerler | Değerler | Katı | Gevşek | Katı (hariç) | Gevşek (hariç) | Fazla |",
+          "|---|---|---|---|---|---|---|---|---|"]
 
     def satir(ad, kenar, yer, deger, anahtar, cok):
         hucre = []
-        for alan in ("kati", "gevsek", "kati_haric", "gevsek_haric"):
+        for alan in ("kati", "gevsek", "kati_haric", "gevsek_haric", "fazla"):
             if cok:
                 n = len(next(iter(kr.values()))[anahtar])
                 hucre.append("/".join(str(_toplam(sonuc, anahtar, i, alan)) for i in range(n)))

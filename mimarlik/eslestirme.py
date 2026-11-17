@@ -83,15 +83,33 @@ def nokta_parca_mesafesi(p: Nokta, parca: Parca) -> float:
     return math.hypot(p[0] - (x1 + t * dx), p[1] - (y1 + t * dy))
 
 
-def parcayi_bul(p: Nokta, kenarlar, tolerans: float) -> Parca | None:
-    """Noktaya en yakın parça; uzaklık toleransı aşıyorsa None."""
-    en_iyi, en_iyi_d = None, tolerans
-    for kenar in kenarlar:
-        for parca in kenar.parcalar:
-            d = nokta_parca_mesafesi(p, parca)
-            if d <= en_iyi_d:
-                en_iyi, en_iyi_d = parca, d
-    return en_iyi
+ESITLIK_PAYI = 2.0  # px: bu kadar farkla yakın parçalar "eşit" sayılır (ör. iki parçanın ortak ucu)
+
+
+def _izdusum_icinde(q: Nokta, parca: Parca) -> bool:
+    (x1, y1), (x2, y2) = parca.bas, parca.bit
+    dx, dy = x2 - x1, y2 - y1
+    n2 = dx * dx + dy * dy
+    return n2 > 0 and 0.0 <= ((q[0] - x1) * dx + (q[1] - y1) * dy) / n2 <= 1.0
+
+
+def parcayi_bul(p: Nokta, kenarlar, tolerans: float, tercih: Nokta | None = None) -> Parca | None:
+    """Noktaya en yakın parça; uzaklık toleransı aşıyorsa None.
+
+    Nokta iki parçanın ortak ucundaysa (ölçü işareti çoğu zaman tam oraya düşer) seçim parça sırasına
+    kalmasın diye: eşit yakın parçalardan, `tercih` noktasının (ör. sayının merkezi) izdüşümü içine düşen seçilir.
+    """
+    adaylar = [(nokta_parca_mesafesi(p, parca), parca) for kenar in kenarlar for parca in kenar.parcalar]
+    adaylar = [(d, parca) for d, parca in adaylar if d <= tolerans]
+    if not adaylar:
+        return None
+    en_az = min(d for d, _ in adaylar)
+    esitler = [parca for d, parca in adaylar if d <= en_az + ESITLIK_PAYI]
+    if tercih is not None and len(esitler) > 1:
+        icinde = [parca for parca in esitler if _izdusum_icinde(tercih, parca)]
+        if icinde:
+            return min(icinde, key=lambda parca: nokta_parca_mesafesi(tercih, parca))
+    return min(adaylar, key=lambda a: a[0])[1]
 
 
 # --- Değeri bölgeye atama (tasarım 5.4) -----------------------------------------------------------
@@ -157,14 +175,14 @@ def bagla(bolge: Bolge, sonuc: KenarSonucu, h: float) -> tuple[Parca | None, str
     merkez = _merkez(bolge.kutu)
     adaylar = [i for i in sonuc.isaretler if _kutu_icinde(i.bit, bolge.kutu, ISARET_PAYI * h)]
     for isaret in sorted(adaylar, key=lambda i: math.dist(i.bit, merkez)):
-        parca = parcayi_bul(isaret.bas, sonuc.kenarlar, h / 2)
+        parca = parcayi_bul(isaret.bas, sonuc.kenarlar, h / 2, tercih=merkez)
         if parca:
             return parca, "isaret"
     if bolge.temas is not None:
-        parca = parcayi_bul(bolge.temas, sonuc.kenarlar, h / 2)
+        parca = parcayi_bul(bolge.temas, sonuc.kenarlar, h / 2, tercih=merkez)
         if parca:
             return parca, "temas"
-    parca = parcayi_bul(merkez, sonuc.kenarlar, EN_YAKIN_SINIRI * h)
+    parca = parcayi_bul(merkez, sonuc.kenarlar, EN_YAKIN_SINIRI * h, tercih=merkez)
     return (parca, "en_yakin") if parca else (None, None)
 
 

@@ -3,7 +3,7 @@
   "01": {
    "h": 37.0,
    "eksen": -3.7093327395979148,
-   "bulma_s": 0.4412638999929186,
+   "bulma_s": 0.356438499991782,
    "kenar_puani": {
     "bulunan": 6,
     "kaciran": 4,
@@ -22,8 +22,9 @@
     "puan": {
      "kati": 8,
      "gevsek": 8,
-     "kati_haric": 5,
-     "gevsek_haric": 5,
+     "kati_haric": 6,
+     "gevsek_haric": 6,
+     "fazla": 2,
      "tahmin_sayisi": 10
     },
     "nedenler": {
@@ -129,10 +130,10 @@
        235,
        1170
       ],
-      "parca": "K6.1",
-      "gercek_parca": "K6.1",
+      "parca": "K5.1",
+      "gercek_parca": "K5.1",
       "neden": "en_yakin",
-      "dogru": true,
+      "dogru": false,
       "mimara": true
      },
      {
@@ -174,10 +175,10 @@
        760,
        690
       ],
-      "parca": "K4.1",
-      "gercek_parca": "K4.1",
+      "parca": "K3.1",
+      "gercek_parca": "K3.1",
       "neden": "en_yakin",
-      "dogru": false,
+      "dogru": true,
       "mimara": false
      },
      {
@@ -199,10 +200,11 @@
    },
    "A": {
     "puan": {
-     "kati": 5,
-     "gevsek": 5,
-     "kati_haric": 5,
-     "gevsek_haric": 5,
+     "kati": 4,
+     "gevsek": 4,
+     "kati_haric": 4,
+     "gevsek_haric": 4,
+     "fazla": 6,
      "tahmin_sayisi": 10
     },
     "nedenler": {
@@ -216,7 +218,7 @@
      },
      "en_yakin": {
       "adet": 7,
-      "dogru": 2
+      "dogru": 1
      },
      "null": {
       "adet": 0,
@@ -353,10 +355,10 @@
        760,
        690
       ],
-      "parca": "K5.1",
-      "gercek_parca": "K3.1",
+      "parca": "K4.1",
+      "gercek_parca": "K4.1",
       "neden": "en_yakin",
-      "dogru": true,
+      "dogru": false,
       "mimara": false
      },
      {
@@ -383,6 +385,7 @@
       "gevsek": 5,
       "kati_haric": 5,
       "gevsek_haric": 5,
+      "fazla": 5,
       "tahmin_sayisi": 10
      },
      "atama": {
@@ -390,7 +393,7 @@
       "deger_dogru": 10,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 3,
-      "sure_s": 0.9783152000018163
+      "sure_s": 0.4393584999925224
      },
      "nedenler": {
       "isaret": {
@@ -569,6 +572,7 @@
       "gevsek": 5,
       "kati_haric": 5,
       "gevsek_haric": 5,
+      "fazla": 5,
       "tahmin_sayisi": 10
      },
      "atama": {
@@ -576,7 +580,7 @@
       "deger_dogru": 8,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 3,
-      "sure_s": 0.00036839999665971845
+      "sure_s": 0.00031110001145862043
      },
      "nedenler": {
       "isaret": {
@@ -755,6 +759,7 @@
       "gevsek": 3,
       "kati_haric": 3,
       "gevsek_haric": 3,
+      "fazla": 8,
       "tahmin_sayisi": 11
      },
      "atama": {
@@ -762,7 +767,7 @@
       "deger_dogru": 7,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 2,
-      "sure_s": 0.0003851000074064359
+      "sure_s": 0.0004364000051282346
      },
      "nedenler": {
       "isaret": {
@@ -958,6 +963,7 @@
       "gevsek": 5,
       "kati_haric": 5,
       "gevsek_haric": 5,
+      "fazla": 5,
       "tahmin_sayisi": 10
      },
      "atama": {
@@ -965,7 +971,7 @@
       "deger_dogru": 10,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 3,
-      "sure_s": 0.0002690000110305846
+      "sure_s": 0.00031430000672116876
      },
      "nedenler": {
       "isaret": {
@@ -1144,6 +1150,7 @@
       "gevsek": 5,
       "kati_haric": 5,
       "gevsek_haric": 5,
+      "fazla": 5,
       "tahmin_sayisi": 10
      },
      "atama": {
@@ -1151,7 +1158,7 @@
       "deger_dogru": 9,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 3,
-      "sure_s": 0.0002921999985119328
+      "sure_s": 0.0008305000083055347
      },
      "nedenler": {
       "isaret": {
@@ -1330,6 +1337,7 @@
       "gevsek": 3,
       "kati_haric": 3,
       "gevsek_haric": 3,
+      "fazla": 8,
       "tahmin_sayisi": 11
      },
      "atama": {
@@ -1337,7 +1345,7 @@
       "deger_dogru": 7,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 2,
-      "sure_s": 0.00027480001153890043
+      "sure_s": 0.00102599999809172
      },
      "nedenler": {
       "isaret": {
@@ -1529,10 +1537,11 @@
    "Y3_gercek": [
     {
      "puan": {
-      "kati": 9,
-      "gevsek": 9,
+      "kati": 8,
+      "gevsek": 8,
       "kati_haric": 6,
       "gevsek_haric": 6,
+      "fazla": 2,
       "tahmin_sayisi": 10
      }
     },
@@ -1540,17 +1549,19 @@
      "puan": {
       "kati": 6,
       "gevsek": 6,
-      "kati_haric": 4,
-      "gevsek_haric": 4,
+      "kati_haric": 5,
+      "gevsek_haric": 5,
+      "fazla": 4,
       "tahmin_sayisi": 10
      }
     },
     {
      "puan": {
-      "kati": 10,
-      "gevsek": 10,
+      "kati": 9,
+      "gevsek": 9,
       "kati_haric": 7,
       "gevsek_haric": 7,
+      "fazla": 2,
       "tahmin_sayisi": 11
      }
     }
@@ -1562,6 +1573,7 @@
       "gevsek": 5,
       "kati_haric": 5,
       "gevsek_haric": 5,
+      "fazla": 5,
       "tahmin_sayisi": 10
      }
     },
@@ -1571,6 +1583,7 @@
       "gevsek": 4,
       "kati_haric": 4,
       "gevsek_haric": 4,
+      "fazla": 6,
       "tahmin_sayisi": 10
      }
     },
@@ -1580,6 +1593,7 @@
       "gevsek": 6,
       "kati_haric": 6,
       "gevsek_haric": 6,
+      "fazla": 5,
       "tahmin_sayisi": 11
      }
     }
@@ -1591,6 +1605,7 @@
       "gevsek": 10,
       "kati_haric": 7,
       "gevsek_haric": 7,
+      "fazla": 0,
       "tahmin_sayisi": 10
      },
      "sure_s": 69.95
@@ -1601,6 +1616,7 @@
       "gevsek": 10,
       "kati_haric": 7,
       "gevsek_haric": 7,
+      "fazla": 0,
       "tahmin_sayisi": 10
      },
      "sure_s": 69.67
@@ -1611,6 +1627,7 @@
       "gevsek": 10,
       "kati_haric": 7,
       "gevsek_haric": 7,
+      "fazla": 0,
       "tahmin_sayisi": 10
      },
      "sure_s": 67.53
@@ -1623,6 +1640,7 @@
       "gevsek": 8,
       "kati_haric": 5,
       "gevsek_haric": 5,
+      "fazla": 2,
       "tahmin_sayisi": 10
      },
      "sure_s": 59.3
@@ -1633,6 +1651,7 @@
       "gevsek": 8,
       "kati_haric": 5,
       "gevsek_haric": 5,
+      "fazla": 4,
       "tahmin_sayisi": 10
      },
      "sure_s": 66.92
@@ -1643,6 +1662,7 @@
       "gevsek": 8,
       "kati_haric": 5,
       "gevsek_haric": 5,
+      "fazla": 2,
       "tahmin_sayisi": 10
      },
      "sure_s": 66.48
@@ -1652,7 +1672,7 @@
   "02": {
    "h": 23.5,
    "eksen": -4.838931797172585,
-   "bulma_s": 1.0280178999964846,
+   "bulma_s": 0.852976000009221,
    "kenar_puani": {
     "bulunan": 11,
     "kaciran": 5,
@@ -1669,10 +1689,11 @@
    "bolge_sayisi": 28,
    "U": {
     "puan": {
-     "kati": 10,
-     "gevsek": 10,
-     "kati_haric": 8,
-     "gevsek_haric": 8,
+     "kati": 11,
+     "gevsek": 11,
+     "kati_haric": 9,
+     "gevsek_haric": 9,
+     "fazla": 3,
      "tahmin_sayisi": 14
     },
     "nedenler": {
@@ -1686,7 +1707,7 @@
      },
      "en_yakin": {
       "adet": 8,
-      "dogru": 4
+      "dogru": 5
      },
      "null": {
       "adet": 0,
@@ -1733,8 +1754,8 @@
        930,
        505
       ],
-      "parca": "K4.1",
-      "gercek_parca": "K4.1",
+      "parca": "K3.1",
+      "gercek_parca": "K3.1",
       "neden": "en_yakin",
       "dogru": false,
       "mimara": false
@@ -1748,10 +1769,10 @@
        1065,
        515
       ],
-      "parca": "K4.1",
-      "gercek_parca": "K4.1",
+      "parca": "K3.1",
+      "gercek_parca": "K3.1",
       "neden": "en_yakin",
-      "dogru": false,
+      "dogru": true,
       "mimara": false
      },
      {
@@ -1908,10 +1929,11 @@
    },
    "A": {
     "puan": {
-     "kati": 9,
-     "gevsek": 10,
-     "kati_haric": 8,
-     "gevsek_haric": 8,
+     "kati": 10,
+     "gevsek": 11,
+     "kati_haric": 9,
+     "gevsek_haric": 9,
+     "fazla": 4,
      "tahmin_sayisi": 14
     },
     "nedenler": {
@@ -1925,7 +1947,7 @@
      },
      "en_yakin": {
       "adet": 7,
-      "dogru": 4
+      "dogru": 5
      },
      "null": {
       "adet": 0,
@@ -1972,8 +1994,8 @@
        930,
        505
       ],
-      "parca": "K4.1",
-      "gercek_parca": "K4.1",
+      "parca": "K3.1",
+      "gercek_parca": "K3.1",
       "neden": "en_yakin",
       "dogru": false,
       "mimara": false
@@ -1987,10 +2009,10 @@
        1065,
        515
       ],
-      "parca": "K4.1",
-      "gercek_parca": "K4.1",
+      "parca": "K3.1",
+      "gercek_parca": "K3.1",
       "neden": "en_yakin",
-      "dogru": false,
+      "dogru": true,
       "mimara": false
      },
      {
@@ -2002,7 +2024,7 @@
        510,
        615
       ],
-      "parca": "K14.1",
+      "parca": "K12.1",
       "gercek_parca": null,
       "neden": "temas",
       "dogru": false,
@@ -2148,10 +2170,11 @@
    "G_hane": [
     {
      "puan": {
-      "kati": 7,
-      "gevsek": 8,
-      "kati_haric": 6,
-      "gevsek_haric": 6,
+      "kati": 8,
+      "gevsek": 9,
+      "kati_haric": 7,
+      "gevsek_haric": 7,
+      "fazla": 9,
       "tahmin_sayisi": 17
      },
      "atama": {
@@ -2159,7 +2182,7 @@
       "deger_dogru": 10,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 11,
-      "sure_s": 0.0011225000052945688
+      "sure_s": 0.0009688999998616055
      },
      "nedenler": {
       "isaret": {
@@ -2168,7 +2191,7 @@
       },
       "temas": {
        "adet": 5,
-       "dogru": 0
+       "dogru": 1
       },
       "en_yakin": {
        "adet": 5,
@@ -2219,8 +2242,8 @@
         926.0,
         495.0
        ],
-       "parca": "K4.1",
-       "gercek_parca": "K4.1",
+       "parca": "K3.1",
+       "gercek_parca": "K3.1",
        "neden": "en_yakin",
        "dogru": false,
        "mimara": false
@@ -2234,10 +2257,10 @@
         1069.0,
         533.0
        ],
-       "parca": "K4.1",
-       "gercek_parca": "K4.1",
+       "parca": "K3.1",
+       "gercek_parca": "K3.1",
        "neden": "temas",
-       "dogru": false,
+       "dogru": true,
        "mimara": false
       },
       {
@@ -2279,7 +2302,7 @@
         511.0,
         597.0
        ],
-       "parca": "K13.3",
+       "parca": "K12.1",
        "gercek_parca": null,
        "neden": "temas",
        "dogru": false,
@@ -2439,10 +2462,11 @@
     },
     {
      "puan": {
-      "kati": 8,
-      "gevsek": 8,
-      "kati_haric": 7,
-      "gevsek_haric": 7,
+      "kati": 9,
+      "gevsek": 9,
+      "kati_haric": 8,
+      "gevsek_haric": 8,
+      "fazla": 10,
       "tahmin_sayisi": 19
      },
      "atama": {
@@ -2450,7 +2474,7 @@
       "deger_dogru": 10,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 9,
-      "sure_s": 0.001073999999789521
+      "sure_s": 0.0013575000048149377
      },
      "nedenler": {
       "isaret": {
@@ -2459,7 +2483,7 @@
       },
       "temas": {
        "adet": 6,
-       "dogru": 1
+       "dogru": 2
       },
       "en_yakin": {
        "adet": 5,
@@ -2510,8 +2534,8 @@
         926.0,
         495.0
        ],
-       "parca": "K4.1",
-       "gercek_parca": "K4.1",
+       "parca": "K3.1",
+       "gercek_parca": "K3.1",
        "neden": "en_yakin",
        "dogru": false,
        "mimara": false
@@ -2525,10 +2549,10 @@
         1069.0,
         533.0
        ],
-       "parca": "K4.1",
-       "gercek_parca": "K4.1",
+       "parca": "K3.1",
+       "gercek_parca": "K3.1",
        "neden": "temas",
-       "dogru": false,
+       "dogru": true,
        "mimara": false
       },
       {
@@ -2570,7 +2594,7 @@
         511.0,
         597.0
        ],
-       "parca": "K13.3",
+       "parca": "K12.1",
        "gercek_parca": null,
        "neden": "temas",
        "dogru": false,
@@ -2760,10 +2784,11 @@
     },
     {
      "puan": {
-      "kati": 6,
-      "gevsek": 7,
-      "kati_haric": 5,
-      "gevsek_haric": 5,
+      "kati": 7,
+      "gevsek": 8,
+      "kati_haric": 6,
+      "gevsek_haric": 6,
+      "fazla": 7,
       "tahmin_sayisi": 14
      },
      "atama": {
@@ -2771,7 +2796,7 @@
       "deger_dogru": 9,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 14,
-      "sure_s": 0.000723299992387183
+      "sure_s": 0.0007702000002609566
      },
      "nedenler": {
       "isaret": {
@@ -2780,7 +2805,7 @@
       },
       "temas": {
        "adet": 3,
-       "dogru": 1
+       "dogru": 2
       },
       "en_yakin": {
        "adet": 4,
@@ -2816,8 +2841,8 @@
         926.0,
         495.0
        ],
-       "parca": "K4.1",
-       "gercek_parca": "K4.1",
+       "parca": "K3.1",
+       "gercek_parca": "K3.1",
        "neden": "en_yakin",
        "dogru": false,
        "mimara": false
@@ -2831,10 +2856,10 @@
         1069.0,
         533.0
        ],
-       "parca": "K4.1",
-       "gercek_parca": "K4.1",
+       "parca": "K3.1",
+       "gercek_parca": "K3.1",
        "neden": "temas",
-       "dogru": false,
+       "dogru": true,
        "mimara": false
       },
       {
@@ -3008,10 +3033,11 @@
    "G_ipucusuz": [
     {
      "puan": {
-      "kati": 7,
-      "gevsek": 8,
-      "kati_haric": 6,
-      "gevsek_haric": 6,
+      "kati": 8,
+      "gevsek": 9,
+      "kati_haric": 7,
+      "gevsek_haric": 7,
+      "fazla": 9,
       "tahmin_sayisi": 17
      },
      "atama": {
@@ -3019,7 +3045,7 @@
       "deger_dogru": 10,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 11,
-      "sure_s": 0.0008832000021357089
+      "sure_s": 0.0008129999914672226
      },
      "nedenler": {
       "isaret": {
@@ -3028,7 +3054,7 @@
       },
       "temas": {
        "adet": 4,
-       "dogru": 0
+       "dogru": 1
       },
       "en_yakin": {
        "adet": 4,
@@ -3079,8 +3105,8 @@
         926.0,
         495.0
        ],
-       "parca": "K4.1",
-       "gercek_parca": "K4.1",
+       "parca": "K3.1",
+       "gercek_parca": "K3.1",
        "neden": "en_yakin",
        "dogru": false,
        "mimara": false
@@ -3094,10 +3120,10 @@
         1069.0,
         533.0
        ],
-       "parca": "K4.1",
-       "gercek_parca": "K4.1",
+       "parca": "K3.1",
+       "gercek_parca": "K3.1",
        "neden": "temas",
-       "dogru": false,
+       "dogru": true,
        "mimara": false
       },
       {
@@ -3154,7 +3180,7 @@
         511.0,
         597.0
        ],
-       "parca": "K13.3",
+       "parca": "K12.1",
        "gercek_parca": null,
        "neden": "temas",
        "dogru": false,
@@ -3299,10 +3325,11 @@
     },
     {
      "puan": {
-      "kati": 8,
-      "gevsek": 8,
-      "kati_haric": 7,
-      "gevsek_haric": 7,
+      "kati": 9,
+      "gevsek": 9,
+      "kati_haric": 8,
+      "gevsek_haric": 8,
+      "fazla": 10,
       "tahmin_sayisi": 19
      },
      "atama": {
@@ -3310,7 +3337,7 @@
       "deger_dogru": 10,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 9,
-      "sure_s": 0.0011837999918498099
+      "sure_s": 0.001096100007998757
      },
      "nedenler": {
       "isaret": {
@@ -3319,7 +3346,7 @@
       },
       "temas": {
        "adet": 4,
-       "dogru": 1
+       "dogru": 2
       },
       "en_yakin": {
        "adet": 5,
@@ -3355,8 +3382,8 @@
         926.0,
         495.0
        ],
-       "parca": "K4.1",
-       "gercek_parca": "K4.1",
+       "parca": "K3.1",
+       "gercek_parca": "K3.1",
        "neden": "en_yakin",
        "dogru": false,
        "mimara": false
@@ -3370,10 +3397,10 @@
         1069.0,
         533.0
        ],
-       "parca": "K4.1",
-       "gercek_parca": "K4.1",
+       "parca": "K3.1",
+       "gercek_parca": "K3.1",
        "neden": "temas",
-       "dogru": false,
+       "dogru": true,
        "mimara": false
       },
       {
@@ -3430,7 +3457,7 @@
         511.0,
         597.0
        ],
-       "parca": "K13.3",
+       "parca": "K12.1",
        "gercek_parca": null,
        "neden": "temas",
        "dogru": false,
@@ -3620,10 +3647,11 @@
     },
     {
      "puan": {
-      "kati": 6,
-      "gevsek": 7,
-      "kati_haric": 5,
-      "gevsek_haric": 5,
+      "kati": 7,
+      "gevsek": 8,
+      "kati_haric": 6,
+      "gevsek_haric": 6,
+      "fazla": 7,
       "tahmin_sayisi": 14
      },
      "atama": {
@@ -3631,7 +3659,7 @@
       "deger_dogru": 8,
       "yeri_bulunamayan": 0,
       "okunmamis_bolge": 14,
-      "sure_s": 0.000714000008883886
+      "sure_s": 0.0007679999980609864
      },
      "nedenler": {
       "isaret": {
@@ -3640,7 +3668,7 @@
       },
       "temas": {
        "adet": 2,
-       "dogru": 1
+       "dogru": 2
       },
       "en_yakin": {
        "adet": 3,
@@ -3676,8 +3704,8 @@
         926.0,
         495.0
        ],
-       "parca": "K4.1",
-       "gercek_parca": "K4.1",
+       "parca": "K3.1",
+       "gercek_parca": "K3.1",
        "neden": "en_yakin",
        "dogru": false,
        "mimara": false
@@ -3691,10 +3719,10 @@
         1069.0,
         533.0
        ],
-       "parca": "K4.1",
-       "gercek_parca": "K4.1",
+       "parca": "K3.1",
+       "gercek_parca": "K3.1",
        "neden": "temas",
-       "dogru": false,
+       "dogru": true,
        "mimara": false
       },
       {
@@ -3868,10 +3896,11 @@
    "Y3_gercek": [
     {
      "puan": {
-      "kati": 7,
-      "gevsek": 7,
-      "kati_haric": 5,
-      "gevsek_haric": 5,
+      "kati": 5,
+      "gevsek": 5,
+      "kati_haric": 3,
+      "gevsek_haric": 3,
+      "fazla": 12,
       "tahmin_sayisi": 17
      }
     },
@@ -3881,15 +3910,17 @@
       "gevsek": 10,
       "kati_haric": 8,
       "gevsek_haric": 8,
+      "fazla": 10,
       "tahmin_sayisi": 19
      }
     },
     {
      "puan": {
-      "kati": 6,
-      "gevsek": 6,
-      "kati_haric": 4,
-      "gevsek_haric": 4,
+      "kati": 8,
+      "gevsek": 8,
+      "kati_haric": 6,
+      "gevsek_haric": 6,
+      "fazla": 6,
       "tahmin_sayisi": 14
      }
     }
@@ -3897,10 +3928,11 @@
    "Y3_bulunan": [
     {
      "puan": {
-      "kati": 6,
-      "gevsek": 7,
-      "kati_haric": 5,
-      "gevsek_haric": 5,
+      "kati": 4,
+      "gevsek": 5,
+      "kati_haric": 3,
+      "gevsek_haric": 3,
+      "fazla": 13,
       "tahmin_sayisi": 17
      }
     },
@@ -3910,15 +3942,17 @@
       "gevsek": 10,
       "kati_haric": 8,
       "gevsek_haric": 8,
+      "fazla": 10,
       "tahmin_sayisi": 19
      }
     },
     {
      "puan": {
-      "kati": 5,
-      "gevsek": 6,
-      "kati_haric": 4,
-      "gevsek_haric": 4,
+      "kati": 7,
+      "gevsek": 8,
+      "kati_haric": 6,
+      "gevsek_haric": 6,
+      "fazla": 7,
       "tahmin_sayisi": 14
      }
     }
@@ -3930,6 +3964,7 @@
       "gevsek": 12,
       "kati_haric": 9,
       "gevsek_haric": 9,
+      "fazla": 5,
       "tahmin_sayisi": 16
      },
      "sure_s": 77.53
@@ -3940,6 +3975,7 @@
       "gevsek": 12,
       "kati_haric": 9,
       "gevsek_haric": 9,
+      "fazla": 4,
       "tahmin_sayisi": 16
      },
      "sure_s": 78.19
@@ -3950,6 +3986,7 @@
       "gevsek": 12,
       "kati_haric": 9,
       "gevsek_haric": 9,
+      "fazla": 4,
       "tahmin_sayisi": 16
      },
      "sure_s": 78.92
@@ -3962,6 +3999,7 @@
       "gevsek": 12,
       "kati_haric": 9,
       "gevsek_haric": 9,
+      "fazla": 5,
       "tahmin_sayisi": 16
      },
      "sure_s": 77.65
@@ -3972,6 +4010,7 @@
       "gevsek": 13,
       "kati_haric": 10,
       "gevsek_haric": 10,
+      "fazla": 4,
       "tahmin_sayisi": 16
      },
      "sure_s": 77.75
@@ -3982,6 +4021,7 @@
       "gevsek": 11,
       "kati_haric": 9,
       "gevsek_haric": 9,
+      "fazla": 5,
       "tahmin_sayisi": 16
      },
      "sure_s": 78.96

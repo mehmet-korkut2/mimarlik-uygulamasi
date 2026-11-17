@@ -74,3 +74,10 @@ def test_bolge_puani():
                 Bolge((200, 0, 228, 50), None), Bolge((232, 0, 260, 50), None)]  # her biri %47
     p = bolge_puani(bolgeler, gercek)
     assert p == {"bulunan": 1, "yazi_olmayan": 1, "bolunmus": 1, "birlesmis": 0}
+
+
+def test_fazla_cift_dogru_olmayan_her_tahmini_sayar():
+    from puanlama_eslestirme import fazla_cift
+    gercek = [(40, "K3.1"), (180, "K1.1")]
+    assert fazla_cift([(40, "K3.1"), (40, "K3.1"), (45, "F:K9.1"), (180, "K1.1")], gercek) == 2
+    assert fazla_cift([], gercek) == 0

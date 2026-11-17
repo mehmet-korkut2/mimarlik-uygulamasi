@@ -118,8 +118,13 @@ def _uydur(grup):
     return _Cizgi(merkez + t.min() * u, merkez + t.max() * u)
 
 
-def _birlestir(parcalar, h):
-    """Doğrudaş ve üst üste binen (ya da arası ≤ h/2) parçaları tek çizgiye birleştirir."""
+def _birlestir(parcalar, h, eksen):
+    """Doğrudaş ve üst üste binen (ya da arası ≤ h/2) parçaları tek çizgiye birleştirir.
+
+    Döner: [(çizgi, yön)]. Yön, birleşen çizginin açısından değil üyelerin uzunlukla ağırlıklı
+    çoğunluğundan alınır: birleşme açıyı eksen toleransının dışına itebilir (14°+14° -> 22°), ama
+    çıktı sözleşmesi yön için yalnız "yatay" | "dikey" kabul eder.
+    """
     ebeveyn = list(range(len(parcalar)))
 
     def kok(i):
@@ -136,7 +141,15 @@ def _birlestir(parcalar, h):
     gruplar = {}
     for i, p in enumerate(parcalar):
         gruplar.setdefault(kok(i), []).append(p)
-    return [_uydur(g) for g in gruplar.values()]
+    sonuc = []
+    for g in gruplar.values():
+        agirlik = {}
+        for p in g:
+            yon = _yon(p.aci, eksen)
+            if yon:
+                agirlik[yon] = agirlik.get(yon, 0.0) + p.uzunluk
+        sonuc.append((_uydur(g), max(agirlik, key=agirlik.get) if agirlik else None))
+    return sonuc
 
 
 # --- Bağlantılar: köşeler ve T-birleşimler ---------------------------------------------------------
@@ -359,8 +372,9 @@ def kenarlari_bul(maske: np.ndarray, h: float) -> KenarSonucu:
     tol = 0.75 * h  # elle çizilen köşelerde çizgiler tam buluşmuyor; h/2 02'nin konturunu kapatmıyordu
     parcalar = _cizgi_parcalari(kalin_lekeleri_sil(maske, h), h)
     eksen = _eksen_acisi(parcalar)
-    cizgiler = _birlestir([p for p in parcalar if _yon(p.aci, eksen)], h)
-    yonler = [_yon(c.aci, eksen) for c in cizgiler]
+    birlesik = _birlestir([p for p in parcalar if _yon(p.aci, eksen)], h, eksen)
+    cizgiler = [c for c, _ in birlesik]
+    yonler = [y for _, y in birlesik]
     baglantilar = _baglantilar(cizgiler, yonler, tol)
     duvar, ciftler = _siniflandir(cizgiler, baglantilar, h, tol)
     isaretler = _isaretler(cizgiler, baglantilar, duvar, h, tol)
@@ -400,7 +414,7 @@ def kenarlari_bul(maske: np.ndarray, h: float) -> KenarSonucu:
         en_uzun = max(pl, key=lambda q: math.dist(q[1], q[2]))
         m = ((en_uzun[1][0] + en_uzun[2][0]) / 2, (en_uzun[1][1] + en_uzun[2][1]) / 2)
         s1, s2 = disarida((m[0] + nx * adim, m[1] + ny * adim)), disarida((m[0] - nx * adim, m[1] - ny * adim))
-        yon = _yon(math.degrees(math.atan2(dy, dx)), eksen)
+        yon = yonler[min(g)]  # gruptaki çizgiler doğrudaş: yönleri aynı
         konturda = s1 != s2
         ters = s1 if konturda else ((dx < 0) if yon == "yatay" else (dy < 0))
         if ters:
