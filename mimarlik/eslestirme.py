@@ -92,3 +92,51 @@ def parcayi_bul(p: Nokta, kenarlar, tolerans: float) -> Parca | None:
             if d <= en_iyi_d:
                 en_iyi, en_iyi_d = parca, d
     return en_iyi
+
+
+# --- Değeri bölgeye atama (tasarım 5.4) -----------------------------------------------------------
+
+HANE_KATSAYISI = 0.8      # hane başına genişlik/yükseklik (01–02 gerçek kutularında medyan 0,814)
+W_HANE = 0.05             # 1 hane farkı ≈ köşegenin %5'i kadar mesafe cezası (~120 px)
+MESAFE_UST_SINIR = 0.2    # köşegen oranı; daha uzak (bölge, kutu) çifti atanmaz
+_YASAK = 1e6
+
+
+def _merkez(kutu: Kutu) -> Nokta:
+    return ((kutu[0] + kutu[2]) / 2, (kutu[1] + kutu[3]) / 2)
+
+
+def hane_tahmini(kutu: Kutu) -> float:
+    """Kutunun genişlik/yükseklik oranından hane sayısı tahmini (yuvarlanmaz)."""
+    x1, y1, x2, y2 = kutu
+    return ((x2 - x1) / max(y2 - y1, 1e-9)) / HANE_KATSAYISI
+
+
+def degerleri_ata(bolgeler, ogeler, boyut, w_hane: float = W_HANE):
+    """Qwen'in (değer, kutu) öğelerini bölgelere bire bir atar (toplam maliyet en küçük).
+
+    boyut: (yükseklik, genişlik). Döner: (atanmış [(Bolge, değer)], yeri bulunamayan [değer],
+    okunmamış [Bolge]).
+    """
+    from scipy.optimize import linear_sum_assignment
+
+    kosegen = math.hypot(boyut[0], boyut[1])
+    if not bolgeler or not ogeler:
+        return [], [d for d, _ in ogeler], list(bolgeler)
+    maliyet = [[0.0] * len(ogeler) for _ in bolgeler]
+    for i, b in enumerate(bolgeler):
+        mb = _merkez(b.kutu)
+        for j, (deger, kutu) in enumerate(ogeler):
+            d = math.dist(mb, _merkez(kutu)) / kosegen
+            maliyet[i][j] = _YASAK if d > MESAFE_UST_SINIR else \
+                d + w_hane * abs(hane_tahmini(b.kutu) - len(str(deger)))
+    satirlar, sutunlar = linear_sum_assignment(maliyet)
+    atanmis, kullanilan_b, kullanilan_o = [], set(), set()
+    for i, j in zip(satirlar, sutunlar):
+        if maliyet[i][j] < _YASAK:
+            atanmis.append((bolgeler[i], ogeler[j][0]))
+            kullanilan_b.add(i)
+            kullanilan_o.add(j)
+    yok = [ogeler[j][0] for j in range(len(ogeler)) if j not in kullanilan_o]
+    okunmamis = [bolgeler[i] for i in range(len(bolgeler)) if i not in kullanilan_b]
+    return atanmis, yok, okunmamis

@@ -42,3 +42,56 @@ def test_kenar_sonucu_ve_bolge_olusturulur():
     s = KenarSonucu(eksen_acisi_derece=1.5, kenarlar=(), kontur_sirasi=(), isaretler=())
     assert s.kenarlar == ()
     assert Bolge(kutu=(0, 0, 1, 1), temas=None).temas is None
+
+
+# --- Görev 6: değer atama ---
+
+from mimarlik.eslestirme import HANE_KATSAYISI, W_HANE, degerleri_ata, hane_tahmini  # noqa: E402
+
+BOYUT = (1000, 1000)  # köşegen ≈ 1414
+
+
+def _b(x1, y1, x2, y2):
+    return Bolge(kutu=(x1, y1, x2, y2), temas=None)
+
+
+def test_hane_tahmini_genislik_orani():
+    assert hane_tahmini((0, 0, 2 * HANE_KATSAYISI * 30, 30)) == pytest.approx(2)
+
+
+def test_yakin_kutu_atanir():
+    b1, b2 = _b(100, 100, 150, 130), _b(500, 500, 550, 530)
+    atanmis, yok, okunmamis = degerleri_ata([b1, b2], [(40, (505, 505, 545, 525)), (90, (95, 95, 150, 135))], BOYUT)
+    assert sorted(atanmis, key=lambda a: a[1]) == [(b2, 40), (b1, 90)]
+    assert yok == [] and okunmamis == []
+
+
+def test_fazla_deger_yeri_bulunamayan():
+    b1, b2 = _b(100, 100, 150, 130), _b(500, 500, 550, 530)
+    ogeler = [(40, (100, 100, 150, 130)), (90, (500, 500, 550, 530)), (45, (120, 110, 160, 140))]
+    atanmis, yok, _ = degerleri_ata([b1, b2], ogeler, BOYUT)
+    assert len(atanmis) == 2 and len(yok) == 1
+
+
+def test_uzak_kutu_atanmaz():
+    b1 = _b(100, 100, 150, 130)
+    atanmis, yok, okunmamis = degerleri_ata([b1], [(40, (525, 525, 575, 555))], BOYUT)  # ~600 px, köşegenin %42'si
+    assert atanmis == [] and yok == [40] and okunmamis == [b1]
+
+
+def test_ayni_deger_iki_bolgeye():
+    b1, b2 = _b(100, 100, 150, 130), _b(300, 100, 350, 130)
+    atanmis, _, _ = degerleri_ata([b1, b2], [(40, (100, 100, 150, 130)), (40, (300, 100, 350, 130))], BOYUT)
+    assert sorted(a[1] for a in atanmis) == [40, 40]
+    assert {a[0] for a in atanmis} == {b1, b2}
+
+
+def test_hane_ipucu_karari_degistirir():
+    # dar bölge: 2 hane (genişlik 2·0.8·30=48), geniş bölge: 3 hane (72); ikisi de 30 yüksek
+    dar, genis = _b(100, 100, 148, 130), _b(300, 100, 372, 130)
+    # kutular iki bölgenin arasında, ikisi de geniş bölgeye biraz daha yakın (ipucusuz toplam: 210 px/214 px)
+    ogeler = [(40, (213, 100, 261, 130)), (240, (199, 100, 271, 130))]
+    hane_ile, _, _ = degerleri_ata([dar, genis], ogeler, BOYUT, w_hane=W_HANE)
+    assert dict((d, b) for b, d in hane_ile)[240] == genis
+    ipucusuz, _, _ = degerleri_ata([dar, genis], ogeler, BOYUT, w_hane=0)
+    assert dict((d, b) for b, d in ipucusuz)[40] == genis
