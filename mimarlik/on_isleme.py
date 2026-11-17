@@ -49,3 +49,17 @@ def karakter_yuksekligi(maske):
     if not yukseklikler:
         raise ValueError("mürekkep bulunamadı: karakter yüksekliği ölçülemiyor")
     return float(np.median(yukseklikler))
+
+
+def kalin_lekeleri_sil(maske, h):
+    """Kalem izinden kalın dolu lekeleri (ör. mavi kumaş, ayraç) maskeden siler.
+
+    Çapı ~h olan bir diskle açma (opening) ince kalem izlerini yok eder, kalın lekeler kalır; bu
+    lekeler (aynı diskle genişletilerek) maskeden çıkarılır. Hough dolu lekede sahte çizgiler bulup
+    eksen açısını bozuyordu (01).
+    """
+    boy = max(3, int(h)) | 1
+    disk = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (boy, boy))
+    m = maske.astype(np.uint8)
+    leke = cv2.dilate(cv2.morphologyEx(m, cv2.MORPH_OPEN, disk), disk)
+    return (m > 0) & (leke == 0)

@@ -57,3 +57,22 @@ def test_karakter_yuksekligi_sentetik_yaziya_yakin():
 def test_karakter_yuksekligi_bos_maskede_hata():
     with pytest.raises(ValueError, match="mürekkep bulunamadı"):
         karakter_yuksekligi(np.zeros((50, 50), bool))
+
+
+def _lekeli_kroki():
+    """Sentetik kroki + alt köşede koyu lacivert, 30° eğik dolu leke (01'deki kumaş gibi)."""
+    import cv2
+    bgr, beklenen = sentetik_kroki()
+    koseler = cv2.boxPoints(((200, 830), (500, 120), -30)).astype(np.int32)
+    cv2.fillPoly(bgr, [koseler], (110, 40, 30))
+    return bgr, beklenen
+
+
+def test_kalin_lekeleri_sil_lekeyi_siler_cizgileri_birakir():
+    from mimarlik.on_isleme import kalin_lekeleri_sil
+    bgr, _ = _lekeli_kroki()
+    maske = murekkep_maskesi(bgr)
+    temiz = kalin_lekeleri_sil(maske, 25.0)
+    assert not temiz[830, 200]          # lekenin ortası silindi
+    assert temiz[100, 400]              # üst duvar kaldı
+    assert temiz[400, 800] or temiz[400, 799] or temiz[400, 801]  # sağ duvar kaldı

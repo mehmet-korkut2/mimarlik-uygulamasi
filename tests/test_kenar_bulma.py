@@ -103,3 +103,12 @@ def test_kontur_sirasi(aci):
 def _birlesik(kenar):
     from mimarlik.eslestirme import Parca
     return Parca("x", "x", "duvar", kenar.parcalar[0].bas, kenar.parcalar[-1].bit)
+
+
+def test_kalin_leke_eksen_acisini_bozmaz():
+    from tests.test_on_isleme import _lekeli_kroki
+    bgr, beklenen = _lekeli_kroki()
+    maske = murekkep_maskesi(bgr)
+    sonuc = kenarlari_bul(maske, karakter_yuksekligi(maske))
+    assert abs(sonuc.eksen_acisi_derece) < 1
+    assert len(sonuc.kenarlar) == beklenen["kenar_sayisi"]

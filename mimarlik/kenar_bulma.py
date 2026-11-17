@@ -10,6 +10,7 @@ import cv2
 import numpy as np
 
 from mimarlik.eslestirme import IsaretAdayi, Kenar, KenarSonucu, Parca
+from mimarlik.on_isleme import kalin_lekeleri_sil
 
 ACI_TOLERANSI = 15.0      # derece: eksene bu kadar yakın çizgi yatay/dikey sayılır
 BIRLESTIRME_ACISI = 20.0  # derece: kısa kalın çizgilerde Hough açısı ±12° oynar; doğrudaşlığı dik mesafe denetler
@@ -355,8 +356,8 @@ def _dis_bolge(parca_listeleri, sekil, kalinlik):
 
 
 def kenarlari_bul(maske: np.ndarray, h: float) -> KenarSonucu:
-    tol = h / 2
-    parcalar = _cizgi_parcalari(maske, h)
+    tol = 0.75 * h  # elle çizilen köşelerde çizgiler tam buluşmuyor; h/2 02'nin konturunu kapatmıyordu
+    parcalar = _cizgi_parcalari(kalin_lekeleri_sil(maske, h), h)
     eksen = _eksen_acisi(parcalar)
     cizgiler = _birlestir([p for p in parcalar if _yon(p.aci, eksen)], h)
     yonler = [_yon(c.aci, eksen) for c in cizgiler]
