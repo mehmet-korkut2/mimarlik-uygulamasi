@@ -58,7 +58,8 @@ kroki, **24 ölçü sayısı**. Küçük bir veri seti; sonuçlar yön gösterme
 | EasyOCR (klasik OCR) | 5 | 16 | ~10 s | yerel |
 | Gemini Flash (bulut) | **24** | 0 | 45–75 s | Google sunucusu |
 | Qwen3-VL 4B, ham fotoğraf | 22–23 | 1 | ~50 s | yerel, GTX 1650 4 GB |
-| **Qwen3-VL 4B, çizgi silme ile (ürünün kullandığı)** | **23 / 23 / 23** | 1 | ~57 s | **yerel**, GTX 1650 4 GB |
+| Qwen3-VL 4B, çizgi silme, sadece sayı istemi | 23 / 23 / 23 | 1 | ~57 s | yerel, GTX 1650 4 GB |
+| **Qwen3-VL 4B, çizgi silme + konumlu istem (ürünün kullandığı)** | **22 / 22 / 22** | 0–11 | ~2–3,5 dk | **yerel**, GTX 1650 4 GB |
 
 **Neden yerel model?** Fark kroki başına yaklaşık bir sayı, ve ürün zaten kullanıcının düzelteceği bir
 taslak üretiyor. Buna karşılık yerel model:
@@ -67,7 +68,9 @@ taslak üretiyor. Buna karşılık yerel model:
   "sunucu meşgul" hatası verdi.
 
 Denenip bırakılan fikirler de ölçüldü: sayıyı kesip büyütüp tekrar okutmak **kötüleştirdi** (14–15/24),
-defter çizgilerini silmek az iyileştirdi (yukarıdaki son satır). Kalan hata (`102`'nin `162` okunması) bir ölçü
+defter çizgilerini silmek az iyileştirdi. Ürün sayıların **konumunu** da istediği için (eşleştirme bunu
+kullanıyor) okuma bir sayı düşüyor, fazla sayı artıyor (çoğu tekrar yazılan `40`) ve süre 2–3 katına çıkıyor;
+fazla sayılar eşleştirmede "emin değilim" olarak kullanıcıya düşüyor. Kalan hata (`102`'nin `162` okunması) bir ölçü
 işaretinin sayının içinden geçmesinden; bu tür hataları geometri kontrolü ve kullanıcı onayı yakalıyor.
 
 ### Sayı–duvar eşleştirme
@@ -170,7 +173,7 @@ and checks whether it closes. Anything uncertain (conflicting matches, non-closi
 red **KONTROL** layer for quick human correction: the goal is a fast-to-fix draft, not full automation.
 
 Every design choice was measured first (24 handwritten numbers from real sketches): the local model reads
-23/24 (with notebook-line removal; 22–23 on the raw photo) versus 24/24 for a cloud model and 5/24 for classic OCR, and was chosen for privacy (client
+22/24 in the exact product setting (notebook lines removed, numbers requested with their positions) versus 24/24 for a cloud model and 5/24 for classic OCR, and was chosen for privacy (client
 drawings never leave the machine) and zero cost. The end-to-end pipeline works; the current bottleneck is
 wall detection on short segments, pending input from the architect advisor. Stack: Python, OpenCV, ezdxf,
 SciPy, Ollama/Qwen3-VL, pytest (150 tests).

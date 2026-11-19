@@ -62,3 +62,24 @@ P=deneyler/.venv/Scripts/python
 $P -m pytest deneyler/cizgi_silme        # ön işleme testleri
 $P deneyler/cizgi_silme/calistir.py      # -> sonuclar/qwen_silinmis.json + gorseller/silinmis_*.jpg
 ```
+
+## Ek ölçüm (2026-11-19): ürünün kullandığı koşul
+
+`python -m mimarlik.kroki` Qwen'e çizgileri silinmiş fotoğrafı **konumlu istemle** (sayı + kutu) veriyor; bu
+ikili ayrıca ölçülmemişti. `calistir_urun.py` ürünün kodunu (`mimarlik.okuma`) birebir kullanır; puanlanan,
+ürünün eline geçen değerler. Ham sonuçlar: `sonuclar/qwen_urun.json`.
+
+| Koşul | 01 /10 | 02 /14 | Toplam /24 | Fazla | Kaçırılan (02) | Süre / kroki |
+|---|---|---|---|---|---|---|
+| Çizgiler silinmiş, sadece sayı istemi (yukarıda) | 10 / 10 / 10 | 13 / 13 / 13 | 23 / 23 / 23 | 1 / 1 / 1 | `102` | ~56–59 s |
+| Ham fotoğraf, konumlu istem (konum deneyi) | | | 22 / 24 / 22 | 3–5 | | ~2 kat |
+| **Çizgiler silinmiş, konumlu istem (ürün)** | 10 / 10 / 10 | 12 / 12 / 12 | **22 / 22 / 22** | 7 / 0 / 11 | `102` + bir değer (`15`, `240`, `200`) | 113–206 s |
+
+- `102→162` sürüyor (her çalıştırmada).
+- Fazla sayılar çoğunlukla tekrar yazılan `40` ve `45` (02'de dört `40` var); bir çalıştırmada hiç yok, iki
+  çalıştırmada 7 ve 11. 01'de bir kez `100`.
+- Hiçbir öğe bozuk kutu yüzünden atılmadı.
+- **Sonuç:** Ürünün okuması 22/24; konumu istemek bir sayı ve 2–3 kat süre kaybettiriyor, fazla sayıyı oynak
+  hale getiriyor. Konum eşleştirme için gerekli olduğundan istem değişmiyor; fazla sayılar eşleştirmede
+  "emin değilim" olarak kullanıcıya düşüyor. README tablosu buna göre güncellendi.
+
