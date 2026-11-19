@@ -1,0 +1,177 @@
+"""Plan -> DXF: DUVAR (iç + dış yüz), KAPI, OLCU ve programın emin olmadığı her şey için KONTROL katmanı.
+
+Varsayımlar (varsayimlar.py): çizilen kontur duvarın İÇ yüzü (S6), dış yüz DIS_DUVAR_KALINLIGI kadar dışarıda;
+açıklık kapıdır, içeri açılır, menteşe açıklığın kontur yönündeki başında (S1).
+Kontur saat yönünde (DXF'te de, y yukarı): dışarısı her kenarın SOLUNDA.
+"""
+
+import math
+
+from ezdxf.document import Drawing
+
+from mimarlik import varsayimlar
+from mimarlik.birlestirme import SonOlcu
+from mimarlik.dxf_yazici import cizgi_ekle, olcu_ekle, yay_ekle, yazi_ekle, yeni_cizim
+from mimarlik.geometri import KenarPlani, Plan
+from mimarlik.standartlar import KATMAN_DUVAR, KATMAN_KAPI, KATMAN_KONTROL, KATMAN_OLCU
+
+OLCU_MESAFESI = 40      # ölçü çizgisinin dış yüzden uzaklığı (cm)
+NOT_MESAFESI = 90       # KONTROL notlarının dış yüzden uzaklığı (cm)
+YAZI = 12               # KONTROL yazı yüksekliği (cm)
+
+
+def _topla(*vektorler):
+    return (sum(v[0] for v in vektorler), sum(v[1] for v in vektorler))
+
+
+def _kat(v, s):
+    return (v[0] * s, v[1] * s)
+
+
+def _normal(k: KenarPlani):
+    return (-k.yon[1], k.yon[0])   # sol taraf = dışarısı
+
+
+def _kapali(plan: Plan) -> bool:
+    return bool(plan.kapanma) and all(e["tutuyor"] for e in plan.kapanma.values())
+
+
+def _parca_araliklari(k: KenarPlani):
+    """[(ParcaPlani, baş uzaklığı, bitiş uzaklığı)] kenar başından cm."""
+    t, sonuc = 0.0, []
+    for p in k.parcalar:
+        sonuc.append((p, t, t + p.boy))
+        t += p.boy
+    return sonuc
+
+
+def _dis_kose(onceki: KenarPlani | None, k: KenarPlani, nokta, t):
+    """Kenarın dış yüzündeki köşe noktası (önceki kenarla dik birleşiyorsa iki normalin toplamı)."""
+    if onceki is not None and abs(onceki.yon[0] * k.yon[0] + onceki.yon[1] * k.yon[1]) < 1e-9:
+        return _topla(nokta, _kat(_normal(onceki), t), _kat(_normal(k), t))
+    return _topla(nokta, _kat(_normal(k), t))
+
+
+def _duvarlar(doc: Drawing, plan: Plan) -> None:
+    t, n = varsayimlar.DIS_DUVAR_KALINLIGI, len(plan.kenarlar)
+    kapali = _kapali(plan)
+    for i, k in enumerate(plan.kenarlar):
+        onceki = plan.kenarlar[i - 1] if (i > 0 or kapali) else None
+        sonraki = plan.kenarlar[(i + 1) % n] if (i < n - 1 or kapali) else None
+        no = _normal(k)
+        dis_bas = _dis_kose(onceki, k, k.bas, t)
+        dis_bit = _dis_kose(k, sonraki, k.bit, t) if sonraki is not None else _topla(k.bit, _kat(no, t))
+        # dış yüzün kenar yönündeki uzaklıkları (iç köşeye göre): dış köşe iç köşeden önce/sonra olabilir
+        uzunluk_bas = (dis_bas[0] - k.bas[0]) * k.yon[0] + (dis_bas[1] - k.bas[1]) * k.yon[1]
+        uzunluk_bit = (dis_bit[0] - k.bas[0]) * k.yon[0] + (dis_bit[1] - k.bas[1]) * k.yon[1]
+        bosluklar = [(a, b) for p, a, b in _parca_araliklari(k) if p.tur == "aciklik" and b > a]
+
+        def nokta(s, kaydir=0.0):
+            return _topla(k.bas, _kat(k.yon, s), _kat(no, kaydir))
+
+        for bas, bit, kaydir in ((0.0, k.boy, 0.0), (uzunluk_bas, uzunluk_bit, t)):
+            s = bas
+            for a, b in bosluklar:
+                if a > s:
+                    cizgi_ekle(doc, [(*nokta(s, kaydir), *nokta(a, kaydir))], KATMAN_DUVAR)
+                s = max(s, b)
+            if bit > s:
+                cizgi_ekle(doc, [(*nokta(s, kaydir), *nokta(bit, kaydir))], KATMAN_DUVAR)
+        for a, b in bosluklar:
+            cizgi_ekle(doc, [(*nokta(a), *nokta(a, t)), (*nokta(b), *nokta(b, t))], KATMAN_DUVAR)  # söveler
+            if varsayimlar.ACIKLIK_KAPIDIR:
+                w = b - a
+                mentese, iceri = nokta(a), _kat(no, -1)
+                cizgi_ekle(doc, [(*mentese, *_topla(mentese, _kat(iceri, w)))], KATMAN_KAPI)
+                aci_ic = math.degrees(math.atan2(iceri[1], iceri[0]))
+                aci_kenar = math.degrees(math.atan2(k.yon[1], k.yon[0]))
+                yay_ekle(doc, mentese, w, aci_ic, aci_kenar, KATMAN_KAPI)  # saat yönü tersine: içeriden kenara
+
+
+def _olculer(doc: Drawing, plan: Plan) -> None:
+    uzaklik = varsayimlar.DIS_DUVAR_KALINLIGI + OLCU_MESAFESI
+    for k in plan.kenarlar:
+        if k.durum != "olcu" or k.tek_sayi_tamami or any(p.deger is None for p in k.parcalar):
+            if k.boy > 0:   # tüm kenar tek ölçü; sayıdan gelmediyse KONTROL'de
+                katman = KATMAN_OLCU if k.durum == "olcu" else KATMAN_KONTROL
+                olcu_ekle(doc, k.bas, k.bit, uzaklik, katman)
+            continue
+        for p, a, b in _parca_araliklari(k):
+            if b > a:
+                olcu_ekle(doc, _topla(k.bas, _kat(k.yon, a)), _topla(k.bas, _kat(k.yon, b)), uzaklik, KATMAN_OLCU)
+
+
+def _kontrol(doc: Drawing, plan: Plan, olculer: list[SonOlcu], sadece_y2) -> list[str]:
+    """KONTROL katmanını doldurur; DXF'e yazılan notları döndürür."""
+    notlar = []
+    yigin: dict[tuple, int] = {}
+
+    def not_yaz(metin, nokta, normal):
+        sira = yigin.get(nokta, 0)
+        yigin[nokta] = sira + 1
+        mesafe = varsayimlar.DIS_DUVAR_KALINLIGI + NOT_MESAFESI + sira * YAZI * 1.6
+        yazi_ekle(doc, metin, _topla(nokta, _kat(normal, mesafe)), YAZI, KATMAN_KONTROL)
+        notlar.append(metin)
+
+    # kapanmayan eksen: o eksendeki bütün kenarlar + başlangıçla bitiş arasındaki açıklık
+    for eksen, e in plan.kapanma.items():
+        if e["tutuyor"]:
+            continue
+        i = 0 if eksen == "yatay" else 1
+        for k in plan.kenarlar:
+            if k.yon[i] != 0:
+                cizgi_ekle(doc, [(*k.bas, *k.bit)], KATMAN_KONTROL)
+    if plan.kenarlar and not _kapali(plan):
+        son = plan.kenarlar[-1].bit
+        if math.dist(son, (0.0, 0.0)) > 0:
+            cizgi_ekle(doc, [(*son, 0.0, 0.0)], KATMAN_KONTROL)
+        metin = "KAPANMIYOR: " + "; ".join(e["not"] for e in plan.kapanma.values())
+        yazi_ekle(doc, metin, (son[0] + YAZI, son[1] - 2 * YAZI), YAZI, KATMAN_KONTROL)
+        notlar.append(metin)
+
+    # sayıdan gelmeyen kenar boyları
+    for k in plan.kenarlar:
+        if k.durum != "olcu":
+            orta = _topla(k.bas, _kat(k.yon, k.boy / 2))
+            not_yaz(f"? {k.kenar_id} {k.boy:.0f} cm ({k.durum})", orta, _normal(k))
+
+    # emin olunmayan ölçüler, parçasının ortasına
+    yer = {}
+    for k in plan.kenarlar:
+        for p, a, b in _parca_araliklari(k):
+            yer[p.parca_id] = (_topla(k.bas, _kat(k.yon, (a + b) / 2)), _normal(k))
+    serbest = []
+    for o in olculer:
+        if o.emin:
+            continue
+        metin = f"? {o.deger}: {o.sebep}"
+        if o.parca_id in yer:
+            not_yaz(metin, *yer[o.parca_id])
+        else:
+            serbest.append(metin if o.parca_id is None else f"{metin} ({o.parca_id}, konturda değil)")
+    serbest += [f"? {d}: yalnızca Y2 okudu ({pid})" for d, pid in sadece_y2]
+    serbest += [f"! {n}" for n in plan.notlar]
+
+    # iç duvarlar: ölçüsüz, ölçekten
+    for kid, a, b in plan.ic_duvarlar:
+        cizgi_ekle(doc, [(*a, *b)], KATMAN_KONTROL)
+        orta = ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2)
+        yazi_ekle(doc, f"{kid} ölçüsüz (iç duvar)", orta, YAZI, KATMAN_KONTROL)
+        notlar.append(f"{kid} ölçüsüz (iç duvar)")
+
+    if serbest:
+        xs = [p[0] for k in plan.kenarlar for p in (k.bas, k.bit)] or [0.0]
+        ys = [p[1] for k in plan.kenarlar for p in (k.bas, k.bit)] or [0.0]
+        x, y = min(xs), min(ys) - varsayimlar.DIS_DUVAR_KALINLIGI - 4 * NOT_MESAFESI
+        for j, metin in enumerate(serbest):
+            yazi_ekle(doc, metin, (x, y - j * YAZI * 1.6), YAZI, KATMAN_KONTROL)
+        notlar += serbest
+    return notlar
+
+
+def ciz(plan: Plan, olculer: list[SonOlcu], sadece_y2=()) -> tuple[Drawing, list[str]]:
+    """Döner: (DXF belgesi, KONTROL notları)."""
+    doc = yeni_cizim("cm")
+    _duvarlar(doc, plan)
+    _olculer(doc, plan)
+    return doc, _kontrol(doc, plan, olculer, list(sadece_y2))
