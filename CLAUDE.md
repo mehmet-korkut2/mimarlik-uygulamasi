@@ -83,6 +83,8 @@ Girdi: `ornekler/03_*` – `ornekler/07_*`.
 **Bitti sayılır:** Çıktı DXF'te duvar, kapı ve pencere ayrı katmanlarda; mimar dosyayı açınca "bunu düzeltmek sıfırdan çizmekten hızlı" diyor.
 
 ### Faz 4 — Kullanılabilir prototip (2–3 hafta)
+> **Karar (2026-11-19):** Mobil uygulama yerine telefonda da çalışan web arayüzü. Telefon tarayıcısından kamerayla fotoğraf yüklenebilmeli; düzeltme ekranı bilgisayar için tasarlanmalı. Mimar gerçek kullanımda mobil uygulama isterse aynı backend'e bağlanan bir uygulama sonra eklenir.
+
 - [ ] FastAPI ile backend: görsel yükle → DXF indir.
 - [ ] Basit web arayüzü: yükleme, önizleme, okunan ölçüleri düzeltme, indirme.
 - [ ] Mimar ve iç mimara gerçek işlerinde denet, geri bildirim topla.
@@ -147,3 +149,4 @@ Girdi: `ornekler/03_*` – `ornekler/07_*`.
 | 2026-11-17 | 2 | Bul–kes–okut (`deneyler/bul_kes_okut/`): gerçek kutulardan kesitle okuma 15/14/14 → bütün fotoğraftan kötü, bulucuya geçilmedi. Çizgi silme (`deneyler/cizgi_silme/`): defter çizgileri renkle silinince 23/23/23 (dün 23/22/22), `102→162` sürdü (çizgi değil, sayıdan geçen ölçü işareti). **OCR iyileştirmesi bırakıldı;** kalan hataları kullanıcı onayı + duvar toplamı kontrolü yakalayacak | Sayı–duvar eşleştirme tasarımı |
 | 2026-11-18 | 2 | Sayı–duvar eşleştirme (`deneyler/eslestirme/RAPOR.md`): `mimarlik/` kenar bulma, sayı bölgeleri, değer atama, bağlama (99 test). Gerçek kenarlarla Y2 (Qwen'e numaralı parçaları sormak, karışık numara) 18–19/24 ≈ geometrik yolun (Y1) üst sınırı 19; Y1 gerçekçi 10–14/24. Karar, Y2 bulunan kenarlarla ölçülünce | Y2'yi **bulunan** kenarlarla ölçmek; kenar bulmada kısa parçalar (01 `10/90/15`, kısa tireler) |
 | 2026-11-18 | 2 | Y2 bulunan kenarlarla: 13/17/12 /24 (Y1 gerçekçi 13/14/10); tavan kenar bulma (17/24). **Karar:** iki yol birleşir — ölçü tiresi bulunan sayılar geometrik (9/9 doğru), diğerleri Y2; çelişkide ya da Y2 gürültü parçasına değer yazınca kullanıcıya sorulur. Kenar bulma mimar görüşmesine kadar beklemede. Dal `sayi-duvar-eslestirme` main'e birleştirilmedi | Mimara: M1–M5 (`deneyler/eslestirme/RAPOR.md`), özellikle `15/90/10` ve `15/9-0/40`'ın anlamı |
+| 2026-11-19 | 4 | **Karar:** mobil uygulama yerine telefonda da çalışan web arayüzü (telefon tarayıcısından kamerayla yükleme; düzeltme ekranı bilgisayar için). Mobil uygulama ancak mimar gerçek kullanımda isterse, aynı backend'e bağlanarak sonra | — |
