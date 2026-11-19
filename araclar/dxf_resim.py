@@ -15,7 +15,8 @@ import cv2
 import ezdxf
 import numpy as np
 
-RENK = {"DUVAR": (40, 40, 40), "KAPI": (0, 160, 220), "OLCU": (0, 150, 0), "KONTROL": (0, 0, 230)}  # BGR
+RENK = {"DUVAR": (40, 40, 40), "KAPI": (0, 160, 220), "PENCERE": (200, 140, 0), "OLCU": (0, 150, 0),
+        "KONTROL": (0, 0, 230)}  # BGR
 GRI = (120, 120, 120)
 TR_ASCII = str.maketrans("çğıöşüÇĞİÖŞÜ", "cgiosuCGIOSU")
 
