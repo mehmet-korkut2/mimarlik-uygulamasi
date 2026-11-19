@@ -11,6 +11,7 @@ KATMAN_DUVAR = "DUVAR"
 KATMAN_KAPI = "KAPI"
 KATMAN_PENCERE = "PENCERE"
 KATMAN_OLCU = "OLCU"
+KATMAN_KONTROL = "KONTROL"  # programın emin olmadığı yerler (kapanmayan duvarlar, "emin değilim")
 
 # Katman -> AutoCAD renk numarası (ACI). 7 beyaz/siyah, 2 sarı, 4 camgöbeği, 3 yeşil.
 KATMAN_RENKLERI = {
@@ -18,11 +19,12 @@ KATMAN_RENKLERI = {
     KATMAN_KAPI: 2,
     KATMAN_PENCERE: 4,
     KATMAN_OLCU: 3,
+    KATMAN_KONTROL: 1,  # kırmızı
 }
 
 # --- Mimari ölçüler (cm) ----------------------------------------------------
-DIS_DUVAR_KALINLIGI = 25
-IC_DUVAR_KALINLIGI = 10
+# Duvar kalınlıkları mimara soruldu (S6): değerleri varsayimlar.py'de değiştir.
+from mimarlik.varsayimlar import DIS_DUVAR_KALINLIGI, IC_DUVAR_KALINLIGI  # noqa: E402,F401
 KAPI_GENISLIGI = 90
 PENCERE_GENISLIGI = 120
 
