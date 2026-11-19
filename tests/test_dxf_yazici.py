@@ -7,10 +7,11 @@ import ezdxf
 import numpy as np
 import pytest
 
-from mimarlik.dxf_yazici import cizgi_ekle, kaydet, olcu_ekle, yay_ekle, yeni_cizim
+from mimarlik.dxf_yazici import cizgi_ekle, kaydet, olcu_ekle, yay_ekle, yazi_ekle, yeni_cizim
 from mimarlik.standartlar import (
     KATMAN_DUVAR,
     KATMAN_KAPI,
+    KATMAN_KONTROL,
     KATMAN_OLCU,
     KATMAN_RENKLERI,
     OLCU_STILI,
@@ -40,9 +41,9 @@ def test_yeni_cizim_bilinmeyen_birim_hata():
         yeni_cizim("inc")
 
 
-def test_dort_katman_dogru_renkle():
+def test_bes_katman_dogru_renkle():
     doc = yeni_cizim()
-    assert len(KATMAN_RENKLERI) == 4
+    assert len(KATMAN_RENKLERI) == 5
     for ad, renk in KATMAN_RENKLERI.items():
         assert doc.layers.get(ad).color == renk
 
@@ -246,3 +247,21 @@ def test_olcu_blogundaki_yazinin_stili_tanimli(olculu_okunan):
     yazilar = [e for e in blok if e.dxftype() == "MTEXT"]
     assert len(yazilar) == 1
     assert yazilar[0].dxf.style in olculu_okunan.styles
+
+
+# --- yazi_ekle ----------------------------------------------------------------
+
+def test_yazi_katmanda_ve_konumda(tmp_path):
+    doc = yeni_cizim()
+    yazi_ekle(doc, "yatay fark 40 cm", (10, 20), 15, KATMAN_KONTROL)
+    okunan = ezdxf.readfile(kaydet(doc, tmp_path / "y.dxf"))
+    yazi = okunan.modelspace().query("TEXT")[0]
+    assert yazi.dxf.text == "yatay fark 40 cm"
+    assert yazi.dxf.layer == KATMAN_KONTROL
+    assert tuple(yazi.dxf.insert)[:2] == (10, 20)
+    assert yazi.dxf.style in okunan.styles
+
+
+def test_yazi_hatali_yukseklik():
+    with pytest.raises(ValueError):
+        yazi_ekle(yeni_cizim(), "x", (0, 0), 0, KATMAN_KONTROL)

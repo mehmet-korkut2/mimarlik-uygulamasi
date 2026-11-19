@@ -173,3 +173,20 @@ def olcu_ekle(
     # render(): ölçünün görünen çizgilerini (blok) üretir; yoksa bazı
     # programlar ölçüyü boş gösterir.
     olcu.render()
+
+
+def yazi_ekle(
+    doc: Drawing,
+    metin: str,
+    konum: tuple[float, float],
+    yukseklik: float,
+    katman: str,
+) -> None:
+    """Tek satırlık yazı (TEXT) ekler; konum yazının sol alt köşesi."""
+    _katmani_dogrula(katman)
+    x, y, yuk = _sonlu_sayilar("Yazı", *konum, yukseklik)
+    if yuk <= 0:
+        raise ValueError(f"Yazı yüksekliği sıfırdan büyük olmalı, gelen: {yukseklik!r}")
+    doc.modelspace().add_text(
+        metin, height=yuk, dxfattribs={"layer": katman, "style": OLCU_YAZI_STILI}
+    ).set_placement((x, y))
