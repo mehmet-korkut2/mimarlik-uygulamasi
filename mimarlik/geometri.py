@@ -42,7 +42,7 @@ class Plan:
     kenarlar: tuple[KenarPlani, ...]               # kontur sırasıyla
     kapanma: dict                                  # {"yatay": {...}, "dikey": {...}}
     olcek_cm_px: float | None
-    ic_duvarlar: tuple[tuple[str, Nokta, Nokta], ...]  # konturda olmayan kenarlar, ölçekten (cm)
+    ic_duvarlar: tuple[tuple[str, Nokta, Nokta], ...]  # konturda olmayan bulunan kenarlar, ölçekten (cm)
     notlar: tuple[str, ...]
 
 
@@ -95,13 +95,38 @@ def _fark_notu(eksen: str, fark: float) -> dict:
     return {"fark_cm": round(fark, 1), "tutuyor": tutuyor, "not": f"{eksen} fark {abs(fark):.0f} cm, {durum}"}
 
 
+def _olcek(kenarlar, secilen) -> float | None:
+    """Sayısı okunan bütün kenarların (konturda olsun olmasın) cm/px oranlarının medyanı."""
+    oranlar = []
+    for k in kenarlar:
+        boy, _ = varsayimlar.kenar_boyu([secilen[p.id].deger if p.id in secilen else None for p in k.parcalar])
+        if boy is not None and _px(k) > 0:
+            oranlar.append(boy / _px(k))
+    return statistics.median(oranlar) if oranlar else None
+
+
+def _konturda_olmayanlar(sonuc: KenarSonucu, olcek: float | None, p0: Nokta):
+    """Konturda olmayan kenarlar, p0 pikseli (0, 0) olacak şekilde ölçekten cm'ye (ölçek yoksa boş)."""
+    if olcek is None:
+        return ()
+
+    def cm(q):
+        x, y = _dondur((q[0] - p0[0], q[1] - p0[1]), sonuc.eksen_acisi_derece)
+        return (x * olcek, -y * olcek)
+
+    return tuple((k.id, cm(k.parcalar[0].bas), cm(k.parcalar[-1].bit)) for k in sonuc.kenarlar if not k.konturda)
+
+
 def plan_kur(sonuc: KenarSonucu, olculer: list[SonOlcu], h: float) -> Plan:
     sozluk = {k.id: k for k in sonuc.kenarlar}
     kontur = [sozluk[i] for i in sonuc.kontur_sirasi]
     secilen = _parca_degerleri(olculer)
     notlar = []
+    olcek = _olcek(sonuc.kenarlar, secilen)
     if not kontur:
-        return Plan((), {}, None, (), ("dış kontur bulunamadı",))
+        # bulunan kenarlar yine de (ölçekten) KONTROL'de görünsün: kullanıcı neyin bulunduğunu görür
+        p0 = sonuc.kenarlar[0].parcalar[0].bas if sonuc.kenarlar else (0.0, 0.0)
+        return Plan((), {}, olcek, _konturda_olmayanlar(sonuc, olcek, p0), ("dış kontur bulunamadı",))
 
     kayit = {}
     for k in kontur:
@@ -111,8 +136,6 @@ def plan_kur(sonuc: KenarSonucu, olculer: list[SonOlcu], h: float) -> Plan:
         kayit[k.id] = {"degerler": degerler, "boy": boy, "tamami": tamami, "emin": emin,
                        "durum": "olcu" if boy is not None else None, "yon": _yon(k, sonuc.eksen_acisi_derece)}
 
-    oranlar = [kayit[k.id]["boy"] / _px(k) for k in kontur if kayit[k.id]["boy"] is not None and _px(k) > 0]
-    olcek = statistics.median(oranlar) if oranlar else None
     if olcek is None:
         notlar.append("hiçbir kenarın boyu okunamadı: ölçek yok, piksel boyları cm sayıldı")
 
@@ -149,13 +172,5 @@ def plan_kur(sonuc: KenarSonucu, olculer: list[SonOlcu], h: float) -> Plan:
 
     kapanma = {"yatay": _fark_notu("yatay", p[0]), "dikey": _fark_notu("dikey", p[1])}
 
-    ic = []
-    if olcek is not None:
-        p0 = kontur[0].parcalar[0].bas
-
-        def cm(q):
-            x, y = _dondur((q[0] - p0[0], q[1] - p0[1]), sonuc.eksen_acisi_derece)
-            return (x * olcek, -y * olcek)
-
-        ic = [(k.id, cm(k.parcalar[0].bas), cm(k.parcalar[-1].bit)) for k in sonuc.kenarlar if not k.konturda]
-    return Plan(tuple(planlar), kapanma, olcek, tuple(ic), tuple(notlar))
+    ic = _konturda_olmayanlar(sonuc, olcek, kontur[0].parcalar[0].bas)
+    return Plan(tuple(planlar), kapanma, olcek, ic, tuple(notlar))

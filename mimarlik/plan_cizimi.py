@@ -152,16 +152,16 @@ def _kontrol(doc: Drawing, plan: Plan, olculer: list[SonOlcu], sadece_y2) -> lis
     serbest += [f"? {d}: yalnızca Y2 okudu ({pid})" for d, pid in sadece_y2]
     serbest += [f"! {n}" for n in plan.notlar]
 
-    # iç duvarlar: ölçüsüz, ölçekten
+    # konturda olmayan kenarlar (iç duvar ya da kapanmayan konturun parçaları): ölçüsüz, ölçekten
     for kid, a, b in plan.ic_duvarlar:
         cizgi_ekle(doc, [(*a, *b)], KATMAN_KONTROL)
         orta = ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2)
-        yazi_ekle(doc, f"{kid} ölçüsüz (iç duvar)", orta, YAZI, KATMAN_KONTROL)
-        notlar.append(f"{kid} ölçüsüz (iç duvar)")
+        yazi_ekle(doc, f"{kid} ölçüsüz (konturda değil)", orta, YAZI, KATMAN_KONTROL)
+        notlar.append(f"{kid} ölçüsüz (konturda değil)")
 
     if serbest:
-        xs = [p[0] for k in plan.kenarlar for p in (k.bas, k.bit)] or [0.0]
-        ys = [p[1] for k in plan.kenarlar for p in (k.bas, k.bit)] or [0.0]
+        noktalar = [p for k in plan.kenarlar for p in (k.bas, k.bit)] +                    [p for _, a, b in plan.ic_duvarlar for p in (a, b)]
+        xs, ys = [p[0] for p in noktalar] or [0.0], [p[1] for p in noktalar] or [0.0]
         x, y = min(xs), min(ys) - varsayimlar.DIS_DUVAR_KALINLIGI - 4 * NOT_MESAFESI
         for j, metin in enumerate(serbest):
             yazi_ekle(doc, metin, (x, y - j * YAZI * 1.6), YAZI, KATMAN_KONTROL)

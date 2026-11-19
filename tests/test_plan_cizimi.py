@@ -87,5 +87,5 @@ def test_emin_olmayan_ve_hesaplanan_kontrolde(tmp_path):
 def test_ic_duvar_kontrolde(tmp_path):
     olculer = [_o(800, "K1.1"), _o(600, "K2.1"), _o(800, "K3.1"), _o(600, "K4.1")]
     doc, notlar = ciz(plan_kur(_dikdortgen(ic=True), olculer, H), olculer)
-    assert "K5 ölçüsüz (iç duvar)" in notlar
+    assert "K5 ölçüsüz (konturda değil)" in notlar
     assert len(_katmanda(_okunan(doc, tmp_path), "LINE", KATMAN_KONTROL)) == 1

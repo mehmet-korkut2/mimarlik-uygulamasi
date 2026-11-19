@@ -118,6 +118,14 @@ def test_kontur_yoksa_not():
     assert plan.kenarlar == () and plan.notlar == ("dış kontur bulunamadı",)
 
 
+def test_kontur_yoksa_bulunan_kenarlar_olcekten():
+    s = _dikdortgen()
+    s = KenarSonucu(0.0, tuple(Kenar(k.id, k.yon, k.parcalar, False) for k in s.kenarlar), (), ())
+    plan = plan_kur(s, [_o(800, "K1.1")], H)                  # 2 cm/px, konturda olmayan kenardan
+    assert plan.olcek_cm_px == 2 and plan.notlar == ("dış kontur bulunamadı",)
+    assert plan.ic_duvarlar[1] == ("K2", (800, 0), (800, -600))
+
+
 def test_olcek_yoksa_not():
     plan = plan_kur(_dikdortgen(), [], H)
     assert any("ölçek yok" in n for n in plan.notlar)
