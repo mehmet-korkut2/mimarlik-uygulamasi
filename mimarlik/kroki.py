@@ -6,7 +6,8 @@ Kullanım (repo kökünden):
 
 Akış: çizgi silme -> Qwen-1 (sayılar + kutular) -> kenar bulma, bölgeler, değer atama, geometrik bağlama
 -> Qwen-2 / Y2 (numaralı parçalar) -> birleştirme -> geometri -> DXF + JSON rapor.
-Çıktılar: <cikti>/<ad>.dxf, <ad>.json, <ad>_parcalar.jpg (Y2'ye verilen görsel; fotoğraf sayılır,
+Çıktılar: <cikti>/<ad>.dwg (B-12; ODA File Converter kuruluysa, `--dwgsiz` ile kapatılır), <ad>.dxf, <ad>.json,
+<ad>_parcalar.jpg (Y2'ye verilen görsel; fotoğraf sayılır,
 output/ .gitignore'da). `--okuma`, önceki JSON'daki ham Qwen cevaplarını kullanır: Qwen-1 her zaman kayıttan; Y2 yalnızca
 parçalar aynıysa kayıttan, kenar bulma değiştiyse Y2 Qwen'e yeniden sorulur.
 """
@@ -24,6 +25,7 @@ import cv2
 import numpy as np
 
 from mimarlik import okuma, varsayimlar
+from mimarlik.dwg import KURULUM_NOTU, dwg_yaz
 from mimarlik.birlestirme import birlestir
 from mimarlik.bolge_bulma import bolgeleri_bul
 from mimarlik.dxf_yazici import kaydet
@@ -176,9 +178,10 @@ def _ozet(rapor: dict) -> str:
 
 
 def main(argv=None) -> int:
-    ap = argparse.ArgumentParser(prog="python -m mimarlik.kroki", description="El çizimi kroki fotoğrafı -> DXF")
+    ap = argparse.ArgumentParser(prog="python -m mimarlik.kroki", description="El çizimi kroki fotoğrafı -> DWG + DXF")
     ap.add_argument("fotograf", type=Path)
     ap.add_argument("--cikti", type=Path, default=Path("output"), help="çıktı klasörü (varsayılan: output/)")
+    ap.add_argument("--dwgsiz", action="store_true", help="DWG'ye dönüştürme, yalnız DXF yaz")
     ap.add_argument("--okuma", type=Path, help="önceki çalıştırmanın JSON'u: Qwen yerine ham cevapları kullan")
     arg = ap.parse_args(argv)
 
@@ -196,7 +199,10 @@ def main(argv=None) -> int:
     cv2.imwrite(str(arg.cikti / f"{ad}_parcalar.jpg"), rapor.pop("_parca_gorseli"))
     (arg.cikti / f"{ad}.json").write_text(json.dumps(rapor, ensure_ascii=False, indent=1), encoding="utf-8")
     print(_ozet(rapor))
-    print(f"\nYazıldı: {dxf}, {arg.cikti / (ad + '.json')}")
+    dwg = None if arg.dwgsiz else dwg_yaz(dxf)
+    print(f"\nYazıldı: {', '.join(str(y) for y in (dwg, dxf, arg.cikti / (ad + '.json')) if y)}")
+    if dwg is None and not arg.dwgsiz:
+        print(KURULUM_NOTU)
     return 0
 
 

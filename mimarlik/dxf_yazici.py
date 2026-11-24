@@ -9,6 +9,7 @@ from ezdxf import zoom
 from ezdxf.document import Drawing
 
 from mimarlik.standartlar import (
+    KATMAN_KALINLIKLARI,
     KATMAN_RENKLERI,
     OLCU_STILI,
     OLCU_YAZI_STILI,
@@ -31,7 +32,8 @@ def yeni_cizim(birim: str = "cm") -> Drawing:
     doc.header["$MEASUREMENT"] = 1  # metrik
 
     for ad, renk in KATMAN_RENKLERI.items():
-        doc.layers.add(ad, color=renk)
+        doc.layers.add(ad, color=renk, lineweight=KATMAN_KALINLIKLARI[ad])
+    doc.header["$LWDISPLAY"] = 1  # çizgi kalınlıkları ekranda da görünsün (AutoCAD "LWT" düğmesi)
 
     # Ölçü yazısının stili çizimde tanımlı olmalı (setup=False ile yalnızca
     # "Standard" gelir). standartlar.py'de başka bir ad seçilirse burada oluşur.

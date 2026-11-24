@@ -48,6 +48,19 @@ def test_bes_katman_dogru_renkle():
         assert doc.layers.get(ad).color == renk
 
 
+def test_katman_kalinliklari_b10_hiyerarsisi(tmp_path):
+    from mimarlik.standartlar import (KATMAN_DUVAR, KATMAN_KALINLIKLARI, KATMAN_KAPI, KATMAN_OLCU,
+                                      KATMAN_PENCERE)
+    k = KATMAN_KALINLIKLARI
+    assert k[KATMAN_DUVAR] > k[KATMAN_KAPI] == k[KATMAN_PENCERE] > k[KATMAN_OLCU] > 0   # duvar > kapı/pencere > ölçü
+    gecerli = {0, 5, 9, 13, 15, 18, 20, 25, 30, 35, 40, 50, 53, 60, 70, 80, 90, 100, 106, 120, 140, 158, 200, 211}
+    assert set(k.values()) <= gecerli and set(k) == set(KATMAN_RENKLERI)
+    okunan = ezdxf.readfile(kaydet(yeni_cizim(), tmp_path / "k.dxf"))
+    for ad, kalinlik in k.items():
+        assert okunan.layers.get(ad).dxf.lineweight == kalinlik
+    assert okunan.header["$LWDISPLAY"] == 1
+
+
 def test_olcu_stili_var():
     stil = yeni_cizim().dimstyles.get(OLCU_STILI)
     assert stil.dxf.dimtxt == OLCU_YAZI_YUKSEKLIGI
