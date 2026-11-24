@@ -83,7 +83,9 @@ def test_emin_olmayan_ve_hesaplanan_kontrolde(tmp_path):
     assert len(_katmanda(msp, "DIMENSION", KATMAN_KONTROL)) == 1        # hesaplanan kenarın ölçüsü
     assert any(n.startswith("DOĞRULANAMADI: yatay doğrulanamadı: K3") for n in notlar)
     assert not any("KAPANMIYOR" in n for n in notlar)
-    assert len(_katmanda(msp, "TEXT", KATMAN_KONTROL)) == len(notlar)
+    # 3 notun yeri var (kapanma, K3, 300): planda 3 numara + "KONTROL NOTLARI" + 5 liste satırı
+    assert len(_katmanda(msp, "CIRCLE", KATMAN_KONTROL)) == 3
+    assert len(_katmanda(msp, "TEXT", KATMAN_KONTROL)) == 3 + 1 + len(notlar)
 
 
 def test_ic_duvar_kontrolde(tmp_path):
@@ -127,3 +129,20 @@ def test_hesaplanan_kenar_kontrolde_cizgiyle_isaretli_kapanma_acigi_yok(tmp_path
     doc, _ = ciz(plan_kur(_dikdortgen(), olculer, H), olculer)
     kontrol = _katmanda(_okunan(doc, tmp_path), "LINE", KATMAN_KONTROL)
     assert sorted(round(_uzunluk(e)) for e in kontrol) == [400]          # yalnız hesaplanan K3 (açık yok: fark 0)
+
+
+def test_planda_yalniz_numara_tam_metin_sagda_liste(tmp_path):
+    olculer = [_o(400, "K1.1"), _o(300, "K2.1", emin=False), _o(300, "K4.1")]
+    doc, notlar = ciz(plan_kur(_dikdortgen(), olculer, H), olculer)
+    msp = _okunan(doc, tmp_path)
+    yazilar = _katmanda(msp, "TEXT", KATMAN_KONTROL)
+    numaralar = [e for e in yazilar if e.dxf.text.isdigit()]
+    liste = [e for e in yazilar if e.dxf.text[:1].isdigit() and ". " in e.dxf.text]
+    assert sorted(e.dxf.text for e in numaralar) == [str(n) for n in range(1, len(numaralar) + 1)]
+    assert [e.dxf.text for e in liste] == [f"{n}. {m}" for n, m in enumerate(notlar, 1)]   # sırayla, tam metin
+    plan_sag = max(max(e.dxf.start.x, e.dxf.end.x) for e in _katmanda(msp, "LINE", KATMAN_DUVAR))
+    assert all(e.dxf.insert.x > plan_sag for e in liste)                        # planın sağında
+    ys = [e.dxf.insert.y for e in liste]
+    assert ys == sorted(ys, reverse=True) and len(set(ys)) == len(ys)            # alt alta, üst üste binmez
+    assert not any(len(e.dxf.text) > 3 and not e.dxf.text[0].isdigit() and e.dxf.text != "KONTROL NOTLARI"
+                   for e in yazilar)                                            # planın üstünde uzun metin yok
