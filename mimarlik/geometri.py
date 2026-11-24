@@ -81,10 +81,10 @@ def _parcalara_dagit(kenar: Kenar, boy: float, degerler: list[int | None], tamam
     if not tamami and all(d is not None for d in degerler):
         return [float(d) for d in degerler]
     if not tamami and any(d is not None for d in degerler):
-        kalan = boy - sum(d for d in degerler if d is not None)
-        bos_px = sum(px for px, d in zip(pxler, degerler) if d is None)
-        if kalan > 0 and bos_px > 0:
-            return [float(d) if d is not None else kalan * px / bos_px for px, d in zip(pxler, degerler)]
+        # okunan sayı her zaman korunur; sayısız parçalar kalanı piksel oranıyla paylaşır (kalan < 0 ise 0)
+        kalan = max(0.0, boy - sum(d for d in degerler if d is not None))
+        bos_px = sum(px for px, d in zip(pxler, degerler) if d is None) or 1.0
+        return [float(d) if d is not None else kalan * px / bos_px for px, d in zip(pxler, degerler)]
     toplam = sum(pxler) or 1.0
     return [boy * px / toplam for px in pxler]
 
@@ -146,10 +146,12 @@ def plan_kur(sonuc: KenarSonucu, olculer: list[SonOlcu], h: float) -> Plan:
             k = bilinmeyen[0]
             isaret = kayit[k.id]["yon"][i]
             gerekli = -sum(kayit[b.id]["boy"] * kayit[b.id]["yon"][i] for b in kenarlar if b is not k) / isaret
-            if gerekli > 0:
+            okunan = sum(d for d in kayit[k.id]["degerler"] if d is not None)
+            if gerekli > 0 and gerekli >= okunan:
                 kayit[k.id].update(boy=gerekli, durum="hesaplandi", emin=False)
                 continue
-            notlar.append(f"{k.id}: kapanmadan hesaplanan boy {gerekli:.0f} cm ≤ 0, ölçekten tahmin edildi")
+            notlar.append(f"{k.id}: kapanmadan hesaplanan boy {gerekli:.0f} cm, okunan parçaların toplamından "
+                          f"({okunan} cm) küçük ya da ≤ 0; ölçekten tahmin edildi")
         for k in bilinmeyen:
             r = kayit[k.id]
             o = olcek or 1.0

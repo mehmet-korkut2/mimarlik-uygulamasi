@@ -89,16 +89,19 @@ def _duvarlar(doc: Drawing, plan: Plan) -> None:
 
 
 def _olculer(doc: Drawing, plan: Plan) -> None:
+    """Okunan sayı -> o parçaya OLCU; sayıdan gelmeyen boy -> KONTROL (parça ya da kenar)."""
     uzaklik = varsayimlar.DIS_DUVAR_KALINLIGI + OLCU_MESAFESI
     for k in plan.kenarlar:
-        if k.durum != "olcu" or k.tek_sayi_tamami or any(p.deger is None for p in k.parcalar):
-            if k.boy > 0:   # tüm kenar tek ölçü; sayıdan gelmediyse KONTROL'de
+        okunan = [p.deger is not None for p in k.parcalar]
+        if k.tek_sayi_tamami or not any(okunan):   # tek ölçü bütün kenara
+            if k.boy > 0:
                 katman = KATMAN_OLCU if k.durum == "olcu" else KATMAN_KONTROL
                 olcu_ekle(doc, k.bas, k.bit, uzaklik, katman)
             continue
         for p, a, b in _parca_araliklari(k):
             if b > a:
-                olcu_ekle(doc, _topla(k.bas, _kat(k.yon, a)), _topla(k.bas, _kat(k.yon, b)), uzaklik, KATMAN_OLCU)
+                katman = KATMAN_OLCU if p.deger is not None else KATMAN_KONTROL
+                olcu_ekle(doc, _topla(k.bas, _kat(k.yon, a)), _topla(k.bas, _kat(k.yon, b)), uzaklik, katman)
 
 
 def _kontrol(doc: Drawing, plan: Plan, olculer: list[SonOlcu], sadece_y2) -> list[str]:

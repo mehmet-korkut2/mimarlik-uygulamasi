@@ -89,3 +89,13 @@ def test_ic_duvar_kontrolde(tmp_path):
     doc, notlar = ciz(plan_kur(_dikdortgen(ic=True), olculer, H), olculer)
     assert "K5 ölçüsüz (konturda değil)" in notlar
     assert len(_katmanda(_okunan(doc, tmp_path), "LINE", KATMAN_KONTROL)) == 1
+
+
+def test_s3_b_okunan_parca_olcude_hesaplanan_parca_kontrolde(tmp_path):
+    alt = [("duvar", (400, 300), (100, 300)), ("duvar", (100, 300), (0, 300))]
+    olculer = [_o(420, "K1.1"), _o(300, "K2.1"), _o(320, "K3.1"), _o(300, "K4.1")]
+    doc, _ = ciz(plan_kur(_dikdortgen(alt), olculer, H), olculer)
+    msp = _okunan(doc, tmp_path)
+    olcu = sorted(round(e.get_measurement()) for e in _katmanda(msp, "DIMENSION", KATMAN_OLCU))
+    kontrol = sorted(round(e.get_measurement()) for e in _katmanda(msp, "DIMENSION", KATMAN_KONTROL))
+    assert olcu == [300, 300, 320, 420] and kontrol == [100]

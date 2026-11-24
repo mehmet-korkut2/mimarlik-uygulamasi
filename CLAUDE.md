@@ -78,6 +78,7 @@ Girdi: `ornekler/03_*` – `ornekler/07_*`.
 - [ ] Yükseklik notları (`H=`, `h1`, `h2`), kesikli çizgiler, oda adları.
 - [ ] Birden fazla oda ve ortak duvarlar.
 - [ ] Her öğeyi doğru katmana yerleştir.
+- [ ] Kâğıt türleri (mimar, B-8: kareli, düz ve aydınger hepsi kullanılıyor): ön işleme hepsine dayanıklı olmalı (çizgi ve nokta silme). Şu an yalnız çizgili defter destekleniyor.
 - [ ] Doğruluk ölçümü: mimarın verdiği "doğru cevap" ölçüleri / AutoCAD dosyalarıyla karşılaştır.
 
 **Bitti sayılır:** Çıktı DXF'te duvar, kapı ve pencere ayrı katmanlarda; mimar dosyayı açınca "bunu düzeltmek sıfırdan çizmekten hızlı" diyor.

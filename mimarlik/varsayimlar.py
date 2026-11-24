@@ -2,6 +2,8 @@
 
 Mimara gönderilen soru listesi (output/mimara_sorular.pdf, 19.11.2026) cevaplanınca
 yalnızca bu dosya değişir. Her varsayımın yanında ilgili soru numarası (S1, S3, S6…) yazar.
+Mimarın cevapları: 24.11.2026 (mimar_cevaplari.pdf). Her kuralın yanında durumu yazar:
+KESİN = mimar cevapladı, AÇIK = cevap yok, eski varsayım duruyor.
 
 Tüm uzunluklar cm cinsindendir.
 """
@@ -18,10 +20,11 @@ IC_DUVAR_KALINLIGI = 10
 # kenarın boyu. Açıklık kapı sayılır, içeri açılır, menteşe açıklığın kontur yönündeki başında.
 ACIKLIK_KAPIDIR = True
 
-# --- S3: iç duvarın birleştiği kenara yazılan sayı -------------------------------------------------
-# Kenarın tek bir parçasına sayı yazılmış ve diğer parçalarında sayı yoksa, o sayı kenarın köşeden
-# köşeye TAMAMIDIR (02'deki üst 300 = A). False olursa sayı yalnızca o parçanın boyu sayılır.
-TEK_SAYI_KENARIN_TAMAMI = True
+# --- S3: iç duvarın birleştiği kenara yazılan sayı (KESİN, mimar 24.11.2026: "B") ------------------
+# Sayı, iç duvarın birleştiği noktadan köşeye kadarki PARÇANIN ölçüsüdür (02'deki üst 300 tüm duvar değil).
+# Kenarın diğer parçaları kapanmadan hesaplanır, olmazsa ölçekten tahmin edilir.
+# True: eski varsayım A (tek sayı kenarın köşeden köşeye tamamı); mimar bunu reddetti.
+TEK_SAYI_KENARIN_TAMAMI = False
 
 # --- S4: toplamlar tutmuyor ------------------------------------------------------------------------
 # Karşılıklı duvar toplamları arasındaki bu kadar farka "tutuyor" denir (fark yine de raporlanır).
