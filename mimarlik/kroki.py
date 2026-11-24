@@ -65,7 +65,7 @@ def kapi_ipuclari(ham_sayilar: str, atanmis, genislik: int, yukseklik: int) -> l
         merkez = ((x1 + x2) / 2, (y1 + y2) / 2)
         if deger in varsayimlar.KAPI_GENISLIKLERI and merkez not in etiket_yerleri:   # K90 iki kez sayılmasın
             ipuclari.append(KapiIpucu(merkez, "sayi", deger))
-    for bolge, deger in atanmis:
+    for bolge, deger, *_ in atanmis:
         if int(deger) in varsayimlar.KAPI_GENISLIKLERI:
             x1, y1, x2, y2 = bolge.kutu
             ipuclari.append(KapiIpucu(((x1 + x2) / 2, (y1 + y2) / 2), "sayi", int(deger)))
@@ -85,6 +85,25 @@ def kapi_parcalari(sonuc, h: float) -> list[tuple[int, str, tuple[float, float],
         if adaylar and min(adaylar)[0] <= 2 * h:
             sonuc_listesi.append((kapi.deger, min(adaylar)[1], orta, kapi.kaynak))
     return sonuc_listesi
+
+
+def _gecis(maske, sonuc, ogeler, h):
+    """Kenar sonucundan: bölgeler -> değer atama -> geometrik bağlama (Kroki)."""
+    bolgeler = bolgeleri_bul(maske, sonuc, h)
+    atanmis, yok, okunmamis = degerleri_ata(bolgeler, ogeler, h)
+    return kroki_kur(sonuc, atanmis, yok, okunmamis, h)
+
+
+def _y2(silinmis, sonuc, sor, kayit):
+    """Y2: numaralı parça görseli -> Qwen (ya da parçalar aynıysa kayıt)."""
+    parca_gorseli, eslem = okuma.parca_gorseli(silinmis, sonuc)
+    geometri = _parca_geometrisi(sonuc, eslem)
+    if kayit and _kayit_gecerli(kayit, eslem, geometri):
+        ham_parcalar, kaynak = kayit["parcalar"], "kayit"
+    else:
+        ham_parcalar = sor(okuma.ISTEM_PARCALAR, okuma.png(parca_gorseli)) if eslem else ""
+        kaynak = "qwen" if eslem else "yok"
+    return parca_gorseli, eslem, geometri, ham_parcalar, kaynak, okuma.parca_degerlerini_ayristir(ham_parcalar, eslem)
 
 
 def coz(bgr: np.ndarray, sor: Sor, kayit: dict | None = None) -> dict:
@@ -108,29 +127,18 @@ def coz(bgr: np.ndarray, sor: Sor, kayit: dict | None = None) -> dict:
     gen, yuk = bgr.shape[1], bgr.shape[0]
     ogeler = okuma.sayilari_ayristir(ham_sayilar, gen, yuk)
 
-    # 1. geçiş (kapı kuralı yok): kapı ipuçları ve ölçek tahmini için
+    # 1. geçiş (kapı kuralı yok): kapı ipuçları için
     t0 = time.perf_counter()
-    atanmis0, yok0, okunmamis0 = degerleri_ata(bolgeler0, ogeler, bgr.shape[:2])
-    kroki0 = kroki_kur(sonuc0, atanmis0, yok0, okunmamis0, h)
-    olcek0 = plan_kur(sonuc0, birlestir(kroki0.olculer, kroki0.yeri_bulunamayan, [], sonuc0, h)[0], h).olcek_cm_px
+    atanmis0, _, _ = degerleri_ata(bolgeler0, ogeler, h)
     ipuclari = kapi_ipuclari(ham_sayilar, atanmis0, gen, yuk)
-    # 2. geçiş: kapı kuralıyla (etiket -> okunan sayı -> ölçek)
-    sonuc = kenarlari_bul(maske, h, tuple(ipuclari), olcek0)
-    bolgeler = bolgeleri_bul(maske, sonuc, h)
-    atanmis, yok, okunmamis = degerleri_ata(bolgeler, ogeler, bgr.shape[:2])
-    kroki = kroki_kur(sonuc, atanmis, yok, okunmamis, h)
+    # 2. geçiş: kapı kuralıyla (etiket -> okunan sayı; kanıtsız boşluk kapı olmaz, sorulur)
+    sonuc = kenarlari_bul(maske, h, tuple(ipuclari))
+    kroki = _gecis(maske, sonuc, ogeler, h)
     sureler["kapi_gecisi_s"] = time.perf_counter() - t0
 
-    parca_gorseli, eslem = okuma.parca_gorseli(silinmis, sonuc)
-    geometri = _parca_geometrisi(sonuc, eslem)
     t0 = time.perf_counter()
-    if kayit and _kayit_gecerli(kayit, eslem, geometri):
-        ham_parcalar, y2_kaynagi = kayit["parcalar"], "kayit"
-    else:
-        ham_parcalar = sor(okuma.ISTEM_PARCALAR, okuma.png(parca_gorseli)) if eslem else ""
-        y2_kaynagi = "qwen" if eslem else "yok"
+    parca_gorseli, eslem, geometri, ham_parcalar, y2_kaynagi, y2 = _y2(silinmis, sonuc, sor, kayit)
     sureler["qwen_parcalar_s"] = time.perf_counter() - t0
-    y2 = okuma.parca_degerlerini_ayristir(ham_parcalar, eslem)
 
     olculer, sadece_y2 = birlestir(kroki.olculer, kroki.yeri_bulunamayan, y2, sonuc, h, kapi_parcalari(sonuc, h))
     plan = plan_kur(sonuc, olculer, h)
@@ -152,7 +160,7 @@ def coz(bgr: np.ndarray, sor: Sor, kayit: dict | None = None) -> dict:
                      "deger": k.deger} for k in sonuc.kapilar],
         "kapi_ipuclari": [{"nokta": [round(v, 1) for v in i.nokta], "kaynak": i.kaynak, "deger": i.deger}
                           for i in ipuclari],
-        "olcek_ilk_gecis": olcek0,
+        "bosluklar": [[[round(v, 1) for v in a], [round(v, 1) for v in b]] for a, b in sonuc.bosluklar],
         "iptaller": [{"merkez": [round(v, 1) for v in i.merkez],
                       "silinen": [[round(v, 1) for v in p] for p in i.silinen]} for i in sonuc.iptaller],
         "ham": {"sayilar": ham_sayilar, "parcalar": ham_parcalar, "eslem": eslem, "parcalar_geometri": geometri,

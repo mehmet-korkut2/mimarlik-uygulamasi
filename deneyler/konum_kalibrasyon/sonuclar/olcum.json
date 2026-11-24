@@ -1,0 +1,244 @@
+{
+ "calistirmalar": [
+  {
+   "kaynak": "konum (ham foto)",
+   "kroki": "01",
+   "calistirma": 1,
+   "cift": 10,
+   "x_oran_medyan": 0.877,
+   "y_oran_medyan": 1.004,
+   "x_uyum_a_b": [
+    0.85,
+    9.9
+   ],
+   "y_uyum_a_b": [
+    0.932,
+    69.2
+   ]
+  },
+  {
+   "kaynak": "konum (ham foto)",
+   "kroki": "01",
+   "calistirma": 2,
+   "cift": 9,
+   "x_oran_medyan": 0.925,
+   "y_oran_medyan": 1.02,
+   "x_uyum_a_b": [
+    0.932,
+    -10.3
+   ],
+   "y_uyum_a_b": [
+    1.017,
+    7.0
+   ]
+  },
+  {
+   "kaynak": "konum (ham foto)",
+   "kroki": "01",
+   "calistirma": 3,
+   "cift": 10,
+   "x_oran_medyan": 0.858,
+   "y_oran_medyan": 0.995,
+   "x_uyum_a_b": [
+    0.926,
+    -15.8
+   ],
+   "y_uyum_a_b": [
+    0.929,
+    65.9
+   ]
+  },
+  {
+   "kaynak": "konum (ham foto)",
+   "kroki": "02",
+   "calistirma": 1,
+   "cift": 7,
+   "x_oran_medyan": 0.923,
+   "y_oran_medyan": 1.013,
+   "x_uyum_a_b": [
+    1.001,
+    -31.3
+   ],
+   "y_uyum_a_b": [
+    0.534,
+    425.4
+   ]
+  },
+  {
+   "kaynak": "konum (ham foto)",
+   "kroki": "02",
+   "calistirma": 2,
+   "cift": 13,
+   "x_oran_medyan": 0.962,
+   "y_oran_medyan": 1.014,
+   "x_uyum_a_b": [
+    0.839,
+    57.8
+   ],
+   "y_uyum_a_b": [
+    0.949,
+    52.5
+   ]
+  },
+  {
+   "kaynak": "konum (ham foto)",
+   "kroki": "02",
+   "calistirma": 3,
+   "cift": 10,
+   "x_oran_medyan": 0.826,
+   "y_oran_medyan": 1.001,
+   "x_uyum_a_b": [
+    1.064,
+    -124.7
+   ],
+   "y_uyum_a_b": [
+    1.096,
+    -62.9
+   ]
+  },
+  {
+   "kaynak": "ürün (çizgisiz)",
+   "kroki": "01",
+   "calistirma": 1,
+   "cift": 9,
+   "x_oran_medyan": 0.909,
+   "y_oran_medyan": 1.017,
+   "x_uyum_a_b": [
+    0.926,
+    -8.7
+   ],
+   "y_uyum_a_b": [
+    0.967,
+    46.7
+   ]
+  },
+  {
+   "kaynak": "ürün (çizgisiz)",
+   "kroki": "01",
+   "calistirma": 2,
+   "cift": 10,
+   "x_oran_medyan": 0.985,
+   "y_oran_medyan": 1.022,
+   "x_uyum_a_b": [
+    0.9,
+    47.7
+   ],
+   "y_uyum_a_b": [
+    0.999,
+    18.9
+   ]
+  },
+  {
+   "kaynak": "ürün (çizgisiz)",
+   "kroki": "01",
+   "calistirma": 3,
+   "cift": 10,
+   "x_oran_medyan": 0.845,
+   "y_oran_medyan": 1.013,
+   "x_uyum_a_b": [
+    1.044,
+    -63.3
+   ],
+   "y_uyum_a_b": [
+    1.06,
+    -41.6
+   ]
+  },
+  {
+   "kaynak": "ürün (çizgisiz)",
+   "kroki": "02",
+   "calistirma": 1,
+   "cift": 10,
+   "x_oran_medyan": 0.967,
+   "y_oran_medyan": 1.016,
+   "x_uyum_a_b": [
+    0.742,
+    131.4
+   ],
+   "y_uyum_a_b": [
+    0.958,
+    38.9
+   ]
+  },
+  {
+   "kaynak": "ürün (çizgisiz)",
+   "kroki": "02",
+   "calistirma": 2,
+   "cift": 10,
+   "x_oran_medyan": 1.022,
+   "y_oran_medyan": 0.996,
+   "x_uyum_a_b": [
+    0.903,
+    81.1
+   ],
+   "y_uyum_a_b": [
+    0.944,
+    36.5
+   ]
+  },
+  {
+   "kaynak": "ürün (çizgisiz)",
+   "kroki": "02",
+   "calistirma": 3,
+   "cift": 11,
+   "x_oran_medyan": 0.954,
+   "y_oran_medyan": 1.077,
+   "x_uyum_a_b": [
+    0.948,
+    -2.0
+   ],
+   "y_uyum_a_b": [
+    0.97,
+    57.3
+   ]
+  },
+  {
+   "kaynak": "iskelet kaydı",
+   "kroki": "01",
+   "calistirma": 1,
+   "cift": 7,
+   "x_oran_medyan": 0.886,
+   "y_oran_medyan": 0.998,
+   "x_uyum_a_b": [
+    0.803,
+    50.1
+   ],
+   "y_uyum_a_b": [
+    0.972,
+    7.4
+   ]
+  },
+  {
+   "kaynak": "iskelet kaydı",
+   "kroki": "02",
+   "calistirma": 1,
+   "cift": 13,
+   "x_oran_medyan": 0.937,
+   "y_oran_medyan": 0.977,
+   "x_uyum_a_b": [
+    1.036,
+    -63.4
+   ],
+   "y_uyum_a_b": [
+    1.048,
+    -45.8
+   ]
+  }
+ ],
+ "hepsi": {
+  "oran": {
+   "x": 0.937,
+   "y": 1.013
+  },
+  "uyum_a_b": {
+   "x": [
+    0.934,
+    -0.7
+   ],
+   "y": [
+    0.983,
+    23.3
+   ]
+  }
+ }
+}

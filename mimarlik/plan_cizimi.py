@@ -178,7 +178,10 @@ def _kontrol(doc: Drawing, plan: Plan, olculer: list[SonOlcu], sadece_y2) -> lis
     for orta, kaynak, deger in plan.kapilar:   # kapı kuralı: etiket yoksa çıkarım, kullanıcı görsün
         if kaynak == "etiket":
             continue
-        isaretli(f"? kapı {deger}: " + ("yakında okunan sayıdan" if kaynak == "sayi" else "ölçekten tahmin"), orta)
+        isaretli(f"? kapı {deger}: yakında okunan sayıdan", orta)
+
+    for orta in plan.bosluklar:   # kapı adayı ama kanıt yok (etiket / kapı genişliğinde sayı): kullanıcı karar verir
+        isaretli("? boşluk: kapı mı? (yakınında K etiketi ya da kapı genişliğinde sayı yok)", orta)
 
     for a, b in plan.iptaller:   # mimar S5: X = orada duvar yok
         cizgi_ekle(doc, [(*a, *b)], KATMAN_KONTROL)

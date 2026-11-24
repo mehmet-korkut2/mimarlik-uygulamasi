@@ -118,9 +118,11 @@ def test_cikarilan_kapi_kontrolde_etiketli_degil(tmp_path):
     from dataclasses import replace
     olculer = [_o(400, "K1.1"), _o(300, "K2.1"), _o(400, "K3.1"), _o(300, "K4.1")]
     plan = replace(plan_kur(_dikdortgen(), olculer, H),
-                   kapilar=(((10, 10), "sayi", 90), ((20, 20), "olcek", 80), ((30, 30), "etiket", 100)))
+                   kapilar=(((10, 10), "sayi", 90), ((30, 30), "etiket", 100)),
+                   bosluklar=((40, 40),))
     _, notlar = ciz(plan, olculer)
-    assert "? kapı 90: yakında okunan sayıdan" in notlar and "? kapı 80: ölçekten tahmin" in notlar
+    assert "? kapı 90: yakında okunan sayıdan" in notlar
+    assert "? boşluk: kapı mı? (yakınında K etiketi ya da kapı genişliğinde sayı yok)" in notlar
     assert not any("kapı 100" in n for n in notlar)
 
 

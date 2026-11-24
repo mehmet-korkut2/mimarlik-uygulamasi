@@ -56,8 +56,8 @@ class KapiBoslugu:
     """Kenar bulmanın kapı kuralıyla tamamladığı açıklık (iki duvar ucu arası)."""
     bas: Nokta
     bit: Nokta
-    kaynak: str      # "etiket" | "sayi" | "olcek"
-    deger: int       # kapı genişliği (cm): ipucunun değeri ya da ölçekten en yakın standart genişlik
+    kaynak: str      # "etiket" | "sayi"
+    deger: int       # kapı genişliği (cm): ipucunun değeri
 
 
 @dataclass(frozen=True)
@@ -73,6 +73,7 @@ class Olcu:
     parca_id: str | None
     neden: str | None   # "isaret" | "temas" | "en_yakin" | None
     anlam: str          # "uzunluk" | "bilinmiyor"
+    kutu_uzakligi: float | None = None   # h: Qwen kutusu ile bölge kutusu arası (None: bilinmiyor, ör. testte)
 
 
 @dataclass(frozen=True)
@@ -94,6 +95,7 @@ class KenarSonucu:
     isaretler: tuple[IsaretAdayi, ...]
     iptaller: tuple[IptalIsareti, ...] = ()   # X ile iptal edilen duvar parçaları
     kapilar: tuple[KapiBoslugu, ...] = ()     # kapı kuralıyla tamamlanan açıklıklar
+    bosluklar: tuple[tuple[Nokta, Nokta], ...] = ()   # kapı adayı ama kanıtsız boşluklar (kullanıcıya sorulur)
 
 
 def kroki_sozluk(kroki: Kroki) -> dict:
@@ -142,13 +144,24 @@ def parcayi_bul(p: Nokta, kenarlar, tolerans: float, tercih: Nokta | None = None
 # --- Değeri bölgeye atama (tasarım 5.4) -----------------------------------------------------------
 
 HANE_KATSAYISI = 0.8      # hane başına genişlik/yükseklik (01–02 gerçek kutularında medyan 0,814)
-W_HANE = 0.05             # 1 hane farkı ≈ köşegenin %5'i kadar mesafe cezası (~120 px)
-MESAFE_UST_SINIR = 0.2    # köşegen oranı; daha uzak (bölge, kutu) çifti atanmaz
+# Ö2 (2026-11-24, deneyler/deger_atama): atama YEREL ve SINIRLI. Eskiden merkez uzaklığı köşegenin %20'sine
+# (~12,7 h) kadar kabul ediliyordu; Qwen kutusu kayınca değerler zincirleme komşu bölgelere kayıyordu (01'in
+# "merdiven" şekli). 14 kayıtlı çalıştırmada yanlış atama 67 -> 29, doğru 124 -> 108, yeri bulunamayan 2 -> 56.
+ATAMA_SINIRI = 1.0        # h: Qwen kutusu ile bölge kutusu arası (kutular örtüşürse 0) bundan uzaksa atanmaz
+HANE_CEZASI = 0.5         # h: bir hane farkının mesafe karşılığı
+EMIN_YAKINLIK = 0.5       # h: "emin" için kutu–bölge uzaklığı en çok bu (ölçümde isabet 106/131)
 _YASAK = 1e6
 
 
 def _merkez(kutu: Kutu) -> Nokta:
     return ((kutu[0] + kutu[2]) / 2, (kutu[1] + kutu[3]) / 2)
+
+
+def kutu_uzakligi(a: Kutu, b: Kutu) -> float:
+    """İki kutu arasındaki en kısa uzaklık (örtüşüyorlarsa 0)."""
+    dx = max(a[0] - b[2], b[0] - a[2], 0.0)
+    dy = max(a[1] - b[3], b[1] - a[3], 0.0)
+    return math.hypot(dx, dy)
 
 
 def hane_tahmini(kutu: Kutu) -> float:
@@ -157,29 +170,29 @@ def hane_tahmini(kutu: Kutu) -> float:
     return ((x2 - x1) / max(y2 - y1, 1e-9)) / HANE_KATSAYISI
 
 
-def degerleri_ata(bolgeler, ogeler, boyut, w_hane: float = W_HANE):
+def degerleri_ata(bolgeler, ogeler, h: float, w_hane: float = HANE_CEZASI):
     """Qwen'in (değer, kutu) öğelerini bölgelere bire bir atar (toplam maliyet en küçük).
 
-    boyut: (yükseklik, genişlik). Döner: (atanmış [(Bolge, değer)], yeri bulunamayan [değer],
-    okunmamış [Bolge]).
+    Yalnız kutusu bölgeye ATAMA_SINIRI·h'den yakın çiftler aday: uzaktaki değer zorla atanmaz, "yeri
+    bulunamadı" kalır (Y2'ye / kullanıcıya). Maliyet (h): kutu–bölge uzaklığı + w_hane · hane farkı.
+    Döner: (atanmış [(Bolge, değer, kutu–bölge uzaklığı h)], yeri bulunamayan [değer], okunmamış [Bolge]).
     """
     from scipy.optimize import linear_sum_assignment
 
-    kosegen = math.hypot(boyut[0], boyut[1])
     if not bolgeler or not ogeler:
         return [], [d for d, _ in ogeler], list(bolgeler)
     maliyet = [[0.0] * len(ogeler) for _ in bolgeler]
+    uzaklik = [[0.0] * len(ogeler) for _ in bolgeler]
     for i, b in enumerate(bolgeler):
-        mb = _merkez(b.kutu)
         for j, (deger, kutu) in enumerate(ogeler):
-            d = math.dist(mb, _merkez(kutu)) / kosegen
-            maliyet[i][j] = _YASAK if d > MESAFE_UST_SINIR else \
-                d + w_hane * abs(hane_tahmini(b.kutu) - len(str(deger)))
+            u = kutu_uzakligi(b.kutu, kutu) / h
+            uzaklik[i][j] = u
+            maliyet[i][j] = _YASAK if u > ATAMA_SINIRI else u + w_hane * abs(hane_tahmini(b.kutu) - len(str(deger)))
     satirlar, sutunlar = linear_sum_assignment(maliyet)
     atanmis, kullanilan_b, kullanilan_o = [], set(), set()
     for i, j in zip(satirlar, sutunlar):
         if maliyet[i][j] < _YASAK:
-            atanmis.append((bolgeler[i], ogeler[j][0]))
+            atanmis.append((bolgeler[i], ogeler[j][0], round(uzaklik[i][j], 2)))
             kullanilan_b.add(i)
             kullanilan_o.add(j)
     yok = [ogeler[j][0] for j in range(len(ogeler)) if j not in kullanilan_o]
@@ -221,10 +234,11 @@ def anlam(parca: Parca, kenar: Kenar) -> str:
 def kroki_kur(sonuc: KenarSonucu, atanmis, yeri_bulunamayan, okunmamis, h: float) -> Kroki:
     kenar_sozlugu = {k.id: k for k in sonuc.kenarlar}
     olculer = []
-    for bolge, deger in atanmis:
+    for bolge, deger, *uzaklik in atanmis:
         parca, neden = bagla(bolge, sonuc, h)
         olculer.append(Olcu(deger=int(deger), bolge=bolge.kutu, parca_id=parca.id if parca else None, neden=neden,
-                            anlam=anlam(parca, kenar_sozlugu[parca.kenar_id]) if parca else "bilinmiyor"))
+                            anlam=anlam(parca, kenar_sozlugu[parca.kenar_id]) if parca else "bilinmiyor",
+                            kutu_uzakligi=uzaklik[0] if uzaklik else None))
     return Kroki(eksen_acisi_derece=sonuc.eksen_acisi_derece, kenarlar=sonuc.kenarlar,
                  kontur_sirasi=sonuc.kontur_sirasi, olculer=tuple(olculer),
                  yeri_bulunamayan=tuple(int(d) for d in yeri_bulunamayan),

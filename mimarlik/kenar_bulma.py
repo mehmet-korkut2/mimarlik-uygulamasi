@@ -25,7 +25,6 @@ CARPI_KESISIM_PAYI = 0.25    # h katı: kesişim noktası iki çizgiye de bu kad
 # Kapı boşluğu (3. adım, kullanıcı kararı 2026-11-24): boşta kalan iki duvar ucu arası, ipucuyla
 KAPI_KAYMASI = 1.0           # h katı: kapının iki yanı bu kadar yana kayık olabilir (normal açıklıkta h/2)
 KAPI_IPUCU_MESAFESI = 5.0    # h katı: etiket ya da sayı boşluğun ortasına en fazla bu kadar uzak (01: 2,2h, 02: 4,4h)
-KAPI_OLCEK_PAYI = 10         # cm: ipucu yoksa ölçekten tahmin genişlik standart bir kapıya bu kadar yakın olmalı
 SANAL_DUVAR = 0.5            # h katı: karşı uç dik bir duvarın ucuysa oraya konan sanal duvar parçası
 TASMA_SINIRI = 1.5           # h katı: kapı yanındaki parça dik bir duvarı en fazla bu kadar aşıyorsa kırpılır
 
@@ -308,7 +307,7 @@ def _kapi_adaylari(cizgiler, yonler, baglantilar, h, tol):
     """[(i, ui, j, uj, A, B, bosluk_px)]: i'nin A ucundan dışarı doğru, karşıda j'nin B ucu.
 
     Uçların boşta olması aranmaz: kapı kanadı ve ölçü çizgisi kapının uçlarına değer (02). İki yan da duvar
-    gibi olmalı; asıl eleme ipucunda (boşluğun ortasına yakın etiket/sayı) ya da ölçekte.
+    gibi olmalı; asıl eleme ipucunda (boşluğun ortasına yakın etiket/sayı). Kanıtsız aday kapı olmaz, sorulur.
     """
     adaylar = []
     for i, c in enumerate(cizgiler):
@@ -340,21 +339,20 @@ def _kapi_adaylari(cizgiler, yonler, baglantilar, h, tol):
     return adaylar
 
 
-def _kapi_secimi(aday, ipuclari, olcek, h):
-    """(kaynak, değer, uzaklık) ya da None: önce etiket, sonra sayı (yakında), yoksa ölçekten genişlik."""
+KAPI_KANIT_SIRASI = ("etiket", "sayi")   # Y2'yi zayıf ipucu saymak denendi, geri alındı (varsayimlar.KAPI_KANIT_SART)
+
+
+def _kapi_secimi(aday, ipuclari, h):
+    """(kaynak, değer, uzaklık) ya da None: önce etiket, sonra okunan sayı; ikisi de boşluğun yakınında.
+    Ölçekten kapı yok (varsayimlar.KAPI_KANIT_SART): kanıtsız boşluk kapı olmaz."""
     _, _, _, _, a, b, s = aday
     orta = ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2)   # etiket/ölçü kapının ortasına yazılır
-    for kaynak in ("etiket", "sayi"):
+    for kaynak in KAPI_KANIT_SIRASI:
         yakin = [(math.dist(ip.nokta, orta), ip) for ip in ipuclari if ip.kaynak == kaynak]
         yakin = [(m, ip) for m, ip in yakin if m <= KAPI_IPUCU_MESAFESI * h]
         if yakin:
             m, ip = min(yakin, key=lambda x: x[0])
             return kaynak, ip.deger, m
-    if olcek:
-        genislik = s * olcek
-        en_yakin = min(varsayimlar.KAPI_GENISLIKLERI, key=lambda g: abs(g - genislik))
-        if abs(en_yakin - genislik) <= KAPI_OLCEK_PAYI:
-            return "olcek", en_yakin, float("inf")
     return None
 
 
@@ -376,8 +374,11 @@ def _tasmayi_kirp(k, uc, cizgiler, yonler, baglantilar, h, tol):
             return
 
 
-def _kapilari_tamamla(cizgiler, yonler, ipuclari, olcek, h, tol):
-    """İpucuyla doğrulanan kapı boşluklarını açıklık çifti yapar. Döner: (çizgiler, yönler, zorunlu, kapılar).
+def _kapilari_tamamla(cizgiler, yonler, ipuclari, h, tol):
+    """İpucuyla doğrulanan kapı boşluklarını açıklık çifti yapar.
+
+    Döner: (çizgiler, yönler, zorunlu, kapılar, kanıtsız boşluklar [(A, B)]: kapı adayı ama yakınında ipucu yok;
+    kullanıcıya "kapı mı?" diye sorulur).
 
     zorunlu: [(i, j, ui, uj)] açıklık çiftleri (boşluğa bakan uçlarıyla). Karşı uç dik bir duvarın ucuysa
     (01: kapının altındaki kısa parça bulunamamış) o uca bu doğrultuda SANAL_DUVAR·h'lik bir parça eklenir.
@@ -385,10 +386,11 @@ def _kapilari_tamamla(cizgiler, yonler, ipuclari, olcek, h, tol):
     cizgiler, yonler = list(cizgiler), list(yonler)
     baglantilar = _baglantilar(cizgiler, yonler, tol)
     secilenler = []
-    for aday in _kapi_adaylari(cizgiler, yonler, baglantilar, h, tol):
-        secim = _kapi_secimi(aday, ipuclari, olcek, h)
+    adaylar = _kapi_adaylari(cizgiler, yonler, baglantilar, h, tol)
+    for aday in adaylar:
+        secim = _kapi_secimi(aday, ipuclari, h)
         if secim:
-            secilenler.append((("etiket", "sayi", "olcek").index(secim[0]), secim[2], aday, secim))
+            secilenler.append((KAPI_KANIT_SIRASI.index(secim[0]), secim[2], aday, secim))
     kullanilan, kapili_kisa, zorunlu, kapilar = set(), set(), [], []
     for _, _, (i, ui, j, uj, a, b, s), (kaynak, deger, _) in sorted(secilenler, key=lambda x: (x[0], x[1])):
         if (i, ui) in kullanilan or (j, uj) in kullanilan or {i, j} & kapili_kisa:
@@ -407,7 +409,14 @@ def _kapilari_tamamla(cizgiler, yonler, ipuclari, olcek, h, tol):
         _tasmayi_kirp(i, _diger_uc(ui), cizgiler, yonler, baglantilar, h, tol)
         zorunlu.append((i, j, ui, uj))
         kapilar.append(KapiBoslugu(bas=a, bit=b, kaynak=kaynak, deger=int(deger)))
-    return cizgiler, yonler, zorunlu, kapilar
+    kanitsiz, gorulen = [], set()
+    for i, ui, j, uj, a, b, _ in adaylar:   # her boşluk iki yönden aday olur: bir kez sor
+        uclar = frozenset({(i, ui), (j, uj)})
+        if uclar & kullanilan or uclar in gorulen:
+            continue
+        gorulen.add(uclar)
+        kanitsiz.append((a, b))
+    return cizgiler, yonler, zorunlu, kapilar, kanitsiz
 
 
 # --- Duvar / işaret / açıklık ---------------------------------------------------------------------
@@ -580,10 +589,9 @@ def _dis_bolge(parca_listeleri, sekil, kalinlik):
     return (tuval == 128)[1:-1, 1:-1]
 
 
-def kenarlari_bul(maske: np.ndarray, h: float, kapi_ipuclari: tuple[KapiIpucu, ...] = (),
-                  olcek: float | None = None) -> KenarSonucu:
-    """kapi_ipuclari / olcek verilirse kapı kuralı çalışır (boşta iki duvar ucu arasındaki boşluk, yakınında
-    K etiketi ya da kapı genişliğinde okunmuş sayı varsa; yoksa ölçekten tahminle). Verilmezse çalışmaz."""
+def kenarlari_bul(maske: np.ndarray, h: float, kapi_ipuclari: tuple[KapiIpucu, ...] = ()) -> KenarSonucu:
+    """Kapı kuralı: iki duvar ucu arasındaki boşluk, yakınında K etiketi ya da kapı genişliğinde okunmuş bir
+    sayı varsa kapıdır. İpucusuz boşluklar `bosluklar` olarak döner (kapı mı? diye sorulur)."""
     tol = 0.75 * h  # elle çizilen köşelerde çizgiler tam buluşmuyor; h/2 02'nin konturunu kapatmıyordu
     parcalar = _cizgi_parcalari(kalin_lekeleri_sil(maske, h), h)
     eksen = _eksen_acisi(parcalar)
@@ -591,14 +599,12 @@ def kenarlari_bul(maske: np.ndarray, h: float, kapi_ipuclari: tuple[KapiIpucu, .
     cizgiler = [c for c, _ in birlesik]
     yonler = [y for _, y in birlesik]
     cizgiler, yonler, iptaller = _iptal_et(cizgiler, yonler, _carpilar(parcalar, eksen, h), h, tol)
-    zorunlu, kapilar = [], []
-    if kapi_ipuclari or olcek:
-        cizgiler, yonler, zorunlu, kapilar = _kapilari_tamamla(cizgiler, yonler, kapi_ipuclari, olcek, h, tol)
+    cizgiler, yonler, zorunlu, kapilar, bosluklar = _kapilari_tamamla(cizgiler, yonler, kapi_ipuclari, h, tol)
     baglantilar = _baglantilar(cizgiler, yonler, tol)
     duvar, ciftler = _siniflandir(cizgiler, baglantilar, h, tol, zorunlu)
     isaretler = _isaretler(cizgiler, baglantilar, duvar, h, tol)
     if not duvar:
-        return KenarSonucu(eksen, (), (), tuple(isaretler), tuple(iptaller), tuple(kapilar))
+        return KenarSonucu(eksen, (), (), tuple(isaretler), tuple(iptaller), tuple(kapilar), tuple(bosluklar))
 
     # açıklık çiftleriyle bağlı duvarlar tek kenar grubudur
     ebeveyn = {i: i for i in duvar}
@@ -667,4 +673,4 @@ def kenarlari_bul(maske: np.ndarray, h: float, kapi_ipuclari: tuple[KapiIpucu, .
         kenarlar.append(Kenar(kid, yon, tuple(Parca(f"{kid}.{m}", kid, t, a, b) for m, (t, a, b) in enumerate(pl, 1)),
                               konturda and idx in kontur_idx))
     return KenarSonucu(eksen, tuple(kenarlar), tuple(f"K{n}" for n in range(1, len(kontur_idx) + 1)),
-                       tuple(isaretler), tuple(iptaller), tuple(kapilar))
+                       tuple(isaretler), tuple(iptaller), tuple(kapilar), tuple(bosluklar))

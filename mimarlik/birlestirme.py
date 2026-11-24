@@ -6,7 +6,9 @@
   * iki yol aynı sayıyı farklı parçalara bağladıysa (çelişki; tiresiz sayılar da dahil),
   * Y2 değeri gürültü parçasına yazdıysa (varsayimlar.GURULTU_EN_KISA),
   * yalnızca bir yol bağlayabildiyse ve o yol tire değilse,
-  * aynı parçaya birden fazla değer düştüyse.
+  * aynı parçaya birden fazla değer düştüyse,
+  * Qwen'in kutusu sayının bölgesine yakın değilse (> EMIN_YAKINLIK h; değer o sayının olmayabilir, Ö2),
+  * değerin kâğıtta bölgesi bulunamadıysa (yalnız Y2 bağladı; yakınlık bilinmiyor, Ö2).
 - Kapı kuralı bir kapı bulduysa (3. adım), kapı genişliğindeki sayı kapının açıklık parçasına bağlanır
   (kaynak "kapi"): kapıyı o sayı verdiyse en yakın aynı değerli sayı, etiket/ölçekten geldiyse yalnız
   kapıya `KAPI_SAYI_MESAFESI` h içindeki sayı.
@@ -20,7 +22,7 @@ import math
 from dataclasses import dataclass, replace
 
 from mimarlik import varsayimlar
-from mimarlik.eslestirme import KenarSonucu, Kutu, Olcu, anlam
+from mimarlik.eslestirme import EMIN_YAKINLIK, KenarSonucu, Kutu, Olcu, anlam
 
 
 @dataclass(frozen=True)
@@ -81,6 +83,7 @@ def birlestir(olculer: tuple[Olcu, ...], yeri_bulunamayan: tuple[int, ...], y2: 
     parca_sozlugu = {p.id: (p, k) for k in sonuc.kenarlar for p in k.parcalar}
     girdiler = [(o.deger, o.bolge, o.parca_id, o.neden) for o in olculer] + \
                [(d, None, None, None) for d in yeri_bulunamayan]
+    uzaklik = [o.kutu_uzakligi for o in olculer] + [None] * len(yeri_bulunamayan)
     # tireli olanlar önce: aynı değerli Y2 girdisini önce onlar (uyuşan parçayla) tüketsin
     # kapıya bağlanan sayı da önce: Y2'nin aynı değerli girdisi büyük olasılıkla kapının ölçüsü
     kapi_girdisi = _kapi_girdileri(girdiler, kapilar, h)
@@ -109,6 +112,10 @@ def birlestir(olculer: tuple[Olcu, ...], yeri_bulunamayan: tuple[int, ...], y2: 
         else:
             parca, kaynak = None, None
             sebepler.append("hiçbir parçaya bağlanamadı")
+        if parca is not None and bolge is None:
+            sebepler.append("bölgesi bulunamadı (Qwen kutusu hiçbir sayının yanında değil); yalnız Y2 bağladı")
+        elif uzaklik[i] is not None and uzaklik[i] > EMIN_YAKINLIK:
+            sebepler.append(f"Qwen kutusu bölgeden {uzaklik[i]:.1f} h uzak: değer bu sayının olmayabilir")
         a = anlam(*parca_sozlugu[parca]) if parca in parca_sozlugu else "bilinmiyor"
         sonuclar[i] = SonOlcu(deger, bolge, parca, kaynak, not sebepler, "; ".join(sebepler), g, neden, y, a)
 

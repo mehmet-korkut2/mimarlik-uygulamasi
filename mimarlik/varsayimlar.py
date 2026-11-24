@@ -31,6 +31,17 @@ KAPI_GENISLIKLERI = (80, 90, 100, 110, 120)
 # duvar en az bu kadar uzun olmalı (h katı, h: karakter yüksekliği). 01–02'ye göre konmuş, genellemesi
 # belirsiz: 120 hem kapı genişliği hem duvar boyu olabildiği için 01'de "120 sol" yanında sahte kapı çıkıyordu.
 KAPI_DIK_UC_DUVARI = 6
+# Kapının kanıtı (kullanıcı kararı, 24.11.2026): bir boşluk ANCAK yakınında K etiketi ("K90") ya da kapı
+# genişliğinde (KAPI_GENISLIKLERI) Qwen'in okuduğu bir sayı varsa kapıdır.
+# Ölçekten kapı (boşluğun piksel boyu × cm/px standart bir genişliğe uyuyorsa) KALDIRILDI. Gerekçe: krokiler
+# ölçeksiz (aynı boyda çizilen iki duvara 180 ve 140 yazılabiliyor); ölçek okunan sayılardan çıkıyor ve onlar
+# değişince kayıyor. Değer atama sıkılaşınca (Ö2) 02'nin ölçeği 0,38'den 0,48 cm/px'e kaydı ve alttaki 40'lık
+# girintinin ağzı "80'lik kapı" sanıldı, konturu bozdu. Kanıtsız boşluk kapı olmaz; KONTROL'de "boşluk: kapı mı?"
+# diye sorulur.
+# Y2'nin kapı genişliğinde bağladığı sayıyı zayıf ipucu saymak da denendi, GERİ ALINDI (24.11.2026): 01'de
+# 3 örnekte de kapı bulunmadı, 02'nin 3. örneğinde Y2'nin "100"ü girinti ağzını yine kapı yaptı (kontur 12 -> 8).
+# Sonuç: bu okumayla 01'in kapısının kanıtı yok; 01 kontursuz kalır, boşluk "kapı mı?" diye sorulur.
+KAPI_KANIT_SART = True
 
 # --- S3: iç duvarın birleştiği kenara yazılan sayı (KESİN, mimar 24.11.2026: "B") ------------------
 # Sayı, iç duvarın birleştiği noktadan köşeye kadarki PARÇANIN ölçüsüdür (02'deki üst 300 tüm duvar değil).
