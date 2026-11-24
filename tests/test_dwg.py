@@ -28,3 +28,44 @@ def test_odafc_yolu_ortam_degiskeninden(monkeypatch):
     monkeypatch.setattr(dwg.odafc, "is_installed", lambda: False)
     dwg.kurulu_mu()
     assert ("odafc-addon", "win_exec_path", r"D:\ODA\ODAFileConverter.exe") in ayarlanan
+
+
+def _kur(kok, *klasorler):
+    for ad in klasorler:
+        (kok / ad).mkdir(parents=True)
+        (kok / ad / "ODAFileConverter.exe").write_bytes(b"")
+
+
+def test_en_yeni_surum_sayi_olarak_secilir(tmp_path):
+    _kur(tmp_path, "ODAFileConverter", "ODAFileConverter 26.4.0", "ODAFileConverter 27.9.1",
+         "ODAFileConverter 27.10.0")
+    (tmp_path / "ODAFileConverter 28.0.0").mkdir()                     # exe'siz klasör sayılmaz
+    assert dwg.en_yeni_oda(tmp_path) == tmp_path / "ODAFileConverter 27.10.0" / "ODAFileConverter.exe"
+
+
+def test_kurulum_yoksa_none(tmp_path):
+    assert dwg.en_yeni_oda(tmp_path) is None
+    assert dwg.en_yeni_oda(tmp_path / "yok") is None
+
+
+def _ayarlanan_yol(monkeypatch):
+    ayarlanan = []
+    monkeypatch.setattr(dwg.ezdxf.options, "set", lambda *a: ayarlanan.append(a))
+    monkeypatch.setattr(dwg.odafc, "is_installed", lambda: False)
+    dwg.kurulu_mu()
+    return {a[2] for a in ayarlanan if a[1] == "win_exec_path"}
+
+
+def test_odafc_yolu_bulunan_surumden_oncelikli(tmp_path, monkeypatch):
+    _kur(tmp_path, "ODAFileConverter 27.10.0")
+    monkeypatch.setattr(dwg, "ODA_KLASORU", tmp_path)
+    monkeypatch.setenv("ODAFC_YOLU", r"D:\ODA\ODAFileConverter.exe")
+    assert _ayarlanan_yol(monkeypatch) == {r"D:\ODA\ODAFileConverter.exe"}
+    monkeypatch.delenv("ODAFC_YOLU")
+    assert _ayarlanan_yol(monkeypatch) == {str(tmp_path / "ODAFileConverter 27.10.0" / "ODAFileConverter.exe")}
+
+
+def test_hicbiri_yoksa_ezdxf_varsayilani_degismez(tmp_path, monkeypatch):
+    monkeypatch.setattr(dwg, "ODA_KLASORU", tmp_path)
+    monkeypatch.delenv("ODAFC_YOLU", raising=False)
+    assert _ayarlanan_yol(monkeypatch) == set()
