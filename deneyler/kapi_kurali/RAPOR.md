@@ -24,6 +24,10 @@ geri geldi; kapı iki krokide de doğru yerde ve doğru genişlikte (90). Bağla
 
 ## Önemli bulgu: krokiler ideal durumda da kapanmıyor
 
+> **Güncelleme (2026-11-24): mimar 01 ve 02'yi hatalı çizdiğini doğruladı.** Fark yorumdan değil çizimden geliyor;
+> kapanma kontrolü gerçek bir hatayı yakaladı. 01–02 artık "çizim hatalı" test vakası, doğruluk ölçümü için
+> kullanılmıyor. Bu rapordaki kapanma sütunları başarı ölçüsü değil. Ayrıntı: `../cizim_hatasi/RAPOR.md`.
+
 Gerçek sayılar gerçek dış hatta (S1: `15/90/10` toplanır, S3 = B) yerleştirilse bile kapanma farkı
 **01: yatay 40, dikey 53 cm; 02: yatay 48, dikey 60 cm**. Yani bugünkü yorumla kapanma kontrolü bu iki krokiyi
 doğrulayamaz; ölçülen farkın bir kısmı okuma/bağlama hatası değil, yorumun kendisi. Mimara sorulacak: bu krokilerde
@@ -64,7 +68,7 @@ Kapanma kontrolü değiştirilmedi (mimarın cevabı bekleniyor). Fark = n geçi
 | 02 | yatay | 48 | 5×10, 2×25 (+2) | 1 (X'li küçük odanın kapılı duvarı) |
 | 02 | dikey | 60 | 6×10, 3×20 | 1 (küçük odanın alt duvarı) |
 
-**Sonuç: krokide görülen geçişlerle açıklanamıyor.** 01'de hiç iç duvar yok ama fark 40 / 53 cm. 02'de geçiş başına
+**Sonuç: krokide görülen geçişlerle açıklanamıyor** (mimar sonradan doğruladı: fark çizim hatasından). 01'de hiç iç duvar yok ama fark 40 / 53 cm. 02'de geçiş başına
 48 ve 60 cm gerekir (25 cm'lik dış duvardan bile kalın). Sayısal olarak uyan çiftler (ör. 10 cm × 4–6 geçiş) krokide
 karşılığı olmayan geçiş sayıları istiyor. Fark kalınlıktan başka bir yerden geliyor olabilir: bir ölçünün dış hatta
 yanlış yere konması (yorum), krokide eksik bir ölçü ya da ölçülerin kendisi. Mimara sorulan soru ("fark aradaki duvar

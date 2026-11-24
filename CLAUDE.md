@@ -68,7 +68,7 @@ Girdi: `ornekler/01_*`, `ornekler/02_*` (tek oda, tek çizgi, dik açılı, çiz
 - [ ] Kullanıcı onayı: okunan sayıların düzeltilebilir listesi. Hedef "%100 otomatik" değil, "taslak + hızlı düzeltme".
 - [ ] Sonucu DXF'e yaz (Faz 1 modülü `mimarlik/dxf_yazici.py`).
 
-**Bitti sayılır:** 01 ve 02 krokilerinin fotoğrafından, mimarın verdiği "doğru ölçülerle" aynı DXF çıkıyor; kullanıcı en fazla birkaç sayıyı düzeltiyor.
+**Bitti sayılır:** 01 ve 02 krokilerinin fotoğrafından, mimarın verdiği "doğru ölçülerle" aynı DXF çıkıyor; kullanıcı en fazla birkaç sayıyı düzeltiyor. (01–02 çizim hatalı çıktı: fotoğraftan doğru çıktı "kapanmıyor" uyarısı; kullanıcı mimarın düzelttiği sayıları girince plan kapanmalı.)
 
 ### Faz 3 — Çok odalı planlar ve semboller (4–8 hafta, en zor kısım)
 Girdi: `ornekler/03_*` – `ornekler/07_*`.
@@ -118,10 +118,12 @@ Girdi: `ornekler/03_*` – `ornekler/07_*`.
 
 `ornekler/` klasöründe, zorluk sırasıyla adlandırılmış 7 gerçek röleve krokisi var (fotoğraf). **Klasör `.gitignore`'da: müşteri işi olabilir, GitHub'a gönderilmez.** Hiçbirinin AutoCAD karşılığı yok; doğrulama için mimardan 01 ve 02'nin "doğru ölçüleri" istenecek.
 
+> **01 ve 02 çizim hatalı (mimar doğruladı, 2026-11-24).** Bunlar "çizim hatalı: kapanma kontrolü bunu yakalamalı" test vakasıdır (`tests/test_cizim_hatali.py`); **doğruluk ölçümü için kullanılmaz.** Mimardan düzeltilmiş ölçüler istendi; gelince 01–02'nin "doğru hali" test verisi olarak eklenecek. 01–02'ye göre konmuş kurallar ve çizim hatasından etkilenip etkilenmedikleri: `deneyler/cizim_hatasi/RAPOR.md`.
+
 | Dosya | Zorluk | Not |
 |---|---|---|
-| `01_kolay_tek_oda_180x140.jpg` | Kolay | Tek oda, tek çizgi, dik açılı. Sayıların okunuşu belirsiz (15/90/10), mimara sorulacak |
-| `02_kolay_tek_oda_300x240.jpg` | Kolay | Tek oda, tek çizgi, dik açılı |
+| `01_kolay_tek_oda_180x140.jpg` | Kolay | Tek oda, tek çizgi, dik açılı. 15/90/10 doğru okunmuş (mimar). **Çizim hatalı** (mimar doğruladı): toplamlar tutmuyor (yatay 40, dikey 53 cm) |
+| `02_kolay_tek_oda_300x240.jpg` | Kolay | Tek oda, tek çizgi, dik açılı. **Çizim hatalı** (mimar doğruladı): toplamlar tutmuyor (yatay 48, dikey 60 cm) |
 | `03_orta_egik_duvar.jpg` | Orta | Eğik duvar, kapılar, kesikli çizgi, `h1`/`h2` |
 | `04_orta_oda2_wc.jpg` | Orta | Taralı çift çizgili duvarlar, WC, iki oda |
 | `05_zor_oda3_balkon.jpg` | Zor | Çok ölçü, köşegenler (kutu içinde), iki renk |
@@ -153,3 +155,4 @@ Girdi: `ornekler/03_*` – `ornekler/07_*`.
 | 2026-11-19 | 4 | **Karar:** mobil uygulama yerine telefonda da çalışan web arayüzü (telefon tarayıcısından kamerayla yükleme; düzeltme ekranı bilgisayar için). Mobil uygulama ancak mimar gerçek kullanımda isterse, aynı backend'e bağlanarak sonra | — |
 | 2026-11-19 | 2 | Uçtan uca iskelet: `python -m mimarlik.kroki <fotoğraf>` → DXF + JSON (`okuma`, `birlestirme`, `geometri`, `plan_cizimi`; mimara bağlı kurallar tek dosyada: `mimarlik/varsayimlar.py`; yeni KONTROL katmanı; 148 test). 02: DXF çıkıyor ama kapanmıyor (yatay 57, dikey 85 cm; `102→162` ve kenar bulma hataları), 18 ölçünün 7'si "emin". 01: dış kontur bulunamadı (bilinen), bulunan kenarlar KONTROL'de. Qwen ~3–4 dk/kroki. Çelişki kuralı tiresiz sayılarda da uygulanıyor (Y2 ≠ en yakın parça → emin değil) | Mimarın cevabıyla `varsayimlar.py`; sonra kenar bulma (01 konturu) |
 | 2026-11-24 | 2 | Mimarın cevapları (`mimar-cevaplari`, main'e birleştirildi): S3 = B, X iptali, hata analizi (`deneyler/hata_analizi/`), kapı boşluğu kuralı (etiket → okunan sayı → ölçek): 01'in dış konturu ilk kez bulundu, 02'ninki geri geldi; kapı sayısı açıklığa bağlanır (02 bağlama 12/14). Gerçek değerlerle bile 01 (40/53 cm) ve 02 (48/60 cm) kapanmıyor; iç duvar kalınlığıyla açıklanamadı (`deneyler/kapi_kurali/RAPOR.md`). Sonra: katman çizgi kalınlıkları (B-10), DWG çıktısı ODA File Converter ile, AutoCAD 2017 uyumlu R2013 (B-11, B-12) | Mimara: kapanma farkı, dış duvar kalınlığı; ODA File Converter kurulup DWG AutoCAD'de denenecek |
+| 2026-11-24 | 2 | **Mimar 01 ve 02'yi hatalı çizdiğini doğruladı:** toplamların tutmaması yorumdan değil çizimden. Kapanma kontrolü gerçek hatayı yakalamış. 01–02 "çizim hatalı" test vakası (`tests/test_cizim_hatali.py`), doğruluk ölçümünde kullanılmıyor. 01–02'ye göre konmuş kurallar değerlendirildi (`deneyler/cizim_hatasi/RAPOR.md`): kapanmadan kenar hesaplama, ölçek, ölçekten kapı ve "120 sol" kuralı etkilenmiş olabilir; görsel eşikler etkilenmez | Mimardan 01–02'nin düzeltilmiş ölçüleri → "doğru hal" test verisi; sonra A grubu kurallar yeniden değerlendirilecek |

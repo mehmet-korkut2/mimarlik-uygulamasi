@@ -14,8 +14,8 @@ Tüm uzunluklar cm cinsindendir.
 # Kalınlık krokide yazılıysa o kullanılır (KESİN; program henüz okumuyor, Faz 3). Yazılmamışsa:
 #   iç duvar 10 cm (KESİN, B-1: en ince duvar 10 cm),
 #   dış duvar 25 cm (AÇIK: mimar "değişiyor" dedi, yazılmamışsa kaç cm çizileceği soruldu).
-# Kapanma farkı (01: 40/53, 02: 48/60 cm) iç duvar kalınlığıyla açıklanamadı (deneyler/kapi_kurali/RAPOR.md);
-# mimara soruldu, cevaba kadar kapanma kontrolü değişmez.
+# 01–02'nin kapanma farkı (01: 40/53, 02: 48/60 cm) kalınlıktan değil ÇİZİM HATASINDAN (mimar doğruladı,
+# 24.11.2026; deneyler/cizim_hatasi/RAPOR.md). Kapanma kontrolü doğru çalışıyor, değişmez.
 OLCULER_IC_OLCU = True
 DIS_DUVAR_KALINLIGI = 25
 IC_DUVAR_KALINLIGI = 10
