@@ -49,12 +49,13 @@ Mimarların ve iç mimarların çizim işini otomatikleştiren bir uygulama.
 
 **Bitti sayılır:** Klasörde örnek planlar var, ortam çalışıyor, repo açık.
 
-### Faz 1 — DXF'i tanımak (1 hafta)
-- [ ] `ezdxf` ile koddan basit bir DXF üret: dikdörtgen oda, duvar çizgileri, katmanlar (DUVAR, KAPI, PENCERE, ÖLÇÜ).
-- [ ] Dosyayı AutoCAD'de (veya ücretsiz bir DWG/DXF görüntüleyicide) açıp düzenlenebildiğini doğrula.
-- [ ] Birim ve ölçek mantığını öğren (DXF'te birim = mm/cm/m).
+### Faz 1 — DXF'i tanımak (1 hafta) — ✅ BİTTİ (2026-11-24)
+- [x] `ezdxf` ile koddan basit bir DXF üret: dikdörtgen oda, duvar çizgileri, katmanlar (DUVAR, KAPI, PENCERE, ÖLÇÜ).
+- [x] Dosyayı AutoCAD'de (veya ücretsiz bir DWG/DXF görüntüleyicide) açıp düzenlenebildiğini doğrula.
+- [x] Birim ve ölçek mantığını öğren (DXF'te birim = mm/cm/m).
+- [x] DWG çıktısı (mimar B-12): ODA File Converter ile AutoCAD 2013 biçimi; AutoCAD Web'de düzenlenebilir modda açıldı ve düzenlendi, ölçü yazıları, çizgi kalınlıkları ve Türkçe karakterler görünüyor (**doğrulandı, 2026-11-24**).
 
-**Bitti sayılır:** Koddan ürettiğim bir oda planı AutoCAD'de düzgün açılıyor ve düzenlenebiliyor.
+**Bitti sayılır:** Koddan ürettiğim bir oda planı AutoCAD'de düzgün açılıyor ve düzenlenebiliyor. → Sağlandı (DXF 2026-11-16, DWG 2026-11-24).
 
 ### Faz 2 — Tek oda krokisinden DXF'e (3–5 hafta)
 > **Yaklaşım değişikliği (2026-11-16):** Gerçek röleve krokileri ölçekli değil; kâğıtta aynı boyda çizilmiş iki duvarın yanında 180 ve 140 yazabiliyor. Doğru bilgi **duvarların yanına yazılan sayılar**. Bu yüzden "bir ölçü gir, pikselden ölçekle" yaklaşımı bırakıldı: program krokiden duvarların **sırasını ve yönünü** çıkarır, **sayıları okur**, geometriyi sayılardan kurar. Sayı okuma (OCR) bu yüzden Faz 3'ten Faz 2'ye alındı.
@@ -122,8 +123,8 @@ Girdi: `ornekler/03_*` – `ornekler/07_*`.
 
 | Dosya | Zorluk | Not |
 |---|---|---|
-| `01_kolay_tek_oda_180x140.jpg` | Kolay | Tek oda, tek çizgi, dik açılı. 15/90/10 doğru okunmuş (mimar). **Çizim hatalı** (mimar doğruladı): toplamlar tutmuyor (yatay 40, dikey 53 cm) |
-| `02_kolay_tek_oda_300x240.jpg` | Kolay | Tek oda, tek çizgi, dik açılı. **Çizim hatalı** (mimar doğruladı): toplamlar tutmuyor (yatay 48, dikey 60 cm) |
+| `01_kolay_tek_oda_180x140.jpg` | Kolay | Tek oda, tek çizgi, dik açılı. 15/90/10 doğru okunmuş (mimar). **Çizim hatalı** (mimar doğruladı): toplamlar tutmuyor (yatay 40, dikey 53 cm). **01: şekil yanlış** (mimar, 24.11.2026: programın çıkardığı plan şekli doğru değil) |
+| `02_kolay_tek_oda_300x240.jpg` | Kolay | Tek oda, tek çizgi, dik açılı. **Çizim hatalı** (mimar doğruladı): toplamlar tutmuyor (yatay 48, dikey 60 cm). **02: plan şekli mimar tarafından doğru bulundu (24.11.2026), 162→102 okuma hatası hariç** (sol üst girinti, 45/45 basamağı, alt 40'lık girinti, kapı; AutoCAD Web'de DWG üzerinden) |
 | `03_orta_egik_duvar.jpg` | Orta | Eğik duvar, kapılar, kesikli çizgi, `h1`/`h2` |
 | `04_orta_oda2_wc.jpg` | Orta | Taralı çift çizgili duvarlar, WC, iki oda |
 | `05_zor_oda3_balkon.jpg` | Zor | Çok ölçü, köşegenler (kutu içinde), iki renk |
@@ -157,3 +158,4 @@ Girdi: `ornekler/03_*` – `ornekler/07_*`.
 | 2026-11-24 | 2 | Mimarın cevapları (`mimar-cevaplari`, main'e birleştirildi): S3 = B, X iptali, hata analizi (`deneyler/hata_analizi/`), kapı boşluğu kuralı (etiket → okunan sayı → ölçek): 01'in dış konturu ilk kez bulundu, 02'ninki geri geldi; kapı sayısı açıklığa bağlanır (02 bağlama 12/14). Gerçek değerlerle bile 01 (40/53 cm) ve 02 (48/60 cm) kapanmıyor; iç duvar kalınlığıyla açıklanamadı (`deneyler/kapi_kurali/RAPOR.md`). Sonra: katman çizgi kalınlıkları (B-10), DWG çıktısı ODA File Converter ile, AutoCAD 2017 uyumlu R2013 (B-11, B-12) | Mimara: kapanma farkı, dış duvar kalınlığı; ODA File Converter kurulup DWG AutoCAD'de denenecek |
 | 2026-11-24 | 2 | **Mimar 01 ve 02'yi hatalı çizdiğini doğruladı:** toplamların tutmaması yorumdan değil çizimden. Kapanma kontrolü gerçek hatayı yakalamış. 01–02 "çizim hatalı" test vakası (`tests/test_cizim_hatali.py`): okuma/bağlama ölçümünde geçerli, geometri/kapanma/DXF doğruluğunda kullanılmıyor. Kapanmadan hesaplanan kenar artık farkı gizlemiyor: o eksen "doğrulanamadı", kenar KONTROL'de işaretli (02'nin yanlış bağlamayla "0/0 kapanan" örneği artık doğrulanamadı). 01–02'ye göre konmuş kurallar değerlendirildi (`deneyler/cizim_hatasi/RAPOR.md`): kapanmadan kenar hesaplama, ölçek, ölçekten kapı ve "120 sol" kuralı etkilenmiş olabilir; görsel eşikler etkilenmez | Mimardan 01–02'nin düzeltilmiş ölçüleri → "doğru hal" test verisi; sonra A grubu kurallar yeniden değerlendirilecek |
 | 2026-11-24 | 2 | **DWG AutoCAD Web'de doğrulandı:** düzenlenebilir açılıyor, ölçü yazıları ve çizgi kalınlıkları görünüyor. İki sorun düzeltildi: Türkçe karakterler "?" çıkıyordu (txt.shx; metin DWG'de doğruydu) → bütün yazılar TrueType Arial; KONTROL notları planın üstüne yığılıyordu → planda numaralı daire, tam metin planın sağında liste. ODA File Converter `Program Files/ODA` altındaki en yeni sürümden kendiliğinden bulunuyor | Kullanıcı yeni DWG'leri AutoCAD Web'de tekrar kontrol edecek; sonra main'e birleştirme |
+| 2026-11-24 | 1→2 | **Faz 1 bitti:** DWG AutoCAD'de açılıp düzenlendi (doğrulandı). Mimar AutoCAD Web'de baktı: **02: plan şekli mimar tarafından doğru bulundu (24.11.2026), 162→102 okuma hatası hariç. 01: şekil yanlış.** `mimar-cevaplari` main'e birleştirildi | 01'in şeklinin nerede yanlış olduğunu bulmak; mimardan 01–02'nin düzeltilmiş ölçüleri |
