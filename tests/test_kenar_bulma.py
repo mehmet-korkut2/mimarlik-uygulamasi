@@ -210,9 +210,12 @@ def _ipucu(nokta, kaynak="sayi", deger=90):
     return (KapiIpucu(nokta, kaynak, deger),)
 
 
-def test_kapi_ipucusuz_kayik_bosluk_kontur_kapanmaz():
+def test_kapi_ipucusuz_kayik_bosluk_kontur_kapanmaz_bosluk_sorulur():
     sonuc = kenarlari_bul(*_kapi_krokisi())
     assert sonuc.kapilar == () and sonuc.kontur_sirasi == ()
+    assert len(sonuc.bosluklar) == 1                                  # kanıtsız aday: "kapı mı?" diye sorulur
+    (a, b), = sonuc.bosluklar
+    assert {round(a[1] / 50), round(b[1] / 50)} == {6, 8}              # y 300 – 400 boşluğu
 
 
 @pytest.mark.parametrize("kaynak", ["sayi", "etiket"])
@@ -238,11 +241,12 @@ def test_kapi_karsida_uzun_duvarin_ucu_sanal_parca_ile_kapanir():
     assert any(p.tur == "aciklik" for k in sonuc.kenarlar for p in k.parcalar)
 
 
-def test_kapi_ipucu_yoksa_olcekten():
-    maske, h = _kapi_krokisi()
-    # boşluk ≈ 100 px: 0,9 cm/px ≈ 90 cm -> kapı; 0,4 cm/px ≈ 40 cm -> değil
-    assert [k.kaynak for k in kenarlari_bul(maske, h, (), olcek=0.9).kapilar] == ["olcek"]
-    assert kenarlari_bul(maske, h, (), olcek=0.4).kapilar == ()
+def test_olcekten_kapi_yok_kanitsiz_bosluk_kapi_olmaz():
+    # kullanıcı kararı 2026-11-24: krokiler ölçeksiz; kapının kanıtı etiket ya da kapı genişliğinde sayı
+    import inspect
+    assert "olcek" not in inspect.signature(kenarlari_bul).parameters
+    assert kenarlari_bul(*_kapi_krokisi()).kapilar == ()
+
 
 
 def test_kapi_iki_kisa_cizgi_arasi_aday_degil():

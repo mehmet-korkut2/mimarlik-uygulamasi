@@ -25,7 +25,7 @@ from puanlama_eslestirme import gercek_kenarlar, parcalari_eslestir  # noqa: E40
 from mimarlik.eslestirme import Kenar, KenarSonucu, Parca  # noqa: E402
 
 ADLAR = {"01": "01_kolay_tek_oda_180x140", "02": "02_kolay_tek_oda_300x240"}
-KLASORLER = ["adim2", "adim3", "adim3_2", "adim3_3", "adim4", "adim4_2", "adim4_3"]
+KLASORLER = ["adim2", "adim3", "adim3_2", "adim3_3", "adim4", "adim4_2", "adim4_3", "adim6", "adim6_2", "adim6_3", "adim7", "adim7_2", "adim7_3", "adim8", "adim8_2", "adim8_3"]
 
 # Gerçek dış hat (mimarın cevaplarından sonra): kenar sırası, yön (x, y; görüntüde y aşağı), sayıları.
 # 02: X'li parçalar (K1.1, K10.2) iptal; küçük odanın duvarları (K11, K12) dış hatta.

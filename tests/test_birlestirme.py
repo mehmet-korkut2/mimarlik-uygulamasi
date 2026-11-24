@@ -60,9 +60,19 @@ def test_y2_baglamadiysa_en_yakin_emin_degil():
     assert (son[0].parca_id, son[0].kaynak, son[0].emin) == ("K2.1", "geometrik", False)
 
 
-def test_yeri_bulunamayan_deger_y2_ile_baglanir():
+def test_yeri_bulunamayan_deger_y2_ile_baglanir_ama_emin_degil():
+    # Ö2: bölgesi yok -> Qwen kutusunun yakınlığı bilinmiyor; yalnız Y2'ye dayanır
     son, _ = birlestir((), (300,), [(300, "K1.1")], _sonuc(), H)
-    assert (son[0].deger, son[0].bolge, son[0].parca_id, son[0].emin) == (300, None, "K1.1", True)
+    assert (son[0].deger, son[0].bolge, son[0].parca_id, son[0].emin) == (300, None, "K1.1", False)
+    assert "bölgesi bulunamadı" in son[0].sebep
+
+
+def test_qwen_kutusu_bolgeden_uzaksa_tireli_bile_emin_degil():
+    yakin = Olcu(180, (0, 0, 10, 10), "K1.1", "isaret", "uzunluk", kutu_uzakligi=0.3)
+    uzak = Olcu(240, (0, 0, 10, 10), "K2.1", "isaret", "uzunluk", kutu_uzakligi=0.8)
+    son, _ = birlestir((yakin, uzak), (), [(180, "K1.1"), (240, "K2.1")], _sonuc(), H)
+    assert son[0].emin and not son[1].emin
+    assert son[1].parca_id == "K2.1" and "0.8 h uzak" in son[1].sebep
 
 
 def test_hicbir_yere_baglanamayan():
@@ -101,3 +111,4 @@ def test_kapiyi_veren_sayi_kapinin_acikligina_baglanir():
 def test_etiketten_gelen_kapida_uzak_sayi_baglanmaz():
     son, _ = birlestir((_olcu(90, "K1.1", "en_yakin"),), (), [], _sonuc(), H, [(90, "K2.2", (400, 315), "etiket")])
     assert son[0].kaynak == "geometrik" and son[0].parca_id == "K1.1"
+

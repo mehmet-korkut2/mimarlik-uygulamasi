@@ -177,6 +177,151 @@
      "yatay": 40.0,
      "dikey": 163.0
     }
+   },
+   "adim6": {
+    "kontur": 0,
+    "kontur_eslesen": 0,
+    "kontur_parca": 0,
+    "kapilar": [],
+    "dogru": 6,
+    "yanlis": [
+     "120 sol",
+     "15",
+     "90",
+     "10"
+    ],
+    "emin": 1,
+    "emin_dogru": 1,
+    "kapanma": {}
+   },
+   "adim6_2": {
+    "kontur": 0,
+    "kontur_eslesen": 0,
+    "kontur_parca": 0,
+    "kapilar": [],
+    "dogru": 5,
+    "yanlis": [
+     "108",
+     "120 sol",
+     "15",
+     "90",
+     "10"
+    ],
+    "emin": 2,
+    "emin_dogru": 2,
+    "kapanma": {}
+   },
+   "adim6_3": {
+    "kontur": 0,
+    "kontur_eslesen": 0,
+    "kontur_parca": 0,
+    "kapilar": [],
+    "dogru": 6,
+    "yanlis": [
+     "120 sol",
+     "15",
+     "90",
+     "10"
+    ],
+    "emin": 2,
+    "emin_dogru": 2,
+    "kapanma": {}
+   },
+   "adim7": {
+    "kontur": 0,
+    "kontur_eslesen": 0,
+    "kontur_parca": 0,
+    "kapilar": [],
+    "dogru": 6,
+    "yanlis": [
+     "120 sol",
+     "15",
+     "90",
+     "10"
+    ],
+    "emin": 1,
+    "emin_dogru": 1,
+    "kapanma": {}
+   },
+   "adim7_2": {
+    "kontur": 0,
+    "kontur_eslesen": 0,
+    "kontur_parca": 0,
+    "kapilar": [],
+    "dogru": 6,
+    "yanlis": [
+     "120 sol",
+     "15",
+     "90",
+     "10"
+    ],
+    "emin": 1,
+    "emin_dogru": 1,
+    "kapanma": {}
+   },
+   "adim7_3": {
+    "kontur": 0,
+    "kontur_eslesen": 0,
+    "kontur_parca": 0,
+    "kapilar": [],
+    "dogru": 6,
+    "yanlis": [
+     "120 sol",
+     "15",
+     "90",
+     "10"
+    ],
+    "emin": 1,
+    "emin_dogru": 1,
+    "kapanma": {}
+   },
+   "adim8": {
+    "kontur": 0,
+    "kontur_eslesen": 0,
+    "kontur_parca": 0,
+    "kapilar": [],
+    "dogru": 6,
+    "yanlis": [
+     "120 sol",
+     "15",
+     "90",
+     "10"
+    ],
+    "emin": 1,
+    "emin_dogru": 1,
+    "kapanma": {}
+   },
+   "adim8_2": {
+    "kontur": 0,
+    "kontur_eslesen": 0,
+    "kontur_parca": 0,
+    "kapilar": [],
+    "dogru": 6,
+    "yanlis": [
+     "120 sol",
+     "15",
+     "90",
+     "10"
+    ],
+    "emin": 1,
+    "emin_dogru": 1,
+    "kapanma": {}
+   },
+   "adim8_3": {
+    "kontur": 0,
+    "kontur_eslesen": 0,
+    "kontur_parca": 0,
+    "kapilar": [],
+    "dogru": 6,
+    "yanlis": [
+     "120 sol",
+     "15",
+     "90",
+     "10"
+    ],
+    "emin": 1,
+    "emin_dogru": 1,
+    "kapanma": {}
    }
   },
   "02": {
@@ -338,6 +483,234 @@
     "kapanma": {
      "yatay": 0.0,
      "dikey": 0.0
+    }
+   },
+   "adim6": {
+    "kontur": 8,
+    "kontur_eslesen": 11,
+    "kontur_parca": 12,
+    "kapilar": [
+     [
+      "sayi",
+      90
+     ],
+     [
+      "olcek",
+      80
+     ]
+    ],
+    "dogru": 11,
+    "yanlis": [
+     "40 üst",
+     "200 sol",
+     "102"
+    ],
+    "emin": 4,
+    "emin_dogru": 4,
+    "kapanma": {
+     "yatay": -12.0,
+     "dikey": 26.9
+    }
+   },
+   "adim6_2": {
+    "kontur": 8,
+    "kontur_eslesen": 11,
+    "kontur_parca": 12,
+    "kapilar": [
+     [
+      "sayi",
+      90
+     ],
+     [
+      "olcek",
+      80
+     ]
+    ],
+    "dogru": 10,
+    "yanlis": [
+     "40 üst",
+     "45 alt",
+     "200 sol",
+     "102"
+    ],
+    "emin": 5,
+    "emin_dogru": 5,
+    "kapanma": {
+     "yatay": 0.0,
+     "dikey": 8.1
+    }
+   },
+   "adim6_3": {
+    "kontur": 8,
+    "kontur_eslesen": 11,
+    "kontur_parca": 12,
+    "kapilar": [
+     [
+      "sayi",
+      90
+     ],
+     [
+      "olcek",
+      80
+     ]
+    ],
+    "dogru": 11,
+    "yanlis": [
+     "40 üst",
+     "200 sol",
+     "102"
+    ],
+    "emin": 5,
+    "emin_dogru": 5,
+    "kapanma": {
+     "yatay": -50.0,
+     "dikey": 30.1
+    }
+   },
+   "adim7": {
+    "kontur": 12,
+    "kontur_eslesen": 14,
+    "kontur_parca": 14,
+    "kapilar": [
+     [
+      "sayi",
+      90
+     ]
+    ],
+    "dogru": 11,
+    "yanlis": [
+     "15",
+     "40 orta",
+     "102"
+    ],
+    "emin": 6,
+    "emin_dogru": 5,
+    "kapanma": {
+     "yatay": 0.0,
+     "dikey": 90.0
+    }
+   },
+   "adim7_2": {
+    "kontur": 12,
+    "kontur_eslesen": 14,
+    "kontur_parca": 14,
+    "kapilar": [
+     [
+      "sayi",
+      90
+     ]
+    ],
+    "dogru": 10,
+    "yanlis": [
+     "15",
+     "40 üst",
+     "40 orta",
+     "102"
+    ],
+    "emin": 7,
+    "emin_dogru": 6,
+    "kapanma": {
+     "yatay": 0.0,
+     "dikey": 80.6
+    }
+   },
+   "adim7_3": {
+    "kontur": 8,
+    "kontur_eslesen": 11,
+    "kontur_parca": 12,
+    "kapilar": [
+     [
+      "sayi",
+      90
+     ],
+     [
+      "y2",
+      100
+     ]
+    ],
+    "dogru": 10,
+    "yanlis": [
+     "40 üst",
+     "45 alt",
+     "200 sol",
+     "102"
+    ],
+    "emin": 6,
+    "emin_dogru": 6,
+    "kapanma": {
+     "yatay": -17.0,
+     "dikey": 26.9
+    }
+   },
+   "adim8": {
+    "kontur": 12,
+    "kontur_eslesen": 14,
+    "kontur_parca": 14,
+    "kapilar": [
+     [
+      "sayi",
+      90
+     ]
+    ],
+    "dogru": 11,
+    "yanlis": [
+     "15",
+     "40 orta",
+     "102"
+    ],
+    "emin": 6,
+    "emin_dogru": 5,
+    "kapanma": {
+     "yatay": 0.0,
+     "dikey": 90.0
+    }
+   },
+   "adim8_2": {
+    "kontur": 12,
+    "kontur_eslesen": 14,
+    "kontur_parca": 14,
+    "kapilar": [
+     [
+      "sayi",
+      90
+     ]
+    ],
+    "dogru": 10,
+    "yanlis": [
+     "15",
+     "40 üst",
+     "40 orta",
+     "102"
+    ],
+    "emin": 7,
+    "emin_dogru": 6,
+    "kapanma": {
+     "yatay": 0.0,
+     "dikey": 80.6
+    }
+   },
+   "adim8_3": {
+    "kontur": 12,
+    "kontur_eslesen": 14,
+    "kontur_parca": 14,
+    "kapilar": [
+     [
+      "sayi",
+      90
+     ]
+    ],
+    "dogru": 10,
+    "yanlis": [
+     "15",
+     "40 üst",
+     "45 alt",
+     "102"
+    ],
+    "emin": 10,
+    "emin_dogru": 8,
+    "kapanma": {
+     "yatay": -17.0,
+     "dikey": 57.3
     }
    }
   }

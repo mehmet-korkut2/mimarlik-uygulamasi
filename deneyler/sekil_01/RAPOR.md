@@ -1,5 +1,11 @@
 # 01'in şekli neden yanlış: kenar kenar hata listesi
 
+> **Güncelleme (2026-11-24): uygulananlar.** Ö1 (kalibrasyon): dönüşüm doğru, düzeltilecek katsayı yok
+> (`../konum_kalibrasyon/RAPOR.md`). Ö2 (değer atama yerel/sınırlı + "emin" yakınlık şartı) uygulandı; ölçekten
+> kapı kaldırıldı (02'nin şeklini bozuyordu). 01'in kapısı eski atamada şans eseri bulunuyormuş: artık 01
+> kontursuz, boşluk "kapı mı?" diye soruluyor (`../deger_atama/RAPOR.md`). Ö3, Ö4, Ö5 yeni krokiler gelene kadar
+> bekliyor.
+
 Tarih: 2026-11-24 · Kod değiştirilmedi. Girdi: `output/dwg/01_kolay_tek_oda_180x140.json` (mimarın AutoCAD Web'de
 baktığı DWG'nin raporu; Qwen-1 cevabı `--okuma` kaydından). Gerçek: `../eslestirme/puanlama_eslestirme.py`
 (gerçek kenarlar), `../bul_kes_okut/konumlar.py` (gerçek sayı kutuları).

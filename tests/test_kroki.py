@@ -104,7 +104,7 @@ def test_okunamayan_fotograf(tmp_path):
 def test_kapi_ipuclari_etiket_ve_kapi_genisligindeki_sayilar():
     from mimarlik.eslestirme import Bolge
     from mimarlik.kroki import kapi_ipuclari
-    atanmis = [(Bolge((0, 0, 20, 10), None), 90), (Bolge((100, 100, 120, 110), None), 140)]
+    atanmis = [(Bolge((0, 0, 20, 10), None), 90, 0.0), (Bolge((100, 100, 120, 110), None), 140, 0.0)]
     ipuclari = kapi_ipuclari('[{"bbox_2d": [500, 500, 600, 600], "label": "K100"}]', atanmis, 1000, 1000)
     assert [(i.kaynak, i.deger, i.nokta) for i in ipuclari] == [("etiket", 100, (550.0, 550.0)),
                                                                  ("sayi", 90, (10.0, 5.0))]
@@ -125,3 +125,4 @@ def test_komut_satiri_dwg_yoksa_not_dwgsiz_ise_sessiz(tmp_path, capsys, monkeypa
     assert "ODA File Converter bulunamadı" in capsys.readouterr().out
     assert main([str(foto), "--cikti", str(tmp_path / "c"), "--okuma", str(kayit), "--dwgsiz"]) == 0
     assert "ODA" not in capsys.readouterr().out
+
