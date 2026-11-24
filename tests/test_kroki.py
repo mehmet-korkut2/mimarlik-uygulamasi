@@ -110,3 +110,18 @@ def test_kapi_ipuclari_etiket_ve_kapi_genisligindeki_sayilar():
                                                                  ("sayi", 90, (10.0, 5.0))]
     kutulu = kapi_ipuclari('[{"bbox_2d": [100, 100, 200, 200], "label": "90"}]', [], 1000, 1000)
     assert [(i.kaynak, i.deger, i.nokta) for i in kutulu] == [("sayi", 90, (150.0, 150.0))]   # Qwen kutusu da
+
+
+def test_komut_satiri_dwg_yoksa_not_dwgsiz_ise_sessiz(tmp_path, capsys, monkeypatch):
+    from mimarlik import dwg
+    bgr, beklenen = sentetik_kroki()
+    foto = tmp_path / "s.png"
+    cv2.imwrite(str(foto), bgr)
+    kayit = tmp_path / "kayit.json"
+    kayit.write_text(json.dumps({"ham": coz(bgr, _sahte_sor(_qwen1_cevabi(beklenen), "{}"))["ham"]}), encoding="utf-8")
+    monkeypatch.setattr(okuma, "qwen_sor", _qwen_yasak)
+    monkeypatch.setattr(dwg.odafc, "is_installed", lambda: False)
+    assert main([str(foto), "--cikti", str(tmp_path / "c"), "--okuma", str(kayit)]) == 0
+    assert "ODA File Converter bulunamadı" in capsys.readouterr().out
+    assert main([str(foto), "--cikti", str(tmp_path / "c"), "--okuma", str(kayit), "--dwgsiz"]) == 0
+    assert "ODA" not in capsys.readouterr().out

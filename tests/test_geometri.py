@@ -35,7 +35,8 @@ def test_kapanan_dikdortgen():
     plan = plan_kur(_dikdortgen(), [_o(400, "K1.1"), _o(300, "K2.1"), _o(400, "K3.1"), _o(300, "K4.1")], H)
     assert [k.yon for k in plan.kenarlar] == [(1, 0), (0, -1), (-1, 0), (0, 1)]   # DXF: y yukarı
     assert plan.kenarlar[1].bit == (400, -300)
-    assert plan.kapanma["yatay"] == {"fark_cm": 0, "tutuyor": True, "not": "yatay fark 0 cm, tolerans içinde"}
+    assert plan.kapanma["yatay"] == {"fark_cm": 0, "tutuyor": True, "durum": "tutuyor", "hesaplanan": [],
+                                     "not": "yatay fark 0 cm, tolerans içinde"}
     assert all(k.durum == "olcu" and k.emin for k in plan.kenarlar)
 
 
@@ -47,7 +48,8 @@ def test_tolerans_icindeki_fark_yazilir():
 
 def test_kapanmayan():
     plan = plan_kur(_dikdortgen(), [_o(400, "K1.1"), _o(300, "K2.1"), _o(360, "K3.1"), _o(300, "K4.1")], H)
-    assert plan.kapanma["yatay"] == {"fark_cm": 40, "tutuyor": False, "not": "yatay fark 40 cm, kapanmıyor"}
+    assert plan.kapanma["yatay"] == {"fark_cm": 40, "tutuyor": False, "durum": "kapanmiyor", "hesaplanan": [],
+                                     "not": "yatay fark 40 cm, kapanmıyor"}
     assert plan.kapanma["dikey"]["tutuyor"]
 
 
@@ -58,12 +60,22 @@ def test_tek_bilinmeyen_kapanmadan_hesaplanir():
     assert plan.kapanma["yatay"]["fark_cm"] == 0
 
 
+def test_kapanmadan_hesaplanan_eksen_dogrulanamadi_tutuyor_degil():
+    # fark 0 ama kendiliğinden: hesaplanan kenar farkı yutar (hatalı çizim gizlenirdi; 01–02, 2026-11-24)
+    plan = plan_kur(_dikdortgen(), [_o(420, "K1.1"), _o(300, "K2.1"), _o(300, "K4.1")], H)
+    yatay, dikey = plan.kapanma["yatay"], plan.kapanma["dikey"]
+    assert (yatay["tutuyor"], yatay["durum"], yatay["hesaplanan"]) == (False, "dogrulanamadi", ["K3"])
+    assert yatay["not"] == "yatay doğrulanamadı: K3 kapanmadan hesaplandı"
+    assert (dikey["tutuyor"], dikey["durum"]) == (True, "tutuyor")     # dikeyde iki kenar da okundu
+
+
 def test_iki_bilinmeyen_olcekten_tahmin():
     # yatayda iki bilinmeyen (K1, K3) -> ölçekten; dikeyde tek bilinmeyen (K4) -> kapanmadan
     plan = plan_kur(_dikdortgen(), [_o(600, "K2.1")], H)   # 2 cm/px
     assert plan.olcek_cm_px == 2
     assert [(k.boy, k.durum) for k in plan.kenarlar] == [(800, "tahmin"), (600, "olcu"), (800, "tahmin"),
                                                           (600, "hesaplandi")]
+    assert plan.kapanma["dikey"]["durum"] == "dogrulanamadi"
 
 
 def test_duvar_kapi_duvar_toplami_ve_parca_boylari():  # S1

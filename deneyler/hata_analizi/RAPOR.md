@@ -5,6 +5,10 @@ Tarih: 2026-11-24 · Kod değiştirilmedi. Kaynaklar: `../ocr_karsilastirma/`, `
 `output/adim2`; `.gitignore`'da) · Karşılaştırılan belge: `kroki_cizim_kurallari.pdf` (24.11.2026, 8 kural)
 · Bağlama matrisi (bölüm 1.5, 2) yeniden üretilir: `y2_hatalar.py` (iskelet girdisi: `sonuclar/iskelet_adim0.json`)
 
+> **Güncelleme (2026-11-24): mimar 01 ve 02'yi hatalı çizdiğini doğruladı** (toplamlar tutmuyor; yorumdan değil
+> çizimden). Bu rapordaki kapanma farkları (ör. 02 yatay 57 / dikey 85) kısmen bu hatadan geliyor. 01–02 artık
+> "çizim hatalı" test vakası: okuma/bağlama ölçümünde geçerli, geometri/kapanma/DXF doğruluğunda kullanılmıyor. Ayrıntı: `../cizim_hatasi/RAPOR.md`.
+
 ## Kısa cevap
 
 1. **Hataların çoğu çizimden geliyor, ve ölçülen hataların büyük kısmını çizim kuralları çözebilir.** Bağlama

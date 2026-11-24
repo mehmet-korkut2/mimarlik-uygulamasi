@@ -116,9 +116,10 @@ def _kontrol(doc: Drawing, plan: Plan, olculer: list[SonOlcu], sadece_y2) -> lis
         yazi_ekle(doc, metin, _topla(nokta, _kat(normal, mesafe)), YAZI, KATMAN_KONTROL)
         notlar.append(metin)
 
-    # kapanmayan eksen: o eksendeki bütün kenarlar + başlangıçla bitiş arasındaki açıklık
+    # kapanmayan eksen: o eksendeki bütün kenarlar + başlangıçla bitiş arasındaki açıklık.
+    # Doğrulanamayan eksende (kenar kapanmadan hesaplandı) yalnız hesaplanan kenar işaretlenir (aşağıda).
     for eksen, e in plan.kapanma.items():
-        if e["tutuyor"]:
+        if e["durum"] != "kapanmiyor":
             continue
         i = 0 if eksen == "yatay" else 1
         for k in plan.kenarlar:
@@ -128,13 +129,19 @@ def _kontrol(doc: Drawing, plan: Plan, olculer: list[SonOlcu], sadece_y2) -> lis
         son = plan.kenarlar[-1].bit
         if math.dist(son, (0.0, 0.0)) > 0:
             cizgi_ekle(doc, [(*son, 0.0, 0.0)], KATMAN_KONTROL)
-        metin = "KAPANMIYOR: " + "; ".join(e["not"] for e in plan.kapanma.values())
+        baslik = ("KAPANMIYOR" if any(e["durum"] == "kapanmiyor" for e in plan.kapanma.values())
+                  else "DOĞRULANAMADI")
+        metin = f"{baslik}: " + "; ".join(e["not"] for e in plan.kapanma.values())
         yazi_ekle(doc, metin, (son[0] + YAZI, son[1] - 2 * YAZI), YAZI, KATMAN_KONTROL)
         notlar.append(metin)
 
     # sayıdan gelmeyen kenar boyları
     for k in plan.kenarlar:
-        if k.durum != "olcu":
+        if k.durum == "hesaplandi":   # okunmadı; boyu kapanmayı zorla sağlıyor: kenarın kendisi de işaretli
+            cizgi_ekle(doc, [(*k.bas, *k.bit)], KATMAN_KONTROL)
+            orta = _topla(k.bas, _kat(k.yon, k.boy / 2))
+            not_yaz(f"? {k.kenar_id} {k.boy:.0f} cm: okunmadı, kapanmadan hesaplandı", orta, _normal(k))
+        elif k.durum != "olcu":
             orta = _topla(k.bas, _kat(k.yon, k.boy / 2))
             not_yaz(f"? {k.kenar_id} {k.boy:.0f} cm ({k.durum})", orta, _normal(k))
 

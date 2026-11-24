@@ -9,14 +9,20 @@ Tüm uzunluklar cm cinsindendir.
 """
 
 # --- S6: ölçü türü ve duvar kalınlığı --------------------------------------------------------------
-# Ölçüler İÇ ölçü: duvar yüzünden duvar yüzüne. Krokide çizilen tek çizgi duvarın iç yüzü sayılır,
-# dış yüz DIS_DUVAR_KALINLIGI kadar dışarıda çizilir.
+# KESİN (mimar 24.11.2026, A-6): ölçüler İÇ ölçü, duvar yüzünden duvar yüzüne. Krokide çizilen tek çizgi
+# duvarın iç yüzü sayılır, dış yüz kalınlık kadar dışarıda çizilir.
+# Kalınlık krokide yazılıysa o kullanılır (KESİN; program henüz okumuyor, Faz 3). Yazılmamışsa:
+#   iç duvar 10 cm (KESİN, B-1: en ince duvar 10 cm),
+#   dış duvar 25 cm (AÇIK: mimar "değişiyor" dedi, yazılmamışsa kaç cm çizileceği soruldu).
+# 01–02'nin kapanma farkı (01: 40/53, 02: 48/60 cm) kalınlıktan değil ÇİZİM HATASINDAN (mimar doğruladı,
+# 24.11.2026; deneyler/cizim_hatasi/RAPOR.md). Kapanma kontrolü doğru çalışıyor, değişmez.
 OLCULER_IC_OLCU = True
 DIS_DUVAR_KALINLIGI = 25
 IC_DUVAR_KALINLIGI = 10
 
 # --- S1: bir kenardaki açıklık ---------------------------------------------------------------------
-# Arka arkaya yazılan üç sayı "duvar – kapı boşluğu – duvar"; kapı sayısı net geçiş; toplamları
+# KESİN (mimar 24.11.2026, A-1; 01'deki 15/90/10 doğru okunmuş, A-2).
+# Arka arkaya yazılan üç sayı "duvar – kapı boşluğu – duvar"; kapı sayısı net geçiş (kasa dahil mi: AÇIK); toplamları
 # kenarın boyu. Açıklık kapı sayılır, içeri açılır, menteşe açıklığın kontur yönündeki başında.
 ACIKLIK_KAPIDIR = True
 # B-3 (KESİN, mimar 24.11.2026): standart kapı genişlikleri. Kapı sayısı net geçiş mi, kasa dahil mi: AÇIK.
