@@ -94,14 +94,18 @@ işaretinin sayının içinden geçmesinden; bu tür hataları geometri kontrol�
 |---|---|---|
 | 0 | Gerçek örnek krokiler, ortam, repo | ✅ 7 kroki toplandı |
 | 1 | DXF üretimi (`ezdxf`): katmanlar, ölçüler, birim | ✅ AutoCAD'de açılıp düzenlendi |
-| 2 | Tek oda krokisinden DXF | 🔄 Uçtan uca iskelet çalışıyor; mimarın cevapları bekleniyor |
+| 2 | Tek oda krokisinden DXF | 🔄 Uçtan uca çalışıyor, mimarın cevapları işlendi; doğru ölçülü örnek bekleniyor |
 | 3 | Çok odalı planlar, kapı/pencere/kolon sembolleri, eğik duvarlar | ⏳ |
 | 4 | Web arayüzü (FastAPI): telefonda kamerayla yükleme, bilgisayarda düzeltme ekranı | ⏳ |
 | 5 | DXF'e mobilya blokları ekleme (iç mimar modülü) | ⏳ |
 | 6 | 2D plandan basit 3D | ⏳ |
 
-**Şu anki dürüst durum:** İki kolay krokiden birinde DXF çıkıyor ama oda kapanmıyor (program farkı
-KONTROL katmanında gösteriyor); diğerinde dış kontur bulunamıyor. Bunlar bilinen ve ölçülmüş eksikler.
+**Şu anki dürüst durum:** İki kolay krokinin ikisinde de dış kontur bulunuyor ve DXF çıkıyor. İkisinde de oda
+kapanmıyor, ve kapanmaması gerekiyor: **kapanma kontrolü örnek krokilerdeki gerçek çizim hatasını yakaladı.** Mimar,
+toplamların tutmadığını ve krokileri hatalı çizdiğini doğruladı (fark yatay 40–48, dikey 53–60 cm). Program farkı
+KONTROL katmanında gösteriyor. 24 sayının 6–11'i hâlâ yanlış duvara bağlanıyor; bu bilinen ve ölçülmüş bir eksik.
+Bu iki kroki geometri ve kapanma doğruluğu için değil, hatalı çizimi yakalama testi olarak kullanılıyor (okuma ve
+bağlama ölçümünde geçerliler); geometri doğruluğu, mimarın düzelttiği ölçülerle ölçülecek.
 
 ## Kurulum
 
