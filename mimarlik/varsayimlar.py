@@ -21,6 +21,10 @@ IC_DUVAR_KALINLIGI = 10
 ACIKLIK_KAPIDIR = True
 # B-3 (KESİN, mimar 24.11.2026): standart kapı genişlikleri. Kapı sayısı net geçiş mi, kasa dahil mi: AÇIK.
 KAPI_GENISLIKLERI = (80, 90, 100, 110, 120)
+# Kapı kuralı, dik uç durumu (kapının bir yanı krokide çizilmemiş, karşıda dik bir duvarın ucu var): o dik
+# duvar en az bu kadar uzun olmalı (h katı, h: karakter yüksekliği). 01–02'ye göre konmuş, genellemesi
+# belirsiz: 120 hem kapı genişliği hem duvar boyu olabildiği için 01'de "120 sol" yanında sahte kapı çıkıyordu.
+KAPI_DIK_UC_DUVARI = 6
 
 # --- S3: iç duvarın birleştiği kenara yazılan sayı (KESİN, mimar 24.11.2026: "B") ------------------
 # Sayı, iç duvarın birleştiği noktadan köşeye kadarki PARÇANIN ölçüsüdür (02'deki üst 300 tüm duvar değil).

@@ -333,7 +333,7 @@ def _kapi_adaylari(cizgiler, yonler, baglantilar, h, tol):
                     if yonler[j] == yonler[i] and ((_t(d, a) < _t(d, b)) != (uj == "bas") or
                                                    _duvarin_ortasinda(j, uj, cizgiler, baglantilar, h, tol)):
                         continue   # karşıdaki parça da bu doğrultuda: boşluğa bakan ucu B olmalı
-                    if yonler[j] != yonler[i] and (d.uzunluk < SARKAN_SINIRI * h or
+                    if yonler[j] != yonler[i] and (d.uzunluk < varsayimlar.KAPI_DIK_UC_DUVARI * h or
                                                    not _bos_uc_mu(j, uj, cizgiler, baglantilar, tol)):
                         continue   # eksik kısa parçayı tahmin ediyoruz: karşıda boşta kalmış UZUN bir duvar ucu şart
                     adaylar.append((i, ui, j, uj, a, b, s))

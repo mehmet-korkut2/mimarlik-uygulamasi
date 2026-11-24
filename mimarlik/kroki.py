@@ -13,6 +13,7 @@ parçalar aynıysa kayıttan, kenar bulma değiştiyse Y2 Qwen'e yeniden sorulur
 
 import argparse
 import json
+import math
 import sys
 import time
 from collections.abc import Callable
@@ -69,6 +70,21 @@ def kapi_ipuclari(ham_sayilar: str, atanmis, genislik: int, yukseklik: int) -> l
     return ipuclari
 
 
+def kapi_parcalari(sonuc, h: float) -> list[tuple[int, str, tuple[float, float], str]]:
+    """Bulunan her kapı için konturdaki açıklık parçası: [(değer, parça id, kapı ortası, kaynak)].
+
+    Kapının ortasına en yakın açıklık parçası (ortalar arası ≤ 2 h); bulunamazsa o kapı atlanır.
+    """
+    sonuc_listesi = []
+    for kapi in sonuc.kapilar:
+        orta = ((kapi.bas[0] + kapi.bit[0]) / 2, (kapi.bas[1] + kapi.bit[1]) / 2)
+        adaylar = [(math.dist(orta, ((p.bas[0] + p.bit[0]) / 2, (p.bas[1] + p.bit[1]) / 2)), p.id)
+                   for k in sonuc.kenarlar if k.konturda for p in k.parcalar if p.tur == "aciklik"]
+        if adaylar and min(adaylar)[0] <= 2 * h:
+            sonuc_listesi.append((kapi.deger, min(adaylar)[1], orta, kapi.kaynak))
+    return sonuc_listesi
+
+
 def coz(bgr: np.ndarray, sor: Sor, kayit: dict | None = None) -> dict:
     """Bütün adımlar; dosya yazmaz. Döner: rapor sözlüğü + "_doc" (DXF) ve "_parca_gorseli".
 
@@ -114,7 +130,7 @@ def coz(bgr: np.ndarray, sor: Sor, kayit: dict | None = None) -> dict:
     sureler["qwen_parcalar_s"] = time.perf_counter() - t0
     y2 = okuma.parca_degerlerini_ayristir(ham_parcalar, eslem)
 
-    olculer, sadece_y2 = birlestir(kroki.olculer, kroki.yeri_bulunamayan, y2, sonuc, h)
+    olculer, sadece_y2 = birlestir(kroki.olculer, kroki.yeri_bulunamayan, y2, sonuc, h, kapi_parcalari(sonuc, h))
     plan = plan_kur(sonuc, olculer, h)
     doc, kontrol_notlari = ciz(plan, olculer, sadece_y2)
 

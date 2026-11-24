@@ -1,0 +1,80 @@
+{
+ "01": {
+  "yatay": {
+   "fark_cm": 40,
+   "uyan_n_t": [
+    [
+     4,
+     10,
+     0
+    ],
+    [
+     2,
+     20,
+     0
+    ]
+   ],
+   "krokide_gecis": 0,
+   "gecis_basina_gereken_cm": null
+  },
+  "dikey": {
+   "fark_cm": 53,
+   "uyan_n_t": [
+    [
+     5,
+     10,
+     -3
+    ],
+    [
+     2,
+     25,
+     -3
+    ]
+   ],
+   "krokide_gecis": 0,
+   "gecis_basina_gereken_cm": null
+  },
+  "iki_eksende_ayni_t": [
+   10
+  ]
+ },
+ "02": {
+  "yatay": {
+   "fark_cm": 48,
+   "uyan_n_t": [
+    [
+     5,
+     10,
+     2
+    ],
+    [
+     2,
+     25,
+     2
+    ]
+   ],
+   "krokide_gecis": 1,
+   "gecis_basina_gereken_cm": 48.0
+  },
+  "dikey": {
+   "fark_cm": 60,
+   "uyan_n_t": [
+    [
+     6,
+     10,
+     0
+    ],
+    [
+     3,
+     20,
+     0
+    ]
+   ],
+   "krokide_gecis": 1,
+   "gecis_basina_gereken_cm": 60.0
+  },
+  "iki_eksende_ayni_t": [
+   10
+  ]
+ }
+}

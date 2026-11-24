@@ -7,6 +7,9 @@
   * Y2 değeri gürültü parçasına yazdıysa (varsayimlar.GURULTU_EN_KISA),
   * yalnızca bir yol bağlayabildiyse ve o yol tire değilse,
   * aynı parçaya birden fazla değer düştüyse.
+- Kapı kuralı bir kapı bulduysa (3. adım), kapı genişliğindeki sayı kapının açıklık parçasına bağlanır
+  (kaynak "kapi"): kapıyı o sayı verdiyse en yakın aynı değerli sayı, etiket/ölçekten geldiyse yalnız
+  kapıya `KAPI_SAYI_MESAFESI` h içindeki sayı.
 
 Y2 eşleme değer üzerinden yapılır: Qwen-1'in okuduğu her değer, Y2'nin aynı değerli bir girdisini tüketir
 (önce aynı parçaya bağlı olanı). Hiçbir okumaya karşılık gelmeyen Y2 girdileri `sadece_y2` olarak döner,
@@ -25,7 +28,7 @@ class SonOlcu:
     deger: int
     bolge: Kutu | None
     parca_id: str | None
-    kaynak: str | None        # "geometrik" | "y2" | None
+    kaynak: str | None        # "geometrik" | "y2" | "kapi" | None
     emin: bool
     sebep: str                # emin değilse neden; eminse ""
     geometrik: str | None     # geometrik yolun parçası (rapor için)
@@ -50,21 +53,47 @@ def _y2_al(kalan: list[tuple[int, str]], deger: int, tercih: str | None) -> str 
     return kalan.pop(secilen)[1]
 
 
+KAPI_SAYI_MESAFESI = 5.0   # h; etiketten/ölçekten gelen kapıda sayının kapıya en büyük uzaklığı
+
+
+def _kapi_girdileri(girdiler, kapilar, h) -> dict[int, str]:
+    """Girdi indeksi -> kapının açıklık parçası. kapilar: [(değer, parça id, orta nokta, kaynak)]."""
+    secilen: dict[int, str] = {}
+    for deger, parca_id, orta, kaynak in kapilar:
+        adaylar = []
+        for i, (d, bolge, _, _) in enumerate(girdiler):
+            if d != deger or i in secilen:
+                continue
+            uzaklik = math.inf if bolge is None else math.dist(((bolge[0] + bolge[2]) / 2, (bolge[1] + bolge[3]) / 2), orta)
+            if kaynak == "sayi" or uzaklik <= KAPI_SAYI_MESAFESI * h:
+                adaylar.append((uzaklik, i))
+        if adaylar:
+            secilen[min(adaylar)[1]] = parca_id
+    return secilen
+
+
 def birlestir(olculer: tuple[Olcu, ...], yeri_bulunamayan: tuple[int, ...], y2: list[tuple[int, str]],
-              sonuc: KenarSonucu, h: float) -> tuple[list[SonOlcu], list[tuple[int, str]]]:
-    """Döner: (son ölçüler, sadece Y2'nin bağladığı [(değer, parça id)])."""
+              sonuc: KenarSonucu, h: float, kapilar=()) -> tuple[list[SonOlcu], list[tuple[int, str]]]:
+    """Döner: (son ölçüler, sadece Y2'nin bağladığı [(değer, parça id)]).
+
+    kapilar: [(değer, açıklık parça id, orta nokta, kapı kaynağı)] — bkz. `kroki.kapi_parcalari`.
+    """
     parca_sozlugu = {p.id: (p, k) for k in sonuc.kenarlar for p in k.parcalar}
     girdiler = [(o.deger, o.bolge, o.parca_id, o.neden) for o in olculer] + \
                [(d, None, None, None) for d in yeri_bulunamayan]
     # tireli olanlar önce: aynı değerli Y2 girdisini önce onlar (uyuşan parçayla) tüketsin
-    sira = sorted(range(len(girdiler)), key=lambda i: girdiler[i][3] != "isaret")
+    # kapıya bağlanan sayı da önce: Y2'nin aynı değerli girdisi büyük olasılıkla kapının ölçüsü
+    kapi_girdisi = _kapi_girdileri(girdiler, kapilar, h)
+    sira = sorted(range(len(girdiler)), key=lambda i: (i not in kapi_girdisi, girdiler[i][3] != "isaret"))
     kalan = list(y2)
     sonuclar: dict[int, SonOlcu] = {}
     for i in sira:
         deger, bolge, g, neden = girdiler[i]
-        y = _y2_al(kalan, deger, g)
+        y = _y2_al(kalan, deger, kapi_girdisi.get(i, g))
         sebepler = []
-        if neden == "isaret":
+        if i in kapi_girdisi:
+            parca, kaynak = kapi_girdisi[i], "kapi"
+        elif neden == "isaret":
             parca, kaynak = g, "geometrik"
             if y is not None and y != g:
                 sebepler.append(f"çelişki: Y2 {y}")

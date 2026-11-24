@@ -103,6 +103,80 @@
      "yatay": 40.0,
      "dikey": 163.0
     }
+   },
+   "adim4": {
+    "kontur": 8,
+    "kontur_eslesen": 8,
+    "kontur_parca": 9,
+    "kapilar": [
+     [
+      "sayi",
+      90
+     ]
+    ],
+    "dogru": 4,
+    "yanlis": [
+     "108",
+     "90",
+     "10",
+     "50",
+     "40",
+     "120 sağ"
+    ],
+    "emin": 4,
+    "emin_dogru": 2,
+    "kapanma": {
+     "yatay": 40.0,
+     "dikey": 149.6
+    }
+   },
+   "adim4_2": {
+    "kontur": 8,
+    "kontur_eslesen": 8,
+    "kontur_parca": 9,
+    "kapilar": [
+     [
+      "sayi",
+      90
+     ]
+    ],
+    "dogru": 6,
+    "yanlis": [
+     "90",
+     "10",
+     "40",
+     "120 sağ"
+    ],
+    "emin": 5,
+    "emin_dogru": 3,
+    "kapanma": {
+     "yatay": 40.0,
+     "dikey": 163.0
+    }
+   },
+   "adim4_3": {
+    "kontur": 8,
+    "kontur_eslesen": 8,
+    "kontur_parca": 9,
+    "kapilar": [
+     [
+      "sayi",
+      90
+     ]
+    ],
+    "dogru": 6,
+    "yanlis": [
+     "90",
+     "10",
+     "40",
+     "120 sağ"
+    ],
+    "emin": 5,
+    "emin_dogru": 3,
+    "kapanma": {
+     "yatay": 40.0,
+     "dikey": 163.0
+    }
    }
   },
   "02": {
@@ -194,6 +268,76 @@
     "kapanma": {
      "yatay": 0.0,
      "dikey": 61.2
+    }
+   },
+   "adim4": {
+    "kontur": 12,
+    "kontur_eslesen": 14,
+    "kontur_parca": 14,
+    "kapilar": [
+     [
+      "sayi",
+      90
+     ]
+    ],
+    "dogru": 12,
+    "yanlis": [
+     "15",
+     "102"
+    ],
+    "emin": 6,
+    "emin_dogru": 5,
+    "kapanma": {
+     "yatay": -12.0,
+     "dikey": 90.0
+    }
+   },
+   "adim4_2": {
+    "kontur": 12,
+    "kontur_eslesen": 14,
+    "kontur_parca": 14,
+    "kapilar": [
+     [
+      "sayi",
+      90
+     ]
+    ],
+    "dogru": 11,
+    "yanlis": [
+     "15",
+     "40 üst",
+     "102"
+    ],
+    "emin": 7,
+    "emin_dogru": 6,
+    "kapanma": {
+     "yatay": -12.0,
+     "dikey": 80.6
+    }
+   },
+   "adim4_3": {
+    "kontur": 12,
+    "kontur_eslesen": 14,
+    "kontur_parca": 14,
+    "kapilar": [
+     [
+      "sayi",
+      90
+     ]
+    ],
+    "dogru": 9,
+    "yanlis": [
+     "15",
+     "40 üst",
+     "45 alt",
+     "102",
+     "200 alt"
+    ],
+    "emin": 3,
+    "emin_dogru": 3,
+    "kapanma": {
+     "yatay": 0.0,
+     "dikey": 0.0
     }
    }
   }
