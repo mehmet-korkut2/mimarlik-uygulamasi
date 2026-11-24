@@ -44,6 +44,7 @@ class Plan:
     olcek_cm_px: float | None
     ic_duvarlar: tuple[tuple[str, Nokta, Nokta], ...]  # konturda olmayan bulunan kenarlar, ölçekten (cm)
     notlar: tuple[str, ...]
+    iptaller: tuple[tuple[Nokta, Nokta], ...] = ()     # X ile iptal edilen duvar parçaları, ölçekten (cm)
 
 
 def _px(kenar: Kenar) -> float:
@@ -105,16 +106,17 @@ def _olcek(kenarlar, secilen) -> float | None:
     return statistics.median(oranlar) if oranlar else None
 
 
-def _konturda_olmayanlar(sonuc: KenarSonucu, olcek: float | None, p0: Nokta):
-    """Konturda olmayan kenarlar, p0 pikseli (0, 0) olacak şekilde ölçekten cm'ye (ölçek yoksa boş)."""
+def _olcekten(sonuc: KenarSonucu, olcek: float | None, p0: Nokta):
+    """(konturda olmayan kenarlar, iptaller): p0 pikseli (0, 0) olacak şekilde ölçekten cm'ye (ölçek yoksa boş)."""
     if olcek is None:
-        return ()
+        return (), ()
 
     def cm(q):
         x, y = _dondur((q[0] - p0[0], q[1] - p0[1]), sonuc.eksen_acisi_derece)
         return (x * olcek, -y * olcek)
 
-    return tuple((k.id, cm(k.parcalar[0].bas), cm(k.parcalar[-1].bit)) for k in sonuc.kenarlar if not k.konturda)
+    ic = tuple((k.id, cm(k.parcalar[0].bas), cm(k.parcalar[-1].bit)) for k in sonuc.kenarlar if not k.konturda)
+    return ic, tuple((cm(i.silinen[0]), cm(i.silinen[1])) for i in sonuc.iptaller)
 
 
 def plan_kur(sonuc: KenarSonucu, olculer: list[SonOlcu], h: float) -> Plan:
@@ -126,7 +128,8 @@ def plan_kur(sonuc: KenarSonucu, olculer: list[SonOlcu], h: float) -> Plan:
     if not kontur:
         # bulunan kenarlar yine de (ölçekten) KONTROL'de görünsün: kullanıcı neyin bulunduğunu görür
         p0 = sonuc.kenarlar[0].parcalar[0].bas if sonuc.kenarlar else (0.0, 0.0)
-        return Plan((), {}, olcek, _konturda_olmayanlar(sonuc, olcek, p0), ("dış kontur bulunamadı",))
+        ic, iptaller = _olcekten(sonuc, olcek, p0)
+        return Plan((), {}, olcek, ic, ("dış kontur bulunamadı",), iptaller)
 
     kayit = {}
     for k in kontur:
@@ -174,5 +177,5 @@ def plan_kur(sonuc: KenarSonucu, olculer: list[SonOlcu], h: float) -> Plan:
 
     kapanma = {"yatay": _fark_notu("yatay", p[0]), "dikey": _fark_notu("dikey", p[1])}
 
-    ic = _konturda_olmayanlar(sonuc, olcek, kontur[0].parcalar[0].bas)
-    return Plan(tuple(planlar), kapanma, olcek, ic, tuple(notlar))
+    ic, iptaller = _olcekten(sonuc, olcek, kontur[0].parcalar[0].bas)
+    return Plan(tuple(planlar), kapanma, olcek, ic, tuple(notlar), iptaller)

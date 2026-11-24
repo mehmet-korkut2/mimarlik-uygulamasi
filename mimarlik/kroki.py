@@ -7,7 +7,8 @@ Kullanım (repo kökünden):
 Akış: çizgi silme -> Qwen-1 (sayılar + kutular) -> kenar bulma, bölgeler, değer atama, geometrik bağlama
 -> Qwen-2 / Y2 (numaralı parçalar) -> birleştirme -> geometri -> DXF + JSON rapor.
 Çıktılar: <cikti>/<ad>.dxf, <ad>.json, <ad>_parcalar.jpg (Y2'ye verilen görsel; fotoğraf sayılır,
-output/ .gitignore'da). `--okuma`, önceki JSON'daki ham Qwen cevaplarını kullanır (Qwen çağrılmaz).
+output/ .gitignore'da). `--okuma`, önceki JSON'daki ham Qwen cevaplarını kullanır: Qwen-1 her zaman kayıttan; Y2 yalnızca
+parçalar aynıysa kayıttan, kenar bulma değiştiyse Y2 Qwen'e yeniden sorulur.
 """
 
 import argparse
@@ -34,8 +35,26 @@ from mimarlik.plan_cizimi import ciz
 Sor = Callable[[str, bytes], str]
 
 
-def coz(bgr: np.ndarray, sor: Sor) -> dict:
-    """Bütün adımlar; dosya yazmaz. Döner: rapor sözlüğü + "_doc" (DXF) ve "_parca_gorseli"."""
+def _parca_geometrisi(sonuc, eslem: dict[str, str]) -> dict[str, list]:
+    """{"P3": ["K1.2", [x, y], [x, y]]}: Y2 görselinde hangi etiketin nerede olduğu (0,1 px)."""
+    yer = {p.id: p for k in sonuc.kenarlar for p in k.parcalar}
+    return {e: [pid, [round(v, 1) for v in yer[pid].bas], [round(v, 1) for v in yer[pid].bit]]
+            for e, pid in sorted(eslem.items())}
+
+
+def _kayit_gecerli(kayit: dict, eslem: dict, geometri: dict) -> bool:
+    """Kayıttaki Y2 cevabı bu parçalar için mi? Geometri varsa onunla, yoksa (eski kayıt) eşlemle karşılaştırılır."""
+    if "parcalar_geometri" in kayit:
+        return kayit["parcalar_geometri"] == geometri
+    return kayit.get("eslem") == eslem
+
+
+def coz(bgr: np.ndarray, sor: Sor, kayit: dict | None = None) -> dict:
+    """Bütün adımlar; dosya yazmaz. Döner: rapor sözlüğü + "_doc" (DXF) ve "_parca_gorseli".
+
+    kayit: önceki çalıştırmanın "ham" bölümü (--okuma). Qwen-1 cevabı her zaman kayıttan alınır; Y2 cevabı
+    yalnızca parçalar aynıysa (kenar bulma değişmediyse) kayıttan, değilse `sor` ile yeniden sorulur.
+    """
     sureler = {}
     t0 = time.perf_counter()
     silinmis = cizgileri_sil(bgr)
@@ -46,15 +65,20 @@ def coz(bgr: np.ndarray, sor: Sor) -> dict:
     sureler["kenar_bolge_s"] = time.perf_counter() - t0
 
     t0 = time.perf_counter()
-    ham_sayilar = sor(okuma.ISTEM_SAYILAR, okuma.png(silinmis))
+    ham_sayilar = kayit["sayilar"] if kayit else sor(okuma.ISTEM_SAYILAR, okuma.png(silinmis))
     sureler["qwen_sayilar_s"] = time.perf_counter() - t0
     ogeler = okuma.sayilari_ayristir(ham_sayilar, bgr.shape[1], bgr.shape[0])
     atanmis, yok, okunmamis = degerleri_ata(bolgeler, ogeler, bgr.shape[:2])
     kroki = kroki_kur(sonuc, atanmis, yok, okunmamis, h)
 
     parca_gorseli, eslem = okuma.parca_gorseli(silinmis, sonuc)
+    geometri = _parca_geometrisi(sonuc, eslem)
     t0 = time.perf_counter()
-    ham_parcalar = sor(okuma.ISTEM_PARCALAR, okuma.png(parca_gorseli)) if eslem else ""
+    if kayit and _kayit_gecerli(kayit, eslem, geometri):
+        ham_parcalar, y2_kaynagi = kayit["parcalar"], "kayit"
+    else:
+        ham_parcalar = sor(okuma.ISTEM_PARCALAR, okuma.png(parca_gorseli)) if eslem else ""
+        y2_kaynagi = "qwen" if eslem else "yok"
     sureler["qwen_parcalar_s"] = time.perf_counter() - t0
     y2 = okuma.parca_degerlerini_ayristir(ham_parcalar, eslem)
 
@@ -74,21 +98,14 @@ def coz(bgr: np.ndarray, sor: Sor) -> dict:
         "kapali": bool(plan.kapanma) and all(e["tutuyor"] for e in plan.kapanma.values()),
         "olcek_cm_px": plan.olcek_cm_px,
         "kontrol_notlari": kontrol_notlari,
-        "ham": {"sayilar": ham_sayilar, "parcalar": ham_parcalar, "eslem": eslem},
+        "iptaller": [{"merkez": [round(v, 1) for v in i.merkez],
+                      "silinen": [[round(v, 1) for v in p] for p in i.silinen]} for i in sonuc.iptaller],
+        "ham": {"sayilar": ham_sayilar, "parcalar": ham_parcalar, "eslem": eslem, "parcalar_geometri": geometri,
+                "sayilar_kaynagi": "kayit" if kayit else "qwen", "parcalar_kaynagi": y2_kaynagi},
         "sure_s": {k: round(v, 1) for k, v in sureler.items()},
         "_doc": doc,
         "_parca_gorseli": parca_gorseli,
     }
-
-
-def kayittan_sor(json_yolu: Path) -> Sor:
-    """Önceki çalıştırmanın ham Qwen cevaplarını döndüren sahte `sor` (istemden hangisi olduğunu anlar)."""
-    ham = json.loads(Path(json_yolu).read_text(encoding="utf-8"))["ham"]
-
-    def sor(istem: str, _gorsel: bytes) -> str:
-        return ham["sayilar"] if istem == okuma.ISTEM_SAYILAR else ham["parcalar"]
-
-    return sor
 
 
 def _ozet(rapor: dict) -> str:
@@ -116,8 +133,10 @@ def main(argv=None) -> int:
     if bgr is None:
         print(f"Fotoğraf okunamadı: {arg.fotograf}", file=sys.stderr)
         return 2
-    sor = kayittan_sor(arg.okuma) if arg.okuma else okuma.qwen_sor
-    rapor = coz(bgr, sor)
+    kayit = json.loads(arg.okuma.read_text(encoding="utf-8"))["ham"] if arg.okuma else None
+    rapor = coz(bgr, okuma.qwen_sor, kayit)
+    if kayit and rapor["ham"]["parcalar_kaynagi"] == "qwen":
+        print("Not: parçalar kayıttakinden farklı, Y2 Qwen'e yeniden soruldu.")
 
     ad = arg.fotograf.stem
     dxf = kaydet(rapor.pop("_doc"), arg.cikti / f"{ad}.dxf")

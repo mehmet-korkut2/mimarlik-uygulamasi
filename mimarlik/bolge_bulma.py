@@ -57,6 +57,9 @@ def bolgeleri_bul(maske: np.ndarray, sonuc: KenarSonucu, h: float) -> list[Bolge
         for p in kenar.parcalar:
             if p.tur == "duvar":
                 _cizgi(m, p.bas, p.bit, max(5, int(DUVAR_SILME * h)))
+    for iptal in sonuc.iptaller:   # X çizgileri ve iptal edilen duvar parçası sayı bölgesi değil
+        for a, b in (*iptal.cizgiler, iptal.silinen):
+            _cizgi(m, a, b, max(5, int(DUVAR_SILME * h)))
     for isaret in sonuc.isaretler:
         _cizgi(m, isaret.bas, isaret.bit, max(3, int(ISARET_SILME * h)))
 

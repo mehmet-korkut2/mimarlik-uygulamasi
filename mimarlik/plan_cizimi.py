@@ -162,8 +162,15 @@ def _kontrol(doc: Drawing, plan: Plan, olculer: list[SonOlcu], sadece_y2) -> lis
         yazi_ekle(doc, f"{kid} ölçüsüz (konturda değil)", orta, YAZI, KATMAN_KONTROL)
         notlar.append(f"{kid} ölçüsüz (konturda değil)")
 
+    for a, b in plan.iptaller:   # mimar S5: X = orada duvar yok
+        cizgi_ekle(doc, [(*a, *b)], KATMAN_KONTROL)
+        orta = ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2)
+        yazi_ekle(doc, "X: iptal edilmiş duvar", orta, YAZI, KATMAN_KONTROL)
+        notlar.append("X: iptal edilmiş duvar")
+
     if serbest:
-        noktalar = [p for k in plan.kenarlar for p in (k.bas, k.bit)] +                    [p for _, a, b in plan.ic_duvarlar for p in (a, b)]
+        noktalar = [p for k in plan.kenarlar for p in (k.bas, k.bit)]
+        noktalar += [p for _, a, b in plan.ic_duvarlar for p in (a, b)]
         xs, ys = [p[0] for p in noktalar] or [0.0], [p[1] for p in noktalar] or [0.0]
         x, y = min(xs), min(ys) - varsayimlar.DIS_DUVAR_KALINLIGI - 4 * NOT_MESAFESI
         for j, metin in enumerate(serbest):

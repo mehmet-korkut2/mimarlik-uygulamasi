@@ -36,6 +36,14 @@ class IsaretAdayi:
 
 
 @dataclass(frozen=True)
+class IptalIsareti:
+    """Duvar çizgisinin üstüne çizilmiş X (mimar, S5: "çarpı = orada duvar yok"): silinen duvar parçası."""
+    merkez: Nokta
+    cizgiler: tuple[tuple[Nokta, Nokta], ...]   # X'in çapraz çizgileri
+    silinen: tuple[Nokta, Nokta]                # duvar çizgisinden çıkarılan parça
+
+
+@dataclass(frozen=True)
 class Bolge:
     kutu: Kutu
     temas: Nokta | None   # bölge mürekkebinin bir duvara değdiği nokta
@@ -67,6 +75,7 @@ class KenarSonucu:
     kenarlar: tuple[Kenar, ...]
     kontur_sirasi: tuple[str, ...]
     isaretler: tuple[IsaretAdayi, ...]
+    iptaller: tuple[IptalIsareti, ...] = ()   # X ile iptal edilen duvar parçaları
 
 
 def kroki_sozluk(kroki: Kroki) -> dict:

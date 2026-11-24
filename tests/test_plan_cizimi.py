@@ -99,3 +99,12 @@ def test_s3_b_okunan_parca_olcude_hesaplanan_parca_kontrolde(tmp_path):
     olcu = sorted(round(e.get_measurement()) for e in _katmanda(msp, "DIMENSION", KATMAN_OLCU))
     kontrol = sorted(round(e.get_measurement()) for e in _katmanda(msp, "DIMENSION", KATMAN_KONTROL))
     assert olcu == [300, 300, 320, 420] and kontrol == [100]
+
+
+def test_iptal_edilen_duvar_kontrolde(tmp_path):
+    from dataclasses import replace
+    olculer = [_o(400, "K1.1"), _o(300, "K2.1"), _o(400, "K3.1"), _o(300, "K4.1")]
+    plan = replace(plan_kur(_dikdortgen(), olculer, H), iptaller=(((0, 0), (0, 100)),))
+    doc, notlar = ciz(plan, olculer)
+    assert "X: iptal edilmiş duvar" in notlar
+    assert [round(_uzunluk(e)) for e in _katmanda(_okunan(doc, tmp_path), "LINE", KATMAN_KONTROL)] == [100]

@@ -9,7 +9,7 @@ import math
 import cv2
 import numpy as np
 
-from mimarlik.eslestirme import IsaretAdayi, Kenar, KenarSonucu, Parca
+from mimarlik.eslestirme import IptalIsareti, IsaretAdayi, Kenar, KenarSonucu, Parca
 from mimarlik.on_isleme import kalin_lekeleri_sil
 
 ACI_TOLERANSI = 15.0      # derece: eksene bu kadar yakın çizgi yatay/dikey sayılır
@@ -17,6 +17,10 @@ BIRLESTIRME_ACISI = 20.0  # derece: kısa kalın çizgilerde Hough açısı ±12
 DUVAR_UZUNLUGU = 3        # h katı: bundan uzun çizgi kendiliğinden duvar
 ACIKLIK_ARALIGI = (1, 8)  # h katı: aynı doğrudaki iki duvar arasındaki boşluk bu aralıktaysa açıklık
 SARKAN_SINIRI = 6         # h katı: bir ucu boşta kalan bundan kısa "duvar" budanır (işaret + yazı birleşmesi)
+# X işareti (mimar S5, KESİN: "çarpı = orada duvar yok"): eksene çapraz, birbirini kesen iki çizgi
+CARPI_ACISI = (25.0, 65.0)   # derece: çizginin eksene göre açısı bu aralıktaysa çapraz
+CARPI_KESISIM_ACISI = 60.0   # derece: iki çapraz çizgi arasındaki açı en az bu kadar
+CARPI_KESISIM_PAYI = 0.25    # h katı: kesişim noktası iki çizgiye de bu kadar yakın (uçların biraz ötesi olabilir)
 
 
 class _Cizgi:
@@ -201,6 +205,67 @@ def _baglantilar(cizgiler, yonler, tol):
     return sonuc
 
 
+# --- X işaretleri: iptal edilen duvar parçaları ---------------------------------------------------
+
+def _carpilar(parcalar, eksen, h):
+    """[(merkez, [çapraz çizgiler])]: birbirini kesen iki çapraz çizgi; yakın kesişimler (h) tek X sayılır."""
+    capraz = [p for p in parcalar if CARPI_ACISI[0] <= (p.aci - eksen) % 90 <= CARPI_ACISI[1]]
+    kesisimler = []
+    for i in range(len(capraz)):
+        for j in range(i + 1, len(capraz)):
+            a, b = capraz[i], capraz[j]
+            if _aci_farki(a.aci, b.aci) < CARPI_KESISIM_ACISI:
+                continue
+            p = _kesisim(a, b)
+            if p and _segment_mesafesi(p, a) <= CARPI_KESISIM_PAYI * h and                     _segment_mesafesi(p, b) <= CARPI_KESISIM_PAYI * h:
+                kesisimler.append((p, a, b))
+    gruplar = []   # [noktalar, çizgiler]
+    for p, a, b in kesisimler:
+        for g in gruplar:
+            if any(math.dist(p, q) <= h for q in g[0]):
+                g[0].append(p)
+                g[1].update((a, b))
+                break
+        else:
+            gruplar.append([[p], {a, b}])
+    return [((sum(q[0] for q in n) / len(n), sum(q[1] for q in n) / len(n)), list(c)) for n, c in gruplar]
+
+
+def _iptal_et(cizgiler, yonler, carpilar, h, tol):
+    """X'in üstünden geçtiği duvar çizgisinden, X'i içine alan parçayı (iki yandaki en yakın dik çizgi
+    birleşimi ya da çizgi ucu arası) çıkarır. Döner: (çizgiler, yönler, iptaller)."""
+    cizgiler, yonler, iptaller = list(cizgiler), list(yonler), []
+    for merkez, capraz in carpilar:
+        if not cizgiler:
+            break
+        yakin = [k for k in range(len(cizgiler)) if _segment_mesafesi(merkez, cizgiler[k]) <= tol]
+        if not yakin:
+            continue
+        i = max(yakin, key=lambda k: cizgiler[k].uzunluk)   # iptal edilen bir duvar: X'in kendi kırıntısı değil
+        c = cizgiler[i]
+        uzunluk, tx = c.uzunluk, _t(c, merkez)
+        sinirlar = [0.0, uzunluk]
+        for j, d in enumerate(cizgiler):
+            if j == i or yonler[j] == yonler[i] or _segment_mesafesi(merkez, d) <= tol:
+                continue   # paralel çizgi ya da X'in kendi kırıntısı sınır değildir
+            p = _kesisim(c, d)
+            if p and _segment_mesafesi(p, c) <= tol and _segment_mesafesi(p, d) <= tol:
+                sinirlar.append(min(max(_t(c, p), 0.0), uzunluk))
+        ta = max(t for t in sinirlar if t <= tx)
+        tb = min(t for t in sinirlar if t >= tx)
+        ux, uy = (c.bit[0] - c.bas[0]) / uzunluk, (c.bit[1] - c.bas[1]) / uzunluk
+
+        def nokta(t):
+            return (c.bas[0] + t * ux, c.bas[1] + t * uy)
+
+        kalan = [_Cizgi(nokta(a), nokta(b)) for a, b in ((0.0, ta), (tb, uzunluk)) if b - a > tol]
+        cizgiler[i:i + 1] = kalan
+        yonler[i:i + 1] = [yonler[i]] * len(kalan)
+        iptaller.append(IptalIsareti(merkez=merkez, cizgiler=tuple((s.bas, s.bit) for s in capraz),
+                                     silinen=(nokta(ta), nokta(tb))))
+    return cizgiler, yonler, iptaller
+
+
 # --- Duvar / işaret / açıklık ---------------------------------------------------------------------
 
 def _uca_bagli_duvar(i, uc, baglantilar, duvar, cizgiler, tol):
@@ -375,11 +440,12 @@ def kenarlari_bul(maske: np.ndarray, h: float) -> KenarSonucu:
     birlesik = _birlestir([p for p in parcalar if _yon(p.aci, eksen)], h, eksen)
     cizgiler = [c for c, _ in birlesik]
     yonler = [y for _, y in birlesik]
+    cizgiler, yonler, iptaller = _iptal_et(cizgiler, yonler, _carpilar(parcalar, eksen, h), h, tol)
     baglantilar = _baglantilar(cizgiler, yonler, tol)
     duvar, ciftler = _siniflandir(cizgiler, baglantilar, h, tol)
     isaretler = _isaretler(cizgiler, baglantilar, duvar, h, tol)
     if not duvar:
-        return KenarSonucu(eksen, (), (), tuple(isaretler))
+        return KenarSonucu(eksen, (), (), tuple(isaretler), tuple(iptaller))
 
     # açıklık çiftleriyle bağlı duvarlar tek kenar grubudur
     ebeveyn = {i: i for i in duvar}
@@ -448,4 +514,4 @@ def kenarlari_bul(maske: np.ndarray, h: float) -> KenarSonucu:
         kenarlar.append(Kenar(kid, yon, tuple(Parca(f"{kid}.{m}", kid, t, a, b) for m, (t, a, b) in enumerate(pl, 1)),
                               konturda and idx in kontur_idx))
     return KenarSonucu(eksen, tuple(kenarlar), tuple(f"K{n}" for n in range(1, len(kontur_idx) + 1)),
-                       tuple(isaretler))
+                       tuple(isaretler), tuple(iptaller))

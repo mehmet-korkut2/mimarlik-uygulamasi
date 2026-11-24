@@ -122,3 +122,61 @@ def test_birlesen_cizginin_yonu_her_zaman_yatay_ya_da_dikey():
     sonuc = _birlestir([a, b], 30.0, 0.0)
     assert len(sonuc) == 1
     assert sonuc[0][1] == "yatay"
+
+
+# --- X işaretleri (mimar S5, KESİN: "çarpı = orada duvar yok") -------------------------------------
+
+def _x_krokisi(x_ciz=True):
+    """700x600 oda; sol üstte iç duvarlarla ayrılmış köşe (x=300, y=300). X'ler köşe parçalarının üstünde:
+    üst duvarda (200, 100), sol duvarda (100, 200). Gerçek dış hat köşenin içinden dolaşmalı."""
+    import cv2
+    from tests.sentetik import FONT, KALINLIK, MUREKKEP, OLCEK, YAZI_KALINLIK
+    bgr = np.full((800, 900, 3), 255, np.uint8)
+    for a, b in [((100, 100), (700, 100)), ((700, 100), (700, 600)), ((700, 600), (100, 600)),
+                 ((100, 600), (100, 100)), ((300, 100), (300, 300)), ((100, 300), (300, 300))]:
+        cv2.line(bgr, a, b, MUREKKEP, KALINLIK)
+    if x_ciz:
+        for mx, my in [(200, 100), (100, 200)]:
+            cv2.line(bgr, (mx - 25, my - 25), (mx + 25, my + 25), MUREKKEP, KALINLIK)
+            cv2.line(bgr, (mx - 25, my + 25), (mx + 25, my - 25), MUREKKEP, KALINLIK)
+    for metin, yer in [("400", (450, 80)), ("500", (720, 360)), ("600", (380, 650))]:
+        cv2.putText(bgr, metin, yer, FONT, OLCEK, MUREKKEP, YAZI_KALINLIK, cv2.LINE_AA)
+    maske = murekkep_maskesi(bgr)
+    return maske, karakter_yuksekligi(maske)
+
+
+def _parca_uzerinde(sonuc, nokta, pay=8):
+    from mimarlik.eslestirme import nokta_parca_mesafesi
+    return any(nokta_parca_mesafesi(nokta, p) <= pay for k in sonuc.kenarlar for p in k.parcalar)
+
+
+def test_x_isaretsiz_kontur_dis_dikdortgen():
+    sonuc = kenarlari_bul(*_x_krokisi(x_ciz=False))
+    assert sonuc.iptaller == ()
+    assert len(sonuc.kontur_sirasi) == 4
+
+
+def test_x_ile_iptal_edilen_kose_parcalari_silinir_kontur_icten_dolasir():
+    sonuc = kenarlari_bul(*_x_krokisi())
+    assert len(sonuc.iptaller) == 2
+    merkezler = sorted(tuple(round(v / 10) * 10 for v in i.merkez) for i in sonuc.iptaller)
+    assert merkezler == [(100, 200), (200, 100)]
+    assert not _parca_uzerinde(sonuc, (200, 100)) and not _parca_uzerinde(sonuc, (100, 200))
+    assert _parca_uzerinde(sonuc, (500, 100)) and _parca_uzerinde(sonuc, (100, 450))   # kalan kısımlar duruyor
+    assert len(sonuc.kontur_sirasi) == 6                                                # L biçimli dış hat
+    konturda = {k.id for k in sonuc.kenarlar if k.konturda}
+    ic_kose = [k for k in sonuc.kenarlar if _parca_uzerinde(KenarSonucuTek(k), (300, 200))]
+    assert ic_kose and all(k.id in konturda for k in ic_kose)                           # iç duvar artık dış hat
+
+
+class KenarSonucuTek:
+    """_parca_uzerinde için tek kenarlık sarmalayıcı."""
+    def __init__(self, kenar):
+        self.kenarlar = (kenar,)
+
+
+def test_x_cizgileri_sayi_bolgesi_olmaz():
+    from mimarlik.bolge_bulma import bolgeleri_bul
+    maske, h = _x_krokisi()
+    bolgeler = bolgeleri_bul(maske, kenarlari_bul(maske, h), h)
+    assert len(bolgeler) == 3   # yalnızca 400, 500, 600
