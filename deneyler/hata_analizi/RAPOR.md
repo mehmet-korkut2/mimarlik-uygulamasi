@@ -7,7 +7,7 @@ Tarih: 2026-11-24 · Kod değiştirilmedi. Kaynaklar: `../ocr_karsilastirma/`, `
 
 > **Güncelleme (2026-11-24): mimar 01 ve 02'yi hatalı çizdiğini doğruladı** (toplamlar tutmuyor; yorumdan değil
 > çizimden). Bu rapordaki kapanma farkları (ör. 02 yatay 57 / dikey 85) kısmen bu hatadan geliyor. 01–02 artık
-> "çizim hatalı" test vakası, doğruluk ölçümü için kullanılmıyor. Ayrıntı: `../cizim_hatasi/RAPOR.md`.
+> "çizim hatalı" test vakası: okuma/bağlama ölçümünde geçerli, geometri/kapanma/DXF doğruluğunda kullanılmıyor. Ayrıntı: `../cizim_hatasi/RAPOR.md`.
 
 ## Kısa cevap
 

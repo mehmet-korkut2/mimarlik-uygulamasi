@@ -76,11 +76,13 @@ def test_emin_olmayan_ve_hesaplanan_kontrolde(tmp_path):
                SonOlcu(77, None, None, None, False, "hiçbir parçaya bağlanamadı", None, None, None, "bilinmiyor")]
     doc, notlar = ciz(plan_kur(_dikdortgen(), olculer, H), olculer, sadece_y2=[(55, "K2.1")])
     msp = _okunan(doc, tmp_path)
-    assert "? K3 400 cm (hesaplandi)" in notlar
+    assert "? K3 400 cm: okunmadı, kapanmadan hesaplandı" in notlar
     assert "? 300: x" in notlar
     assert "? 77: hiçbir parçaya bağlanamadı" in notlar
     assert "? 55: yalnızca Y2 okudu (K2.1)" in notlar
     assert len(_katmanda(msp, "DIMENSION", KATMAN_KONTROL)) == 1        # hesaplanan kenarın ölçüsü
+    assert any(n.startswith("DOĞRULANAMADI: yatay doğrulanamadı: K3") for n in notlar)
+    assert not any("KAPANMIYOR" in n for n in notlar)
     assert len(_katmanda(msp, "TEXT", KATMAN_KONTROL)) == len(notlar)
 
 
@@ -118,3 +120,10 @@ def test_cikarilan_kapi_kontrolde_etiketli_degil(tmp_path):
     _, notlar = ciz(plan, olculer)
     assert "? kapı 90: yakında okunan sayıdan" in notlar and "? kapı 80: ölçekten tahmin" in notlar
     assert not any("kapı 100" in n for n in notlar)
+
+
+def test_hesaplanan_kenar_kontrolde_cizgiyle_isaretli_kapanma_acigi_yok(tmp_path):
+    olculer = [_o(400, "K1.1"), _o(300, "K2.1"), _o(300, "K4.1")]          # K3 kapanmadan hesaplanır
+    doc, _ = ciz(plan_kur(_dikdortgen(), olculer, H), olculer)
+    kontrol = _katmanda(_okunan(doc, tmp_path), "LINE", KATMAN_KONTROL)
+    assert sorted(round(_uzunluk(e)) for e in kontrol) == [400]          # yalnız hesaplanan K3 (açık yok: fark 0)

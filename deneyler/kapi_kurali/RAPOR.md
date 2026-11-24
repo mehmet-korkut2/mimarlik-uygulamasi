@@ -25,8 +25,8 @@ geri geldi; kapı iki krokide de doğru yerde ve doğru genişlikte (90). Bağla
 ## Önemli bulgu: krokiler ideal durumda da kapanmıyor
 
 > **Güncelleme (2026-11-24): mimar 01 ve 02'yi hatalı çizdiğini doğruladı.** Fark yorumdan değil çizimden geliyor;
-> kapanma kontrolü gerçek bir hatayı yakaladı. 01–02 artık "çizim hatalı" test vakası, doğruluk ölçümü için
-> kullanılmıyor. Bu rapordaki kapanma sütunları başarı ölçüsü değil. Ayrıntı: `../cizim_hatasi/RAPOR.md`.
+> kapanma kontrolü gerçek bir hatayı yakaladı. 01–02 artık "çizim hatalı" test vakası: okuma/bağlama ölçümünde
+> geçerli, geometri/kapanma/DXF doğruluğunda kullanılmıyor. Bu rapordaki kapanma sütunları başarı ölçüsü değil. Ayrıntı: `../cizim_hatasi/RAPOR.md`.
 
 Gerçek sayılar gerçek dış hatta (S1: `15/90/10` toplanır, S3 = B) yerleştirilse bile kapanma farkı
 **01: yatay 40, dikey 53 cm; 02: yatay 48, dikey 60 cm**. Yani bugünkü yorumla kapanma kontrolü bu iki krokiyi

@@ -17,7 +17,8 @@ kalan fark (`../kapi_kurali/olcum.py`, "ideal kapanma"):
 açıklayamaması da bununla tutarlı.
 
 **Karar (kullanıcı):** 01 ve 02, "çizim hatalı: kapanma kontrolü bunu yakalamalı" test vakasıdır
-(`tests/test_cizim_hatali.py`); **doğruluk ölçümü için kullanılmaz.** Mimardan düzeltilmiş ölçüler istendi; gelince
+(`tests/test_cizim_hatali.py`). **Okuma ve bağlama ölçümünde geçerli, geometri / kapanma / DXF doğruluğunda
+kullanılmaz** (kullanıcı kararı, aşağıdaki "Ayrım"). Mimardan düzeltilmiş ölçüler istendi; gelince
 01–02'nin "doğru hali" test verisi olarak eklenecek.
 
 ## Hangi sonuçlar etkilendi
@@ -27,7 +28,7 @@ açıklayamaması da bununla tutarlı.
 | Bütün 01–02 kapanma farkları (iskelet: 02 yatay 57 / dikey 85; S3 adımı: 02 dikey 85 → 0; kapı kuralı: 01 40 / 150–163, 02 0–12 / 61–95) | **Başarı ölçüsü değil.** Doğru okuma ve bağlamayla bile kapanmaması gerekiyordu. Bir 01–02 çalıştırması "kapanıyorsa" (02, kapı bağlama düzeltmesi, 3. örnek: 0 / 0) bu bir hata işaretidir |
 | S3 = B adımında "02 dikey 85 → 0" | Kapanmadan hesaplanan bir kenarın farkı yutmasıydı; anlamı yok |
 | İdeal kapanma ve duvar kalınlığı denemesi | Açıklandı: fark çizimden |
-| OCR (22–23/24), bağlama (x/10, x/14), "emin" isabeti | Krokide yazanla karşılaştırılıyor; çizim hatası yazılan sayıyı değiştirmiyor. Kullanıcı kararı gereği bundan sonra doğruluk ölçüsü olarak kullanılmıyor (bkz. "Açık konu") |
+| OCR (22–23/24), bağlama (x/10, x/14), "emin" isabeti | Krokide yazanla karşılaştırılıyor; çizim hatası yazılan sayıyı değiştirmiyor. **Geçerli** (bkz. "Ayrım") |
 | Kontur bulma (01: 8 kenar, 02: 12 kenar, parçaların gerçek parçalarla eşleşmesi) | Krokinin çizgilerine bakıyor, sayılara bakmıyor; etkilenmedi |
 
 ## 01–02'ye bakılarak konmuş kurallar ve eşikler
@@ -72,11 +73,18 @@ ayarlandığı için genelleşmeme riski yine var)?
 Bu gruptaki eşikler çizim hatasından etkilenmez. Ama hepsi aynı kişinin aynı kalemle çizdiği iki krokiden
 ayarlandı. 03–07 ve yeni krokilerle yeniden ölçülmeleri gerekiyor.
 
-## Açık konu (kullanıcı kararı)
+## Ayrım (kullanıcı kararı, 2026-11-24)
 
 Okuma ve bağlama doğruluğu krokide **yazan** sayıyla ölçülüyor ve çizim hatası yazılanı değiştirmiyor. Bu yüzden
-01–02 okuma/bağlama ölçümü için hâlâ geçerli olabilir; yalnız geometri, kapanma ve DXF doğruluğu için geçersiz.
-Kullanıcı kararı şimdilik "doğruluk ölçümü için kullanılmaz"; bu ayrımın yapılıp yapılmayacağı açık.
+01–02 **okuma ve bağlama ölçümünde geçerli**; **geometri, kapanma ve DXF doğruluğunda geçersiz.**
+
+## Yapılan değişiklik: kapanmadan hesaplanan kenar farkı gizlemiyor
+
+A grubundaki ilk kural değiştirildi (`geometri.plan_kur`, `plan_cizimi`): bir eksende kapanmadan hesaplanmış kenar
+varsa o eksenin kapanması `"durum": "dogrulanamadi"` (`"tutuyor": False`); hesaplanan kenar KONTROL'de çizgiyle ve
+"? K5 … cm: okunmadı, kapanmadan hesaplandı" notuyla işaretli; başlık "DOĞRULANAMADI". Aynı kayıtlarla 01–02
+yeniden çalıştırıldı (`output/adim5*`): 02'nin 3. örneği daha önce yanlış bağlamaya rağmen 0 / 0 "kapanıyordu";
+artık iki eksende de "doğrulanamadı: K5 / K12 kapanmadan hesaplandı". Diğer beş çalıştırma değişmedi (kapanmıyor).
 
 ## Mimardan beklenen
 

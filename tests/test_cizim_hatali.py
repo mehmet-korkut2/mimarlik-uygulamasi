@@ -2,7 +2,8 @@
 
 Krokilere yazılan gerçek sayılar gerçek dış hatta (S1 toplamı, S3 = B) yerleştirilince bile toplamlar tutmuyor
 (01: yatay 40 / dikey 53 cm, 02: 48 / 60 cm). Mimar bunun yorumdan değil, çizim hatasından geldiğini doğruladı.
-Bu dosya o hatanın yakalandığını sabitler. 01–02 geometri/kapanma doğruluğunu ölçmek için KULLANILMAZ;
+Bu dosya o hatanın yakalandığını sabitler. 01–02 okuma/bağlama ölçümünde geçerli, geometri/kapanma/DXF
+doğruluğunu ölçmek için KULLANILMAZ;
 düzeltilmiş ölçüler mimardan gelince "doğru hal" ayrı test verisi olarak eklenecek.
 
 Veri yalnız sayılar ve yönler (fotoğraf yok); kaynak: deneyler/kapi_kurali/olcum.py GERCEK_DIS_HAT.

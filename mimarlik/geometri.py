@@ -2,7 +2,8 @@
 
 Krokinin piksel boyları kullanılmaz (kroki ölçekli değil); yalnızca kenar SIRASI ve YÖNÜ krokiden gelir.
 Boyu sayılardan çıkmayan kenar:
-  * bir eksende tek bilinmeyen kenar varsa kapanmadan hesaplanır ("hesaplandi"),
+  * bir eksende tek bilinmeyen kenar varsa kapanmadan hesaplanır ("hesaplandi"); o eksenin kapanması
+    "doğrulanamadı" sayılır, "tutuyor" değil (hesaplanan kenar farkı yutar: hatalı çizim gizlenirdi, 01–02),
   * değilse bilinen kenarların cm/px oranının medyanıyla piksel boyundan tahmin edilir ("tahmin").
 Kenar boyu kuralları (S1 duvar–kapı–duvar, S3 tek sayı köşeden köşeye) varsayimlar.py'de.
 """
@@ -91,10 +92,15 @@ def _parcalara_dagit(kenar: Kenar, boy: float, degerler: list[int | None], tamam
     return [boy * px / toplam for px in pxler]
 
 
-def _fark_notu(eksen: str, fark: float) -> dict:
+def _fark_notu(eksen: str, fark: float, hesaplanan: list[str]) -> dict:
+    """durum: "tutuyor" | "kapanmiyor" | "dogrulanamadi" (eksende kapanmadan hesaplanan kenar var)."""
+    if hesaplanan:
+        return {"fark_cm": round(fark, 1), "tutuyor": False, "durum": "dogrulanamadi", "hesaplanan": hesaplanan,
+                "not": f"{eksen} doğrulanamadı: {', '.join(hesaplanan)} kapanmadan hesaplandı"}
     tutuyor = abs(fark) <= varsayimlar.KAPANMA_TOLERANSI
-    durum = "tolerans içinde" if tutuyor else "kapanmıyor"
-    return {"fark_cm": round(fark, 1), "tutuyor": tutuyor, "not": f"{eksen} fark {abs(fark):.0f} cm, {durum}"}
+    metin = "tolerans içinde" if tutuyor else "kapanmıyor"
+    return {"fark_cm": round(fark, 1), "tutuyor": tutuyor, "durum": "tutuyor" if tutuyor else "kapanmiyor",
+            "hesaplanan": [], "not": f"{eksen} fark {abs(fark):.0f} cm, {metin}"}
 
 
 def _olcek(kenarlar, secilen) -> float | None:
@@ -178,7 +184,9 @@ def plan_kur(sonuc: KenarSonucu, olculer: list[SonOlcu], h: float) -> Plan:
         planlar.append(KenarPlani(k.id, r["yon"], r["boy"], r["durum"], r["tamami"], r["emin"], parcalar, p, bit))
         p = bit
 
-    kapanma = {"yatay": _fark_notu("yatay", p[0]), "dikey": _fark_notu("dikey", p[1])}
+    kapanma = {eksen: _fark_notu(eksen, p[i], [k.id for k in kontur
+                                                if kayit[k.id]["durum"] == "hesaplandi" and kayit[k.id]["yon"][i] != 0])
+               for eksen, i in (("yatay", 0), ("dikey", 1))}
 
     ic, iptaller, kapilar = _olcekten(sonuc, olcek, kontur[0].parcalar[0].bas)
     return Plan(tuple(planlar), kapanma, olcek, ic, tuple(notlar), iptaller, kapilar)
