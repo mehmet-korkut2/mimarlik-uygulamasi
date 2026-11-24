@@ -48,7 +48,11 @@ PENCERE_GENISLIGI = 120
 
 # --- Ölçülendirme -----------------------------------------------------------
 OLCU_STILI = "MIMARI"
+# Bütün yazıların (ölçü + KONTROL notları) stili: TrueType Arial. AutoCAD'in varsayılan txt.shx'i Türkçe
+# karakterleri (ç, ğ, ı, İ, ö, ş, ü) çizemiyor, "?" gösteriyor (AutoCAD Web'de görüldü, 2026-11-24).
+YAZI_STILI = "ARIAL"
+YAZI_FONTU = "arial.ttf"
 # Ölçü yazılarının yazı stili. Çizimde tanımlı olmalı: yoksa AutoCAD ölçüyü
 # yeniden oluştururken yazıyı çizemez (ölçü çizgisi görünür, 450 yazısı görünmez).
-OLCU_YAZI_STILI = "Standard"
+OLCU_YAZI_STILI = YAZI_STILI
 OLCU_YAZI_YUKSEKLIGI = 15  # cm; 1/50 baskıda 3 mm

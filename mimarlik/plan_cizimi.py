@@ -11,13 +11,16 @@ from ezdxf.document import Drawing
 
 from mimarlik import varsayimlar
 from mimarlik.birlestirme import SonOlcu
-from mimarlik.dxf_yazici import cizgi_ekle, olcu_ekle, yay_ekle, yazi_ekle, yeni_cizim
+from mimarlik.dxf_yazici import cizgi_ekle, daire_ekle, olcu_ekle, yay_ekle, yazi_ekle, yeni_cizim
 from mimarlik.geometri import KenarPlani, Plan
 from mimarlik.standartlar import KATMAN_DUVAR, KATMAN_KAPI, KATMAN_KONTROL, KATMAN_OLCU
 
 OLCU_MESAFESI = 40      # ölçü çizgisinin dış yüzden uzaklığı (cm)
 NOT_MESAFESI = 90       # KONTROL notlarının dış yüzden uzaklığı (cm)
 YAZI = 12               # KONTROL yazı yüksekliği (cm)
+ISARET = 12             # KONTROL işaret dairesinin yarıçapı (cm)
+LISTE_MESAFESI = 150    # not listesinin planın (işaretler dahil) en sağından uzaklığı (cm)
+SATIR = 1.7             # not listesinde satır aralığı (yazı yüksekliği katı)
 
 
 def _topla(*vektorler):
@@ -105,16 +108,23 @@ def _olculer(doc: Drawing, plan: Plan) -> None:
 
 
 def _kontrol(doc: Drawing, plan: Plan, olculer: list[SonOlcu], sadece_y2) -> list[str]:
-    """KONTROL katmanını doldurur; DXF'e yazılan notları döndürür."""
-    notlar = []
+    """KONTROL katmanını doldurur; notların tam metnini döndürür.
+
+    Planın üstüne yalnız numaralı işaret (daire + numara) konur; notların tam metni planın SAĞINDA, numara
+    sırasıyla alt alta liste olarak yazılır (AutoCAD Web'de notlar planın üstüne yığılıp okunmuyordu).
+    Yeri olmayan notlar (ör. hiçbir parçaya bağlanamayan sayı) yalnız listede, işaretsiz.
+    """
+    maddeler: list[tuple[str, tuple | None]] = []   # (metin, işaret noktası ya da None)
     yigin: dict[tuple, int] = {}
 
-    def not_yaz(metin, nokta, normal):
-        sira = yigin.get(nokta, 0)
-        yigin[nokta] = sira + 1
-        mesafe = varsayimlar.DIS_DUVAR_KALINLIGI + NOT_MESAFESI + sira * YAZI * 1.6
-        yazi_ekle(doc, metin, _topla(nokta, _kat(normal, mesafe)), YAZI, KATMAN_KONTROL)
-        notlar.append(metin)
+    def isaretli(metin, nokta, normal=None):
+        """İşaret nokta + normal yönünde dış yüzün ötesine; aynı noktadaki işaretler normal boyunca dizilir."""
+        if normal is not None:
+            sira = yigin.get(nokta, 0)
+            yigin[nokta] = sira + 1
+            mesafe = varsayimlar.DIS_DUVAR_KALINLIGI + NOT_MESAFESI + sira * ISARET * 2.6
+            nokta = _topla(nokta, _kat(normal, mesafe))
+        maddeler.append((metin, nokta))
 
     # kapanmayan eksen: o eksendeki bütün kenarlar + başlangıçla bitiş arasındaki açıklık.
     # Doğrulanamayan eksende (kenar kapanmadan hesaplandı) yalnız hesaplanan kenar işaretlenir (aşağıda).
@@ -131,19 +141,17 @@ def _kontrol(doc: Drawing, plan: Plan, olculer: list[SonOlcu], sadece_y2) -> lis
             cizgi_ekle(doc, [(*son, 0.0, 0.0)], KATMAN_KONTROL)
         baslik = ("KAPANMIYOR" if any(e["durum"] == "kapanmiyor" for e in plan.kapanma.values())
                   else "DOĞRULANAMADI")
-        metin = f"{baslik}: " + "; ".join(e["not"] for e in plan.kapanma.values())
-        yazi_ekle(doc, metin, (son[0] + YAZI, son[1] - 2 * YAZI), YAZI, KATMAN_KONTROL)
-        notlar.append(metin)
+        isaretli(f"{baslik}: " + "; ".join(e["not"] for e in plan.kapanma.values()), son)
 
     # sayıdan gelmeyen kenar boyları
     for k in plan.kenarlar:
         if k.durum == "hesaplandi":   # okunmadı; boyu kapanmayı zorla sağlıyor: kenarın kendisi de işaretli
             cizgi_ekle(doc, [(*k.bas, *k.bit)], KATMAN_KONTROL)
             orta = _topla(k.bas, _kat(k.yon, k.boy / 2))
-            not_yaz(f"? {k.kenar_id} {k.boy:.0f} cm: okunmadı, kapanmadan hesaplandı", orta, _normal(k))
+            isaretli(f"? {k.kenar_id} {k.boy:.0f} cm: okunmadı, kapanmadan hesaplandı", orta, _normal(k))
         elif k.durum != "olcu":
             orta = _topla(k.bas, _kat(k.yon, k.boy / 2))
-            not_yaz(f"? {k.kenar_id} {k.boy:.0f} cm ({k.durum})", orta, _normal(k))
+            isaretli(f"? {k.kenar_id} {k.boy:.0f} cm ({k.durum})", orta, _normal(k))
 
     # emin olunmayan ölçüler, parçasının ortasına
     yer = {}
@@ -156,7 +164,7 @@ def _kontrol(doc: Drawing, plan: Plan, olculer: list[SonOlcu], sadece_y2) -> lis
             continue
         metin = f"? {o.deger}: {o.sebep}"
         if o.parca_id in yer:
-            not_yaz(metin, *yer[o.parca_id])
+            isaretli(metin, *yer[o.parca_id])
         else:
             serbest.append(metin if o.parca_id is None else f"{metin} ({o.parca_id}, konturda değil)")
     serbest += [f"? {d}: yalnızca Y2 okudu ({pid})" for d, pid in sadece_y2]
@@ -165,32 +173,37 @@ def _kontrol(doc: Drawing, plan: Plan, olculer: list[SonOlcu], sadece_y2) -> lis
     # konturda olmayan kenarlar (iç duvar ya da kapanmayan konturun parçaları): ölçüsüz, ölçekten
     for kid, a, b in plan.ic_duvarlar:
         cizgi_ekle(doc, [(*a, *b)], KATMAN_KONTROL)
-        orta = ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2)
-        yazi_ekle(doc, f"{kid} ölçüsüz (konturda değil)", orta, YAZI, KATMAN_KONTROL)
-        notlar.append(f"{kid} ölçüsüz (konturda değil)")
+        isaretli(f"{kid} ölçüsüz (konturda değil)", ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2))
 
     for orta, kaynak, deger in plan.kapilar:   # kapı kuralı: etiket yoksa çıkarım, kullanıcı görsün
         if kaynak == "etiket":
             continue
-        metin = f"? kapı {deger}: " + ("yakında okunan sayıdan" if kaynak == "sayi" else "ölçekten tahmin")
-        yazi_ekle(doc, metin, orta, YAZI, KATMAN_KONTROL)
-        notlar.append(metin)
+        isaretli(f"? kapı {deger}: " + ("yakında okunan sayıdan" if kaynak == "sayi" else "ölçekten tahmin"), orta)
 
     for a, b in plan.iptaller:   # mimar S5: X = orada duvar yok
         cizgi_ekle(doc, [(*a, *b)], KATMAN_KONTROL)
-        orta = ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2)
-        yazi_ekle(doc, "X: iptal edilmiş duvar", orta, YAZI, KATMAN_KONTROL)
-        notlar.append("X: iptal edilmiş duvar")
+        isaretli("X: iptal edilmiş duvar", ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2))
 
-    if serbest:
-        noktalar = [p for k in plan.kenarlar for p in (k.bas, k.bit)]
-        noktalar += [p for _, a, b in plan.ic_duvarlar for p in (a, b)]
-        xs, ys = [p[0] for p in noktalar] or [0.0], [p[1] for p in noktalar] or [0.0]
-        x, y = min(xs), min(ys) - varsayimlar.DIS_DUVAR_KALINLIGI - 4 * NOT_MESAFESI
-        for j, metin in enumerate(serbest):
-            yazi_ekle(doc, metin, (x, y - j * YAZI * 1.6), YAZI, KATMAN_KONTROL)
-        notlar += serbest
-    return notlar
+    maddeler += [(m, None) for m in serbest]
+    if not maddeler:
+        return []
+
+    for n, (_, nokta) in enumerate(maddeler, 1):
+        if nokta is not None:
+            daire_ekle(doc, nokta, ISARET, KATMAN_KONTROL)
+            yazi_ekle(doc, str(n), nokta, ISARET * 0.9, KATMAN_KONTROL, ortala=True)
+
+    # liste: planın (işaretler dahil) sağında, üstten aşağı
+    noktalar = [p for k in plan.kenarlar for p in (k.bas, k.bit)]
+    noktalar += [p for _, a, b in plan.ic_duvarlar for p in (a, b)]
+    noktalar += [p for a, b in plan.iptaller for p in (a, b)]
+    noktalar += [nokta for _, nokta in maddeler if nokta is not None]
+    x = max((p[0] for p in noktalar), default=0.0) + varsayimlar.DIS_DUVAR_KALINLIGI + LISTE_MESAFESI
+    y = max((p[1] for p in noktalar), default=0.0)
+    yazi_ekle(doc, "KONTROL NOTLARI", (x, y), YAZI * 1.25, KATMAN_KONTROL)
+    for n, (metin, _) in enumerate(maddeler, 1):
+        yazi_ekle(doc, f"{n}. {metin}", (x, y - (n + 0.5) * YAZI * SATIR), YAZI, KATMAN_KONTROL)
+    return [m for m, _ in maddeler]
 
 
 def ciz(plan: Plan, olculer: list[SonOlcu], sadece_y2=()) -> tuple[Drawing, list[str]]:

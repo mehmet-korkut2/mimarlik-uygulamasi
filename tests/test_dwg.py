@@ -1,5 +1,7 @@
 """dwg: ODA File Converter yoksa DWG atlanır; varsa doğru sürümle çağrılır (dönüştürücü çağrılmaz, sahte)."""
 
+import pytest
+
 from mimarlik import dwg
 from mimarlik.standartlar import DWG_SURUMU
 
@@ -69,3 +71,20 @@ def test_hicbiri_yoksa_ezdxf_varsayilani_degismez(tmp_path, monkeypatch):
     monkeypatch.setattr(dwg, "ODA_KLASORU", tmp_path)
     monkeypatch.delenv("ODAFC_YOLU", raising=False)
     assert _ayarlanan_yol(monkeypatch) == set()
+
+
+TURKCE = "KAPANMIYOR: çelişki, kapı ölçüsüz; ĞÜŞİÖÇ ğüşıöç İ ı"
+
+
+@pytest.mark.skipif(not dwg.kurulu_mu(), reason="ODA File Converter kurulu değil")
+def test_turkce_metin_dwg_gidis_donus_bozulmaz(tmp_path):
+    """Gerçek dönüştürücüyle: DXF -> DWG -> geri okuma; metin ve Arial stili korunur (AutoCAD Web'de "?" idi)."""
+    from mimarlik.dxf_yazici import kaydet, yazi_ekle, yeni_cizim
+    from mimarlik.standartlar import YAZI_FONTU, YAZI_STILI
+    doc = yeni_cizim()
+    yazi_ekle(doc, TURKCE, (0, 0), 12, "KONTROL")
+    yol = dwg.dwg_yaz(kaydet(doc, tmp_path / "turkce.dxf"))
+    assert yol.read_bytes()[:6] == b"AC1027"                                    # AutoCAD 2013 biçimi
+    geri = dwg.odafc.readfile(yol)
+    assert [e.dxf.text for e in geri.modelspace().query("TEXT")] == [TURKCE]
+    assert geri.styles.get(YAZI_STILI).dxf.font == YAZI_FONTU

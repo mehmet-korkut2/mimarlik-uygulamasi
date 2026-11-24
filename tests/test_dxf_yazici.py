@@ -278,3 +278,26 @@ def test_yazi_katmanda_ve_konumda(tmp_path):
 def test_yazi_hatali_yukseklik():
     with pytest.raises(ValueError):
         yazi_ekle(yeni_cizim(), "x", (0, 0), 0, KATMAN_KONTROL)
+
+
+def test_yazilar_truetype_arial_stilinde(tmp_path):
+    from mimarlik.standartlar import YAZI_FONTU, YAZI_STILI
+    doc = yeni_cizim()
+    yazi_ekle(doc, "KAPANMIYOR: çelişki", (0, 0), 10, "KONTROL")
+    yazi_ekle(doc, "7", (50, 50), 10, "KONTROL", ortala=True)
+    okunan = ezdxf.readfile(kaydet(doc, tmp_path / "y.dxf"))
+    assert okunan.styles.get(YAZI_STILI).dxf.font == YAZI_FONTU == "arial.ttf"
+    assert okunan.dimstyles.get(OLCU_STILI).dxf.dimtxsty == YAZI_STILI       # ölçü yazıları da Arial
+    yazilar = list(okunan.modelspace().query("TEXT"))
+    assert {e.dxf.style for e in yazilar} == {YAZI_STILI}
+    assert yazilar[1].dxf.halign == 1 and yazilar[1].dxf.valign == 2          # numara dairenin ortasında
+
+
+def test_daire_ekle(tmp_path):
+    from mimarlik.dxf_yazici import daire_ekle
+    doc = yeni_cizim()
+    daire_ekle(doc, (10, 20), 12, "KONTROL")
+    d = ezdxf.readfile(kaydet(doc, tmp_path / "d.dxf")).modelspace().query("CIRCLE")[0]
+    assert (d.dxf.center.x, d.dxf.center.y, d.dxf.radius, d.dxf.layer) == (10, 20, 12, "KONTROL")
+    with pytest.raises(ValueError):
+        daire_ekle(doc, (0, 0), 0, "KONTROL")

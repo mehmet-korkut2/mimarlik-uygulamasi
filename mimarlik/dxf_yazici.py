@@ -6,6 +6,7 @@ from pathlib import Path
 
 import ezdxf
 from ezdxf import zoom
+from ezdxf.enums import TextEntityAlignment
 from ezdxf.document import Drawing
 
 from mimarlik.standartlar import (
@@ -14,6 +15,8 @@ from mimarlik.standartlar import (
     OLCU_STILI,
     OLCU_YAZI_STILI,
     OLCU_YAZI_YUKSEKLIGI,
+    YAZI_FONTU,
+    YAZI_STILI,
 )
 
 # DXF $INSUNITS kodları
@@ -37,6 +40,8 @@ def yeni_cizim(birim: str = "cm") -> Drawing:
 
     # Ölçü yazısının stili çizimde tanımlı olmalı (setup=False ile yalnızca
     # "Standard" gelir). standartlar.py'de başka bir ad seçilirse burada oluşur.
+    if YAZI_STILI not in doc.styles:
+        doc.styles.add(YAZI_STILI, font=YAZI_FONTU)   # TrueType: Türkçe karakterler (txt.shx'te "?")
     if OLCU_YAZI_STILI not in doc.styles:
         doc.styles.add(OLCU_YAZI_STILI)
 
@@ -183,12 +188,24 @@ def yazi_ekle(
     konum: tuple[float, float],
     yukseklik: float,
     katman: str,
+    ortala: bool = False,
 ) -> None:
-    """Tek satırlık yazı (TEXT) ekler; konum yazının sol alt köşesi."""
+    """Tek satırlık yazı (TEXT) ekler; konum yazının sol alt köşesi (ortala=True: yazının ortası)."""
     _katmani_dogrula(katman)
     x, y, yuk = _sonlu_sayilar("Yazı", *konum, yukseklik)
     if yuk <= 0:
         raise ValueError(f"Yazı yüksekliği sıfırdan büyük olmalı, gelen: {yukseklik!r}")
-    doc.modelspace().add_text(
-        metin, height=yuk, dxfattribs={"layer": katman, "style": OLCU_YAZI_STILI}
-    ).set_placement((x, y))
+    yazi = doc.modelspace().add_text(metin, height=yuk, dxfattribs={"layer": katman, "style": YAZI_STILI})
+    if ortala:
+        yazi.set_placement((x, y), align=TextEntityAlignment.MIDDLE_CENTER)
+    else:
+        yazi.set_placement((x, y))
+
+
+def daire_ekle(doc: Drawing, merkez: tuple[float, float], yaricap: float, katman: str) -> None:
+    """Daire (CIRCLE) ekler: KONTROL işaretlerinin numara çerçevesi."""
+    _katmani_dogrula(katman)
+    x, y, r = _sonlu_sayilar("Daire", *merkez, yaricap)
+    if r <= 0:
+        raise ValueError(f"Daire yarıçapı sıfırdan büyük olmalı, gelen: {yaricap!r}")
+    doc.modelspace().add_circle((x, y), r, dxfattribs={"layer": katman})
