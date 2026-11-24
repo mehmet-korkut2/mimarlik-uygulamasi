@@ -19,6 +19,8 @@ IC_DUVAR_KALINLIGI = 10
 # Arka arkaya yazılan üç sayı "duvar – kapı boşluğu – duvar"; kapı sayısı net geçiş; toplamları
 # kenarın boyu. Açıklık kapı sayılır, içeri açılır, menteşe açıklığın kontur yönündeki başında.
 ACIKLIK_KAPIDIR = True
+# B-3 (KESİN, mimar 24.11.2026): standart kapı genişlikleri. Kapı sayısı net geçiş mi, kasa dahil mi: AÇIK.
+KAPI_GENISLIKLERI = (80, 90, 100, 110, 120)
 
 # --- S3: iç duvarın birleştiği kenara yazılan sayı (KESİN, mimar 24.11.2026: "B") ------------------
 # Sayı, iç duvarın birleştiği noktadan köşeye kadarki PARÇANIN ölçüsüdür (02'deki üst 300 tüm duvar değil).

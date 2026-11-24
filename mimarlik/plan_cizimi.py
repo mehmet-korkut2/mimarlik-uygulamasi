@@ -162,6 +162,13 @@ def _kontrol(doc: Drawing, plan: Plan, olculer: list[SonOlcu], sadece_y2) -> lis
         yazi_ekle(doc, f"{kid} ölçüsüz (konturda değil)", orta, YAZI, KATMAN_KONTROL)
         notlar.append(f"{kid} ölçüsüz (konturda değil)")
 
+    for orta, kaynak, deger in plan.kapilar:   # kapı kuralı: etiket yoksa çıkarım, kullanıcı görsün
+        if kaynak == "etiket":
+            continue
+        metin = f"? kapı {deger}: " + ("yakında okunan sayıdan" if kaynak == "sayi" else "ölçekten tahmin")
+        yazi_ekle(doc, metin, orta, YAZI, KATMAN_KONTROL)
+        notlar.append(metin)
+
     for a, b in plan.iptaller:   # mimar S5: X = orada duvar yok
         cizgi_ekle(doc, [(*a, *b)], KATMAN_KONTROL)
         orta = ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2)

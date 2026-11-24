@@ -45,6 +45,7 @@ class Plan:
     ic_duvarlar: tuple[tuple[str, Nokta, Nokta], ...]  # konturda olmayan bulunan kenarlar, ölçekten (cm)
     notlar: tuple[str, ...]
     iptaller: tuple[tuple[Nokta, Nokta], ...] = ()     # X ile iptal edilen duvar parçaları, ölçekten (cm)
+    kapilar: tuple[tuple[Nokta, str, int], ...] = ()    # kapı kuralının boşlukları: (orta nokta cm, kaynak, değer)
 
 
 def _px(kenar: Kenar) -> float:
@@ -107,16 +108,18 @@ def _olcek(kenarlar, secilen) -> float | None:
 
 
 def _olcekten(sonuc: KenarSonucu, olcek: float | None, p0: Nokta):
-    """(konturda olmayan kenarlar, iptaller): p0 pikseli (0, 0) olacak şekilde ölçekten cm'ye (ölçek yoksa boş)."""
+    """(konturda olmayan kenarlar, iptaller, kapılar): p0 pikseli (0, 0) olacak şekilde ölçekten cm'ye."""
     if olcek is None:
-        return (), ()
+        return (), (), ()
 
     def cm(q):
         x, y = _dondur((q[0] - p0[0], q[1] - p0[1]), sonuc.eksen_acisi_derece)
         return (x * olcek, -y * olcek)
 
     ic = tuple((k.id, cm(k.parcalar[0].bas), cm(k.parcalar[-1].bit)) for k in sonuc.kenarlar if not k.konturda)
-    return ic, tuple((cm(i.silinen[0]), cm(i.silinen[1])) for i in sonuc.iptaller)
+    kapilar = tuple((cm(((k.bas[0] + k.bit[0]) / 2, (k.bas[1] + k.bit[1]) / 2)), k.kaynak, k.deger)
+                    for k in sonuc.kapilar)
+    return ic, tuple((cm(i.silinen[0]), cm(i.silinen[1])) for i in sonuc.iptaller), kapilar
 
 
 def plan_kur(sonuc: KenarSonucu, olculer: list[SonOlcu], h: float) -> Plan:
@@ -128,8 +131,8 @@ def plan_kur(sonuc: KenarSonucu, olculer: list[SonOlcu], h: float) -> Plan:
     if not kontur:
         # bulunan kenarlar yine de (ölçekten) KONTROL'de görünsün: kullanıcı neyin bulunduğunu görür
         p0 = sonuc.kenarlar[0].parcalar[0].bas if sonuc.kenarlar else (0.0, 0.0)
-        ic, iptaller = _olcekten(sonuc, olcek, p0)
-        return Plan((), {}, olcek, ic, ("dış kontur bulunamadı",), iptaller)
+        ic, iptaller, kapilar = _olcekten(sonuc, olcek, p0)
+        return Plan((), {}, olcek, ic, ("dış kontur bulunamadı",), iptaller, kapilar)
 
     kayit = {}
     for k in kontur:
@@ -177,5 +180,5 @@ def plan_kur(sonuc: KenarSonucu, olculer: list[SonOlcu], h: float) -> Plan:
 
     kapanma = {"yatay": _fark_notu("yatay", p[0]), "dikey": _fark_notu("dikey", p[1])}
 
-    ic, iptaller = _olcekten(sonuc, olcek, kontur[0].parcalar[0].bas)
-    return Plan(tuple(planlar), kapanma, olcek, ic, tuple(notlar), iptaller)
+    ic, iptaller, kapilar = _olcekten(sonuc, olcek, kontur[0].parcalar[0].bas)
+    return Plan(tuple(planlar), kapanma, olcek, ic, tuple(notlar), iptaller, kapilar)

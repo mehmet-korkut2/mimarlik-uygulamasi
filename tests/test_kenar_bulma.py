@@ -180,3 +180,89 @@ def test_x_cizgileri_sayi_bolgesi_olmaz():
     maske, h = _x_krokisi()
     bolgeler = bolgeleri_bul(maske, kenarlari_bul(maske, h), h)
     assert len(bolgeler) == 3   # yalnızca 400, 500, 600
+
+
+# --- Kapı boşluğu kuralı (3. adım): ipucu = etiket, sayı; yoksa ölçek -------------------------------
+
+def _kapi_krokisi(dik_uc=False):
+    """600x500 oda. Sağ duvarda kapı boşluğu (y 300-400).
+    dik_uc=False (02 gibi): boşluğun iki yanında parçalar, alttaki 15 px sağa kaymış.
+    dik_uc=True (01 gibi): alttaki kısa parça yok; boşluğun karşısı alt duvarın boşta ucu (y=600)."""
+    import cv2
+    from tests.sentetik import FONT, KALINLIK, MUREKKEP, OLCEK, YAZI_KALINLIK
+    bgr = np.full((800, 900, 3), 255, np.uint8)
+    cizgiler = [((100, 100), (700, 100)), ((100, 100), (100, 600)), ((700, 100), (700, 300))]
+    if dik_uc:
+        cizgiler += [((100, 600), (700, 600))]                       # sağ alt köşe yok: 300-600 boşluk
+        cizgiler[2] = ((700, 100), (700, 430))
+    else:
+        cizgiler += [((100, 600), (715, 600)), ((715, 400), (715, 600))]
+    for a, b in cizgiler:
+        cv2.line(bgr, a, b, MUREKKEP, KALINLIK)
+    for metin, yer in [("600", (360, 80)), ("500", (20, 360)), ("90", (740, 360) if not dik_uc else (740, 525))]:
+        cv2.putText(bgr, metin, yer, FONT, OLCEK, MUREKKEP, YAZI_KALINLIK, cv2.LINE_AA)
+    maske = murekkep_maskesi(bgr)
+    return maske, karakter_yuksekligi(maske)
+
+
+def _ipucu(nokta, kaynak="sayi", deger=90):
+    from mimarlik.eslestirme import KapiIpucu
+    return (KapiIpucu(nokta, kaynak, deger),)
+
+
+def test_kapi_ipucusuz_kayik_bosluk_kontur_kapanmaz():
+    sonuc = kenarlari_bul(*_kapi_krokisi())
+    assert sonuc.kapilar == () and sonuc.kontur_sirasi == ()
+
+
+@pytest.mark.parametrize("kaynak", ["sayi", "etiket"])
+def test_kapi_ipucuyla_kayik_bosluk_aciklik_olur_kontur_kapanir(kaynak):
+    maske, h = _kapi_krokisi()
+    sonuc = kenarlari_bul(maske, h, _ipucu((760, 350), kaynak))
+    assert [(k.kaynak, k.deger) for k in sonuc.kapilar] == [(kaynak, 90)]
+    assert len(sonuc.kontur_sirasi) == 4
+    sag = [k for k in sonuc.kenarlar if any(p.tur == "aciklik" for p in k.parcalar)]
+    assert len(sag) == 1 and [p.tur for p in sag[0].parcalar].count("duvar") == 2
+
+
+def test_kapi_ipucu_uzaktaysa_kullanilmaz():
+    maske, h = _kapi_krokisi()
+    sonuc = kenarlari_bul(maske, h, _ipucu((400, 350)))   # oda ortasında: boşluğun ortasına > 5h
+    assert sonuc.kapilar == ()
+
+
+def test_kapi_karsida_uzun_duvarin_ucu_sanal_parca_ile_kapanir():
+    maske, h = _kapi_krokisi(dik_uc=True)
+    sonuc = kenarlari_bul(maske, h, _ipucu((760, 515)))
+    assert len(sonuc.kapilar) == 1 and len(sonuc.kontur_sirasi) == 4
+    assert any(p.tur == "aciklik" for k in sonuc.kenarlar for p in k.parcalar)
+
+
+def test_kapi_ipucu_yoksa_olcekten():
+    maske, h = _kapi_krokisi()
+    # boşluk ≈ 100 px: 0,9 cm/px ≈ 90 cm -> kapı; 0,4 cm/px ≈ 40 cm -> değil
+    assert [k.kaynak for k in kenarlari_bul(maske, h, (), olcek=0.9).kapilar] == ["olcek"]
+    assert kenarlari_bul(maske, h, (), olcek=0.4).kapilar == ()
+
+
+def test_kapi_iki_kisa_cizgi_arasi_aday_degil():
+    from mimarlik import kenar_bulma as kb
+    h = 26.0
+    cizgiler = [kb._Cizgi((100, 100), (500, 100)), kb._Cizgi((300, 100), (300, 140)),   # üstten sarkan tik
+                kb._Cizgi((300, 240), (300, 280)), kb._Cizgi((100, 280), (500, 280))]   # alttan çıkan tik
+    yonler = ["yatay", "dikey", "dikey", "yatay"]
+    bag = kb._baglantilar(cizgiler, yonler, 0.75 * h)
+    assert kb._kapi_adaylari(cizgiler, yonler, bag, h, 0.75 * h) == []
+
+
+def test_kapi_duvarin_ortasindan_baslamaz():
+    from mimarlik import kenar_bulma as kb
+    h = 26.0
+    cizgiler = [kb._Cizgi((100, 100), (500, 100)),    # üst duvar
+                kb._Cizgi((300, 20), (300, 100)),     # duvarın ortasına dışarıdan değen tik (+ rakam): 3,1h
+                kb._Cizgi((300, 220), (300, 300)),    # karşıda bir parça
+                kb._Cizgi((100, 300), (500, 300))]
+    yonler = ["yatay", "dikey", "dikey", "yatay"]
+    bag = kb._baglantilar(cizgiler, yonler, 0.75 * h)
+    adaylar = kb._kapi_adaylari(cizgiler, yonler, bag, h, 0.75 * h)
+    assert all(1 not in (a[0], a[2]) for a in adaylar)

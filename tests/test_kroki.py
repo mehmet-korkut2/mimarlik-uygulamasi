@@ -99,3 +99,14 @@ def test_eski_kayit_geometrisiz_eslem_ayniysa_kullanilir():
 
 def test_okunamayan_fotograf(tmp_path):
     assert main([str(tmp_path / "yok.jpg")]) == 2
+
+
+def test_kapi_ipuclari_etiket_ve_kapi_genisligindeki_sayilar():
+    from mimarlik.eslestirme import Bolge
+    from mimarlik.kroki import kapi_ipuclari
+    atanmis = [(Bolge((0, 0, 20, 10), None), 90), (Bolge((100, 100, 120, 110), None), 140)]
+    ipuclari = kapi_ipuclari('[{"bbox_2d": [500, 500, 600, 600], "label": "K100"}]', atanmis, 1000, 1000)
+    assert [(i.kaynak, i.deger, i.nokta) for i in ipuclari] == [("etiket", 100, (550.0, 550.0)),
+                                                                 ("sayi", 90, (10.0, 5.0))]
+    kutulu = kapi_ipuclari('[{"bbox_2d": [100, 100, 200, 200], "label": "90"}]', [], 1000, 1000)
+    assert [(i.kaynak, i.deger, i.nokta) for i in kutulu] == [("sayi", 90, (150.0, 150.0))]   # Qwen kutusu da

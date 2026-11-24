@@ -79,6 +79,23 @@ def sayilari_ayristir(metin: str, genislik: int, yukseklik: int) -> list[tuple[i
     return ogeler
 
 
+KAPI_ETIKETI = re.compile(r"^\s*[Kk]\s*[-:=]?\s*(\d+)")   # kroki kuralı 5: "K90"
+
+
+def kapi_etiketleri(metin: str, genislik: int, yukseklik: int) -> list[tuple[int, tuple[float, float]]]:
+    """Qwen-1 cevabındaki K etiketli öğeler ("K90") -> [(genişlik, kutu merkezi px)]."""
+    sonuc = []
+    for o in _json_nesneleri(metin or ""):
+        eslesme = KAPI_ETIKETI.match(str(o.get("label", "")))
+        kutu = o.get("bbox_2d")
+        if not eslesme or not (isinstance(kutu, list) and len(kutu) == 4
+                               and all(isinstance(v, (int, float)) for v in kutu)):
+            continue
+        sx, sy = genislik / KUTU_OLCEGI, yukseklik / KUTU_OLCEGI
+        sonuc.append((int(eslesme.group(1)), ((kutu[0] + kutu[2]) / 2 * sx, (kutu[1] + kutu[3]) / 2 * sy)))
+    return sonuc
+
+
 def parca_degerlerini_ayristir(metin: str, eslem: dict[str, str]) -> list[tuple[int, str]]:
     """Qwen-2 (Y2) cevabındaki ilk {...} nesnesi -> [(değer, parça id)]; bozuksa []."""
     bulunan = re.search(r"\{.*\}", metin or "", re.S)
