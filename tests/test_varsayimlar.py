@@ -12,10 +12,10 @@ def test_duvar_kapi_duvar_toplami():  # S1
     assert kenar_boyu([10, 90, 15]) == (115, False)
 
 
-def test_tek_sayi_kenarin_tamami(monkeypatch):  # S3
+def test_tek_sayi_yalnizca_parcanin_boyu_mimar_b(monkeypatch):  # S3 = B (KESİN)
+    assert kenar_boyu([300, None]) == (None, False)   # kenar boyu sayıdan çıkmaz, parça boyu 300
+    monkeypatch.setattr(varsayimlar, "TEK_SAYI_KENARIN_TAMAMI", True)   # eski varsayım A
     assert kenar_boyu([300, None]) == (300, True)
-    monkeypatch.setattr(varsayimlar, "TEK_SAYI_KENARIN_TAMAMI", False)
-    assert kenar_boyu([300, None]) == (None, False)
 
 
 def test_eksik_parca_cozulemez():

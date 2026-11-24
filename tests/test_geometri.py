@@ -74,15 +74,27 @@ def test_duvar_kapi_duvar_toplami_ve_parca_boylari():  # S1
     assert [p.tur for p in k3.parcalar] == ["duvar", "aciklik", "duvar"]
 
 
-def test_tek_sayi_kenarin_tamami_parcalara_pikselle_dagilir(monkeypatch):  # S3
+def test_s3_b_sayi_parcanin_boyu_kalan_kapanmadan(monkeypatch):  # S3 = B (KESİN)
     alt = [("duvar", (400, 300), (100, 300)), ("duvar", (100, 300), (0, 300))]
-    olculer = [_o(400, "K1.1"), _o(300, "K2.1"), _o(400, "K3.1"), _o(300, "K4.1")]
+    olculer = [_o(420, "K1.1"), _o(300, "K2.1"), _o(320, "K3.1"), _o(300, "K4.1")]
     k3 = plan_kur(_dikdortgen(alt), olculer, H).kenarlar[2]
-    assert k3.tek_sayi_tamami and k3.boy == 400
-    assert [p.boy for p in k3.parcalar] == [300, 100]
-    monkeypatch.setattr(varsayimlar, "TEK_SAYI_KENARIN_TAMAMI", False)
-    k3 = plan_kur(_dikdortgen(alt), olculer, H).kenarlar[2]   # parça boyu: 400 + 100 px x 1 cm/px
-    assert (k3.boy, k3.durum) == (400, "hesaplandi")         # tek bilinmeyen: kapanmadan
+    assert (k3.boy, k3.durum, k3.tek_sayi_tamami) == (420, "hesaplandi", False)
+    assert [p.boy for p in k3.parcalar] == [320, 100]        # okunan 320 korunur, kalan 100 diğer parçaya
+    assert [p.deger for p in k3.parcalar] == [320, None]
+    monkeypatch.setattr(varsayimlar, "TEK_SAYI_KENARIN_TAMAMI", True)   # eski A: 320 bütün kenar
+    k3 = plan_kur(_dikdortgen(alt), olculer, H).kenarlar[2]
+    assert (k3.boy, k3.durum, k3.tek_sayi_tamami) == (320, "olcu", True)
+    assert [p.boy for p in k3.parcalar] == [240, 80]
+
+
+def test_s3_b_kapanma_okunandan_kisaysa_okunan_korunur():
+    alt = [("duvar", (400, 300), (100, 300)), ("duvar", (100, 300), (0, 300))]
+    olculer = [_o(300, "K1.1"), _o(300, "K2.1"), _o(320, "K3.1"), _o(300, "K4.1")]   # kapanma 300 < 320
+    plan = plan_kur(_dikdortgen(alt), olculer, H)
+    k3 = plan.kenarlar[2]
+    assert k3.durum == "kismen_tahmin" and k3.parcalar[0].boy == 320
+    assert any("okunan parçaların toplamından" in n for n in plan.notlar)
+    assert not plan.kapanma["yatay"]["tutuyor"]
 
 
 def test_emin_olmayan_olcu_kenari_emin_yapmaz_ve_emin_olan_tercih_edilir():

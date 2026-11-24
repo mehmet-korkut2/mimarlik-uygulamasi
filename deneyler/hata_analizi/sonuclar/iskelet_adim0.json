@@ -1,0 +1,233 @@
+{
+ "aciklama": "İskeletin 01–02 bağlamaları (python -m mimarlik.kroki --okuma, kod c8ed490, mimar cevaplarından önce). parca_id bulunan kenar kimliği (kenar bulma 40d19d1).",
+ "olculer": {
+  "01": [
+   {
+    "deger": 180,
+    "parca_id": "K2.1",
+    "kaynak": "geometrik",
+    "emin": false,
+    "neden": "isaret",
+    "sebep": "çelişki: Y2 K1.1"
+   },
+   {
+    "deger": 40,
+    "parca_id": "K1.1",
+    "kaynak": "geometrik",
+    "emin": true,
+    "neden": "isaret",
+    "sebep": ""
+   },
+   {
+    "deger": 120,
+    "parca_id": "K5.1",
+    "kaynak": "geometrik",
+    "emin": false,
+    "neden": "isaret",
+    "sebep": "çelişki: Y2 K4.1; aynı parçada 2 değer: 120, 50"
+   },
+   {
+    "deger": 108,
+    "parca_id": "K3.1",
+    "kaynak": "y2",
+    "emin": false,
+    "neden": "en_yakin",
+    "sebep": "çelişki: geometrik K2.1; Y2 gürültü parçasına yazdı; aynı parçada 2 değer: 108, 15"
+   },
+   {
+    "deger": 50,
+    "parca_id": "K5.1",
+    "kaynak": "y2",
+    "emin": false,
+    "neden": "en_yakin",
+    "sebep": "çelişki: geometrik K3.1; Y2 gürültü parçasına yazdı; aynı parçada 2 değer: 120, 50"
+   },
+   {
+    "deger": 10,
+    "parca_id": "K4.1",
+    "kaynak": "geometrik",
+    "emin": false,
+    "neden": "isaret",
+    "sebep": "çelişki: Y2 K2.1"
+   },
+   {
+    "deger": 15,
+    "parca_id": "K3.1",
+    "kaynak": "geometrik",
+    "emin": false,
+    "neden": "isaret",
+    "sebep": "aynı parçada 2 değer: 108, 15"
+   },
+   {
+    "deger": 120,
+    "parca_id": "K6.1",
+    "kaynak": "geometrik",
+    "emin": false,
+    "neden": "en_yakin",
+    "sebep": "tire yok, Y2 bağlamadı; en yakın parça (en_yakin); aynı parçada 3 değer: 120, 90, 140"
+   },
+   {
+    "deger": 90,
+    "parca_id": "K6.1",
+    "kaynak": "geometrik",
+    "emin": false,
+    "neden": "temas",
+    "sebep": "tire yok, Y2 bağlamadı; en yakın parça (temas); aynı parçada 3 değer: 120, 90, 140"
+   },
+   {
+    "deger": 140,
+    "parca_id": "K6.1",
+    "kaynak": "y2",
+    "emin": false,
+    "neden": "en_yakin",
+    "sebep": "Y2 gürültü parçasına yazdı; aynı parçada 3 değer: 120, 90, 140"
+   }
+  ],
+  "02": [
+   {
+    "deger": 45,
+    "parca_id": "K3.1",
+    "kaynak": "y2",
+    "emin": false,
+    "neden": "temas",
+    "sebep": "çelişki: geometrik K1.1; aynı parçada 2 değer: 45, 45"
+   },
+   {
+    "deger": 300,
+    "parca_id": "K1.1",
+    "kaynak": "geometrik",
+    "emin": false,
+    "neden": "isaret",
+    "sebep": "aynı parçada 2 değer: 300, 15"
+   },
+   {
+    "deger": 45,
+    "parca_id": "K2.1",
+    "kaynak": "y2",
+    "emin": false,
+    "neden": "en_yakin",
+    "sebep": "çelişki: geometrik K3.1"
+   },
+   {
+    "deger": 45,
+    "parca_id": "K3.1",
+    "kaynak": "geometrik",
+    "emin": false,
+    "neden": "temas",
+    "sebep": "tire yok, Y2 bağlamadı; en yakın parça (temas); aynı parçada 2 değer: 45, 45"
+   },
+   {
+    "deger": 40,
+    "parca_id": "K14.1",
+    "kaynak": "y2",
+    "emin": false,
+    "neden": "temas",
+    "sebep": "çelişki: geometrik K11.1; Y2 gürültü parçasına yazdı"
+   },
+   {
+    "deger": 15,
+    "parca_id": "K1.1",
+    "kaynak": "geometrik",
+    "emin": false,
+    "neden": "isaret",
+    "sebep": "aynı parçada 2 değer: 300, 15"
+   },
+   {
+    "deger": 45,
+    "parca_id": "K12.1",
+    "kaynak": "geometrik",
+    "emin": false,
+    "neden": "temas",
+    "sebep": "tire yok, Y2 bağlamadı; en yakın parça (temas)"
+   },
+   {
+    "deger": 45,
+    "parca_id": "K13.1",
+    "kaynak": "geometrik",
+    "emin": false,
+    "neden": "temas",
+    "sebep": "tire yok, Y2 bağlamadı; en yakın parça (temas)"
+   },
+   {
+    "deger": 90,
+    "parca_id": "K15.1",
+    "kaynak": "geometrik",
+    "emin": true,
+    "neden": "isaret",
+    "sebep": ""
+   },
+   {
+    "deger": 40,
+    "parca_id": "K16.1",
+    "kaynak": "geometrik",
+    "emin": false,
+    "neden": "isaret",
+    "sebep": "çelişki: Y2 K13.3"
+   },
+   {
+    "deger": 240,
+    "parca_id": "K4.1",
+    "kaynak": "y2",
+    "emin": true,
+    "neden": "temas",
+    "sebep": ""
+   },
+   {
+    "deger": 200,
+    "parca_id": "K10.1",
+    "kaynak": "y2",
+    "emin": true,
+    "neden": "en_yakin",
+    "sebep": ""
+   },
+   {
+    "deger": 40,
+    "parca_id": "K7.1",
+    "kaynak": "geometrik",
+    "emin": false,
+    "neden": "en_yakin",
+    "sebep": "tire yok, Y2 bağlamadı; en yakın parça (en_yakin); aynı parçada 2 değer: 40, 40"
+   },
+   {
+    "deger": 40,
+    "parca_id": "K7.1",
+    "kaynak": "geometrik",
+    "emin": false,
+    "neden": "isaret",
+    "sebep": "aynı parçada 2 değer: 40, 40"
+   },
+   {
+    "deger": 40,
+    "parca_id": "K6.1",
+    "kaynak": "geometrik",
+    "emin": true,
+    "neden": "isaret",
+    "sebep": ""
+   },
+   {
+    "deger": 40,
+    "parca_id": "K8.1",
+    "kaynak": "geometrik",
+    "emin": true,
+    "neden": "isaret",
+    "sebep": ""
+   },
+   {
+    "deger": 200,
+    "parca_id": "K5.1",
+    "kaynak": "y2",
+    "emin": true,
+    "neden": "en_yakin",
+    "sebep": ""
+   },
+   {
+    "deger": 162,
+    "parca_id": "K9.1",
+    "kaynak": "y2",
+    "emin": true,
+    "neden": "en_yakin",
+    "sebep": ""
+   }
+  ]
+ }
+}

@@ -52,12 +52,18 @@ def test_uctan_uca_y2_ile_tiresiz_sayi_y2_parcasina():
     assert (o["kaynak"], o["parca_id"], o["y2"]) == ("y2", hedef["parca_id"], hedef["parca_id"])
 
 
-def test_komut_satiri_okuma_kaydiyla(tmp_path, capsys):
+def _qwen_yasak(istem, gorsel):
+    raise AssertionError("Qwen çağrılmamalıydı")
+
+
+def test_komut_satiri_okuma_kaydiyla(tmp_path, capsys, monkeypatch):
     bgr, beklenen = sentetik_kroki()
     foto = tmp_path / "sentetik.png"
     cv2.imwrite(str(foto), bgr)
+    ilk = coz(bgr, _sahte_sor(_qwen1_cevabi(beklenen), "{}"))   # aynı parçalar: Y2 de kayıttan gelmeli
     kayit = tmp_path / "kayit.json"
-    kayit.write_text(json.dumps({"ham": {"sayilar": _qwen1_cevabi(beklenen), "parcalar": "{}"}}), encoding="utf-8")
+    kayit.write_text(json.dumps({"ham": ilk["ham"]}), encoding="utf-8")
+    monkeypatch.setattr(okuma, "qwen_sor", _qwen_yasak)
     cikti = tmp_path / "cikti"
     assert main([str(foto), "--cikti", str(cikti), "--okuma", str(kayit)]) == 0
     doc = ezdxf.readfile(cikti / "sentetik.dxf")
@@ -66,7 +72,41 @@ def test_komut_satiri_okuma_kaydiyla(tmp_path, capsys):
     assert rapor["ham"]["sayilar"] == _qwen1_cevabi(beklenen)
     assert (cikti / "sentetik_parcalar.jpg").exists()
     assert "Kapanma:" in capsys.readouterr().out
+    assert rapor["ham"]["sayilar_kaynagi"] == "kayit" and rapor["ham"]["parcalar_kaynagi"] == "kayit"
+
+
+def test_okuma_kaydi_parcalar_degistiyse_yalniz_y2_yeniden_sorulur():
+    bgr, beklenen = sentetik_kroki()
+    kayit = dict(coz(bgr, _sahte_sor(_qwen1_cevabi(beklenen), "{}"))["ham"])
+    kayit["parcalar_geometri"] = {"P1": ["K1.1", [0, 0], [1, 1]]}   # kenar bulma değişmiş gibi
+    sorulan = []
+
+    def sor(istem, gorsel):
+        sorulan.append(istem)
+        return '{"P1": [180]}'
+
+    rapor = coz(bgr, sor, kayit)
+    assert sorulan == [okuma.ISTEM_PARCALAR]                        # Qwen-1 kayıttan, yalnız Y2 soruldu
+    assert rapor["ham"]["parcalar_kaynagi"] == "qwen" and rapor["ham"]["sayilar_kaynagi"] == "kayit"
+
+
+def test_eski_kayit_geometrisiz_eslem_ayniysa_kullanilir():
+    bgr, beklenen = sentetik_kroki()
+    kayit = dict(coz(bgr, _sahte_sor(_qwen1_cevabi(beklenen), "{}"))["ham"])
+    del kayit["parcalar_geometri"]
+    assert coz(bgr, _qwen_yasak, kayit)["ham"]["parcalar_kaynagi"] == "kayit"
 
 
 def test_okunamayan_fotograf(tmp_path):
     assert main([str(tmp_path / "yok.jpg")]) == 2
+
+
+def test_kapi_ipuclari_etiket_ve_kapi_genisligindeki_sayilar():
+    from mimarlik.eslestirme import Bolge
+    from mimarlik.kroki import kapi_ipuclari
+    atanmis = [(Bolge((0, 0, 20, 10), None), 90), (Bolge((100, 100, 120, 110), None), 140)]
+    ipuclari = kapi_ipuclari('[{"bbox_2d": [500, 500, 600, 600], "label": "K100"}]', atanmis, 1000, 1000)
+    assert [(i.kaynak, i.deger, i.nokta) for i in ipuclari] == [("etiket", 100, (550.0, 550.0)),
+                                                                 ("sayi", 90, (10.0, 5.0))]
+    kutulu = kapi_ipuclari('[{"bbox_2d": [100, 100, 200, 200], "label": "90"}]', [], 1000, 1000)
+    assert [(i.kaynak, i.deger, i.nokta) for i in kutulu] == [("sayi", 90, (150.0, 150.0))]   # Qwen kutusu da

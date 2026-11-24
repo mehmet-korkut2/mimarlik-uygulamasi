@@ -53,3 +53,10 @@ def test_parca_gorseli_her_parcayi_etiketler_ve_kopya_uzerinde_cizer():
 
 def test_png():
     assert png(np.zeros((4, 4, 3), np.uint8))[:4] == b"\x89PNG"
+
+
+def test_kapi_etiketleri():
+    from mimarlik.okuma import kapi_etiketleri
+    metin = ('[{"bbox_2d": [100, 100, 200, 200], "label": "K90"}, {"bbox_2d": [0, 0, 10, 10], "label": "k 100"},'
+             ' {"bbox_2d": [0, 0, 10, 10], "label": "90"}, {"label": "K80"}]')
+    assert kapi_etiketleri(metin, 1000, 2000) == [(90, (150.0, 300.0)), (100, (5.0, 10.0))]

@@ -22,3 +22,6 @@ ornekler/
 
 # Deneylerin kontrol görselleri (fotoğrafın üstüne çizim = fotoğraf sayılır)
 deneyler/**/gorseller/
+
+# Claude masaüstü uygulamasının çıktı klasörü (mimar cevapları vb. özel belgeler)
+Claude outputs/

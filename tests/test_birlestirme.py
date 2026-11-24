@@ -87,3 +87,17 @@ def test_ayni_parcaya_iki_deger_emin_degil():
 def test_sadece_y2_girdileri_doner():
     _, kalan = birlestir((_olcu(180, "K1.1", "isaret"),), (), [(180, "K1.1"), (55, "K2.1")], _sonuc(), H)
     assert kalan == [(55, "K2.1")]
+
+
+def test_kapiyi_veren_sayi_kapinin_acikligina_baglanir():
+    olculer = (_olcu(90, "K1.1", "en_yakin"), Olcu(90, (500, 500, 510, 510), "K2.1", "en_yakin", "uzunluk"))
+    kapilar = [(90, "K2.2", (400, 315), "sayi")]
+    son, _ = birlestir(olculer, (), [(90, "K2.1")], _sonuc(), H, kapilar)
+    kapi = [o for o in son if o.kaynak == "kapi"]
+    assert len(kapi) == 1 and kapi[0].parca_id == "K2.2" and kapi[0].emin   # en yakın 90; çelişki sayılmaz
+    assert next(o for o in son if o.kaynak != "kapi").parca_id == "K1.1"
+
+
+def test_etiketten_gelen_kapida_uzak_sayi_baglanmaz():
+    son, _ = birlestir((_olcu(90, "K1.1", "en_yakin"),), (), [], _sonuc(), H, [(90, "K2.2", (400, 315), "etiket")])
+    assert son[0].kaynak == "geometrik" and son[0].parca_id == "K1.1"

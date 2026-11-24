@@ -9,7 +9,8 @@ import math
 import cv2
 import numpy as np
 
-from mimarlik.eslestirme import IsaretAdayi, Kenar, KenarSonucu, Parca
+from mimarlik import varsayimlar
+from mimarlik.eslestirme import IptalIsareti, IsaretAdayi, KapiBoslugu, KapiIpucu, Kenar, KenarSonucu, Parca
 from mimarlik.on_isleme import kalin_lekeleri_sil
 
 ACI_TOLERANSI = 15.0      # derece: eksene bu kadar yakın çizgi yatay/dikey sayılır
@@ -17,6 +18,16 @@ BIRLESTIRME_ACISI = 20.0  # derece: kısa kalın çizgilerde Hough açısı ±12
 DUVAR_UZUNLUGU = 3        # h katı: bundan uzun çizgi kendiliğinden duvar
 ACIKLIK_ARALIGI = (1, 8)  # h katı: aynı doğrudaki iki duvar arasındaki boşluk bu aralıktaysa açıklık
 SARKAN_SINIRI = 6         # h katı: bir ucu boşta kalan bundan kısa "duvar" budanır (işaret + yazı birleşmesi)
+# X işareti (mimar S5, KESİN: "çarpı = orada duvar yok"): eksene çapraz, birbirini kesen iki çizgi
+CARPI_ACISI = (25.0, 65.0)   # derece: çizginin eksene göre açısı bu aralıktaysa çapraz
+CARPI_KESISIM_ACISI = 60.0   # derece: iki çapraz çizgi arasındaki açı en az bu kadar
+CARPI_KESISIM_PAYI = 0.25    # h katı: kesişim noktası iki çizgiye de bu kadar yakın (uçların biraz ötesi olabilir)
+# Kapı boşluğu (3. adım, kullanıcı kararı 2026-11-24): boşta kalan iki duvar ucu arası, ipucuyla
+KAPI_KAYMASI = 1.0           # h katı: kapının iki yanı bu kadar yana kayık olabilir (normal açıklıkta h/2)
+KAPI_IPUCU_MESAFESI = 5.0    # h katı: etiket ya da sayı boşluğun ortasına en fazla bu kadar uzak (01: 2,2h, 02: 4,4h)
+KAPI_OLCEK_PAYI = 10         # cm: ipucu yoksa ölçekten tahmin genişlik standart bir kapıya bu kadar yakın olmalı
+SANAL_DUVAR = 0.5            # h katı: karşı uç dik bir duvarın ucuysa oraya konan sanal duvar parçası
+TASMA_SINIRI = 1.5           # h katı: kapı yanındaki parça dik bir duvarı en fazla bu kadar aşıyorsa kırpılır
 
 
 class _Cizgi:
@@ -201,6 +212,204 @@ def _baglantilar(cizgiler, yonler, tol):
     return sonuc
 
 
+# --- X işaretleri: iptal edilen duvar parçaları ---------------------------------------------------
+
+def _carpilar(parcalar, eksen, h):
+    """[(merkez, [çapraz çizgiler])]: birbirini kesen iki çapraz çizgi; yakın kesişimler (h) tek X sayılır."""
+    capraz = [p for p in parcalar if CARPI_ACISI[0] <= (p.aci - eksen) % 90 <= CARPI_ACISI[1]]
+    kesisimler = []
+    for i in range(len(capraz)):
+        for j in range(i + 1, len(capraz)):
+            a, b = capraz[i], capraz[j]
+            if _aci_farki(a.aci, b.aci) < CARPI_KESISIM_ACISI:
+                continue
+            p = _kesisim(a, b)
+            if p and _segment_mesafesi(p, a) <= CARPI_KESISIM_PAYI * h and                     _segment_mesafesi(p, b) <= CARPI_KESISIM_PAYI * h:
+                kesisimler.append((p, a, b))
+    gruplar = []   # [noktalar, çizgiler]
+    for p, a, b in kesisimler:
+        for g in gruplar:
+            if any(math.dist(p, q) <= h for q in g[0]):
+                g[0].append(p)
+                g[1].update((a, b))
+                break
+        else:
+            gruplar.append([[p], {a, b}])
+    return [((sum(q[0] for q in n) / len(n), sum(q[1] for q in n) / len(n)), list(c)) for n, c in gruplar]
+
+
+def _iptal_et(cizgiler, yonler, carpilar, h, tol):
+    """X'in üstünden geçtiği duvar çizgisinden, X'i içine alan parçayı (iki yandaki en yakın dik çizgi
+    birleşimi ya da çizgi ucu arası) çıkarır. Döner: (çizgiler, yönler, iptaller)."""
+    cizgiler, yonler, iptaller = list(cizgiler), list(yonler), []
+    for merkez, capraz in carpilar:
+        if not cizgiler:
+            break
+        yakin = [k for k in range(len(cizgiler)) if _segment_mesafesi(merkez, cizgiler[k]) <= tol]
+        if not yakin:
+            continue
+        i = max(yakin, key=lambda k: cizgiler[k].uzunluk)   # iptal edilen bir duvar: X'in kendi kırıntısı değil
+        c = cizgiler[i]
+        uzunluk, tx = c.uzunluk, _t(c, merkez)
+        sinirlar = [0.0, uzunluk]
+        for j, d in enumerate(cizgiler):
+            if j == i or yonler[j] == yonler[i] or _segment_mesafesi(merkez, d) <= tol:
+                continue   # paralel çizgi ya da X'in kendi kırıntısı sınır değildir
+            p = _kesisim(c, d)
+            if p and _segment_mesafesi(p, c) <= tol and _segment_mesafesi(p, d) <= tol:
+                sinirlar.append(min(max(_t(c, p), 0.0), uzunluk))
+        ta = max(t for t in sinirlar if t <= tx)
+        tb = min(t for t in sinirlar if t >= tx)
+        ux, uy = (c.bit[0] - c.bas[0]) / uzunluk, (c.bit[1] - c.bas[1]) / uzunluk
+
+        def nokta(t):
+            return (c.bas[0] + t * ux, c.bas[1] + t * uy)
+
+        kalan = [_Cizgi(nokta(a), nokta(b)) for a, b in ((0.0, ta), (tb, uzunluk)) if b - a > tol]
+        cizgiler[i:i + 1] = kalan
+        yonler[i:i + 1] = [yonler[i]] * len(kalan)
+        iptaller.append(IptalIsareti(merkez=merkez, cizgiler=tuple((s.bas, s.bit) for s in capraz),
+                                     silinen=(nokta(ta), nokta(tb))))
+    return cizgiler, yonler, iptaller
+
+
+# --- Kapı boşlukları (ipucuyla) ---------------------------------------------------------------------
+
+def _bos_uc_mu(i, uc, cizgiler, baglantilar, tol):
+    """i'nin `uc` ucunda (dik) başka bir çizgiyle birleşim yok mu?"""
+    return not any(i in (a, b) and _uc(cizgiler[i], p, tol) == uc for a, b, p in baglantilar)
+
+
+def _uc_noktasi(c, uc):
+    return c.bas if uc == "bas" else c.bit
+
+
+def _duvar_gibi(k, cizgiler, baglantilar, h):
+    """Kendisi duvar boyunda (≥ DUVAR_UZUNLUGU·h) ya da öyle bir çizgiye değiyor: rakam çizgisi değil."""
+    if cizgiler[k].uzunluk >= DUVAR_UZUNLUGU * h:
+        return True
+    return any(k in (a, b) and cizgiler[b if a == k else a].uzunluk >= DUVAR_UZUNLUGU * h for a, b, _ in baglantilar)
+
+
+def _duvarin_ortasinda(k, uc, cizgiler, baglantilar, h, tol):
+    """k'nin `uc` ucu duvar boyunda dik bir çizginin ORTASINA mı değiyor (T birleşimi)? Kapı oradan başlamaz:
+    01'de `180`'in tiki üst duvarın ortasından odaya doğru uzanıyordu. Bir çizginin ucuna değmek (kapı kanadının
+    menteşesi, köşe) engel değil."""
+    for a, b, p in baglantilar:
+        if k not in (a, b) or _uc(cizgiler[k], p, tol) != uc:
+            continue
+        diger = b if a == k else a
+        if cizgiler[diger].uzunluk >= DUVAR_UZUNLUGU * h and _uc(cizgiler[diger], p, tol) is None:
+            return True
+    return False
+
+
+def _kapi_adaylari(cizgiler, yonler, baglantilar, h, tol):
+    """[(i, ui, j, uj, A, B, bosluk_px)]: i'nin A ucundan dışarı doğru, karşıda j'nin B ucu.
+
+    Uçların boşta olması aranmaz: kapı kanadı ve ölçü çizgisi kapının uçlarına değer (02). İki yan da duvar
+    gibi olmalı; asıl eleme ipucunda (boşluğun ortasına yakın etiket/sayı) ya da ölçekte.
+    """
+    adaylar = []
+    for i, c in enumerate(cizgiler):
+        if not _duvar_gibi(i, cizgiler, baglantilar, h):
+            continue
+        for ui in ("bas", "bit"):
+            if _duvarin_ortasinda(i, ui, cizgiler, baglantilar, h, tol):
+                continue
+            a, diger = _uc_noktasi(c, ui), _uc_noktasi(c, _diger_uc(ui))
+            dx, dy = (a[0] - diger[0]) / c.uzunluk, (a[1] - diger[1]) / c.uzunluk   # dışarı doğru
+            for j, d in enumerate(cizgiler):
+                if j == i or not _duvar_gibi(j, cizgiler, baglantilar, h):
+                    continue
+                if max(c.uzunluk, d.uzunluk) < DUVAR_UZUNLUGU * h:
+                    continue   # en az bir yan gerçek duvar: iki kısa çizgi (tik, rakam) arası kapı sayılmaz
+                for uj in ("bas", "bit"):
+                    b = _uc_noktasi(d, uj)
+                    s = (b[0] - a[0]) * dx + (b[1] - a[1]) * dy
+                    kayma = abs((b[0] - a[0]) * dy - (b[1] - a[1]) * dx)
+                    if not (ACIKLIK_ARALIGI[0] * h <= s <= ACIKLIK_ARALIGI[1] * h and kayma <= KAPI_KAYMASI * h):
+                        continue
+                    if yonler[j] == yonler[i] and ((_t(d, a) < _t(d, b)) != (uj == "bas") or
+                                                   _duvarin_ortasinda(j, uj, cizgiler, baglantilar, h, tol)):
+                        continue   # karşıdaki parça da bu doğrultuda: boşluğa bakan ucu B olmalı
+                    if yonler[j] != yonler[i] and (d.uzunluk < varsayimlar.KAPI_DIK_UC_DUVARI * h or
+                                                   not _bos_uc_mu(j, uj, cizgiler, baglantilar, tol)):
+                        continue   # eksik kısa parçayı tahmin ediyoruz: karşıda boşta kalmış UZUN bir duvar ucu şart
+                    adaylar.append((i, ui, j, uj, a, b, s))
+    return adaylar
+
+
+def _kapi_secimi(aday, ipuclari, olcek, h):
+    """(kaynak, değer, uzaklık) ya da None: önce etiket, sonra sayı (yakında), yoksa ölçekten genişlik."""
+    _, _, _, _, a, b, s = aday
+    orta = ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2)   # etiket/ölçü kapının ortasına yazılır
+    for kaynak in ("etiket", "sayi"):
+        yakin = [(math.dist(ip.nokta, orta), ip) for ip in ipuclari if ip.kaynak == kaynak]
+        yakin = [(m, ip) for m, ip in yakin if m <= KAPI_IPUCU_MESAFESI * h]
+        if yakin:
+            m, ip = min(yakin, key=lambda x: x[0])
+            return kaynak, ip.deger, m
+    if olcek:
+        genislik = s * olcek
+        en_yakin = min(varsayimlar.KAPI_GENISLIKLERI, key=lambda g: abs(g - genislik))
+        if abs(en_yakin - genislik) <= KAPI_OLCEK_PAYI:
+            return "olcek", en_yakin, float("inf")
+    return None
+
+
+def _tasmayi_kirp(k, uc, cizgiler, yonler, baglantilar, h, tol):
+    """k'nin `uc` ucu boştaysa ve duvar boyunda dik bir çizgi k'yi bu uca TASMA_SINIRI·h'den yakın kesiyorsa,
+    k'yi orada keser (02: kapının üstündeki parça üst duvarı aşıyor)."""
+    if not _bos_uc_mu(k, uc, cizgiler, baglantilar, tol):
+        return
+    c = cizgiler[k]
+    u = _uc_noktasi(c, uc)
+    for j, d in enumerate(cizgiler):
+        if j == k or yonler[j] == yonler[k] or d.uzunluk < DUVAR_UZUNLUGU * h:
+            continue
+        p = _kesisim(c, d)
+        if p and _segment_mesafesi(p, c) <= tol and _segment_mesafesi(p, d) <= tol and \
+                tol < math.dist(p, u) <= TASMA_SINIRI * h:
+            diger = _uc_noktasi(c, _diger_uc(uc))
+            cizgiler[k] = _Cizgi(p, diger) if uc == "bas" else _Cizgi(diger, p)
+            return
+
+
+def _kapilari_tamamla(cizgiler, yonler, ipuclari, olcek, h, tol):
+    """İpucuyla doğrulanan kapı boşluklarını açıklık çifti yapar. Döner: (çizgiler, yönler, zorunlu, kapılar).
+
+    zorunlu: [(i, j, ui, uj)] açıklık çiftleri (boşluğa bakan uçlarıyla). Karşı uç dik bir duvarın ucuysa
+    (01: kapının altındaki kısa parça bulunamamış) o uca bu doğrultuda SANAL_DUVAR·h'lik bir parça eklenir.
+    """
+    cizgiler, yonler = list(cizgiler), list(yonler)
+    baglantilar = _baglantilar(cizgiler, yonler, tol)
+    secilenler = []
+    for aday in _kapi_adaylari(cizgiler, yonler, baglantilar, h, tol):
+        secim = _kapi_secimi(aday, ipuclari, olcek, h)
+        if secim:
+            secilenler.append((("etiket", "sayi", "olcek").index(secim[0]), secim[2], aday, secim))
+    kullanilan, kapili_kisa, zorunlu, kapilar = set(), set(), [], []
+    for _, _, (i, ui, j, uj, a, b, s), (kaynak, deger, _) in sorted(secilenler, key=lambda x: (x[0], x[1])):
+        if (i, ui) in kullanilan or (j, uj) in kullanilan or {i, j} & kapili_kisa:
+            continue   # her uç bir kapıya; kısa bir parçanın iki yanında kapı olmaz
+        kullanilan |= {(i, ui), (j, uj)}
+        kapili_kisa |= {k for k in (i, j) if cizgiler[k].uzunluk < DUVAR_UZUNLUGU * h}
+        if yonler[j] != yonler[i]:   # karşıda dik bir duvarın ucu: o uca bu doğrultuda sanal duvar parçası
+            dx, dy = (a[0] - b[0]), (a[1] - b[1])
+            n = math.hypot(dx, dy)
+            sanal_uc = (b[0] + dx / n * SANAL_DUVAR * h, b[1] + dy / n * SANAL_DUVAR * h)
+            cizgiler.append(_Cizgi(b, sanal_uc))   # bas = B (duvara bağlı), bit = boşluğa bakan uç
+            yonler.append(yonler[i])
+            j, uj = len(cizgiler) - 1, "bit"
+        else:
+            _tasmayi_kirp(j, _diger_uc(uj), cizgiler, yonler, baglantilar, h, tol)
+        _tasmayi_kirp(i, _diger_uc(ui), cizgiler, yonler, baglantilar, h, tol)
+        zorunlu.append((i, j, ui, uj))
+        kapilar.append(KapiBoslugu(bas=a, bit=b, kaynak=kaynak, deger=int(deger)))
+    return cizgiler, yonler, zorunlu, kapilar
+
+
 # --- Duvar / işaret / açıklık ---------------------------------------------------------------------
 
 def _uca_bagli_duvar(i, uc, baglantilar, duvar, cizgiler, tol):
@@ -233,10 +442,12 @@ def _diger_uc(uc):
     return "bit" if uc == "bas" else "bas"
 
 
-def _siniflandir(cizgiler, baglantilar, h, tol):
-    """Döner: (duvar indeksleri, açıklık çiftleri [(i, j)])."""
+def _siniflandir(cizgiler, baglantilar, h, tol, zorunlu=()):
+    """Döner: (duvar indeksleri, açıklık çiftleri [(i, j)]). zorunlu: kapı kuralının çiftleri [(i, j, ui, uj)]."""
     duvar = {i for i, c in enumerate(cizgiler) if c.uzunluk >= DUVAR_UZUNLUGU * h}
-    ciftler = []
+    ciftler = [(i, j) for i, j, _, _ in zorunlu]
+    uclar = {(i, j): (ui, uj) for i, j, ui, uj in zorunlu}   # boşluğa bakan uçlar (budamada boşta sayılmaz)
+    duvar.update(k for i, j, _, _ in zorunlu for k in (i, j))
     degisti = True
     while degisti:
         degisti = False
@@ -256,12 +467,13 @@ def _siniflandir(cizgiler, baglantilar, h, tol):
                 if all(k in duvar or _uca_bagli_duvar(k, _diger_uc(u), baglantilar, duvar, cizgiler, tol)
                        for k, u in ((i, ui), (j, uj))):
                     ciftler.append((i, j))
+                    uclar[(i, j)] = (ui, uj)
                     duvar.update((i, j))
                     degisti = True
-    return _sarkanlari_buda(cizgiler, baglantilar, duvar, ciftler, h, tol)
+    return _sarkanlari_buda(cizgiler, baglantilar, duvar, ciftler, uclar, h, tol)
 
 
-def _sarkanlari_buda(cizgiler, baglantilar, duvar, ciftler, h, tol):
+def _sarkanlari_buda(cizgiler, baglantilar, duvar, ciftler, uclar, h, tol):
     """Bir ucu hiçbir duvara bağlı olmayan kısa (< SARKAN_SINIRI·h) "duvarları" eler.
 
     Ölçü işareti rakam çizgileriyle birleşince 3h'yi aşabiliyor ("240"); bu çizgiler bir ucu boşta
@@ -271,7 +483,7 @@ def _sarkanlari_buda(cizgiler, baglantilar, duvar, ciftler, h, tol):
     duvar = set(duvar)
     korunan = set()
     for i, j in ciftler:
-        ui, uj = _acik_cift(cizgiler[i], cizgiler[j], h)
+        ui, uj = uclar[(i, j)]
         korunan |= {(i, ui), (j, uj)}
     degisti = True
     while degisti:
@@ -368,18 +580,25 @@ def _dis_bolge(parca_listeleri, sekil, kalinlik):
     return (tuval == 128)[1:-1, 1:-1]
 
 
-def kenarlari_bul(maske: np.ndarray, h: float) -> KenarSonucu:
+def kenarlari_bul(maske: np.ndarray, h: float, kapi_ipuclari: tuple[KapiIpucu, ...] = (),
+                  olcek: float | None = None) -> KenarSonucu:
+    """kapi_ipuclari / olcek verilirse kapı kuralı çalışır (boşta iki duvar ucu arasındaki boşluk, yakınında
+    K etiketi ya da kapı genişliğinde okunmuş sayı varsa; yoksa ölçekten tahminle). Verilmezse çalışmaz."""
     tol = 0.75 * h  # elle çizilen köşelerde çizgiler tam buluşmuyor; h/2 02'nin konturunu kapatmıyordu
     parcalar = _cizgi_parcalari(kalin_lekeleri_sil(maske, h), h)
     eksen = _eksen_acisi(parcalar)
     birlesik = _birlestir([p for p in parcalar if _yon(p.aci, eksen)], h, eksen)
     cizgiler = [c for c, _ in birlesik]
     yonler = [y for _, y in birlesik]
+    cizgiler, yonler, iptaller = _iptal_et(cizgiler, yonler, _carpilar(parcalar, eksen, h), h, tol)
+    zorunlu, kapilar = [], []
+    if kapi_ipuclari or olcek:
+        cizgiler, yonler, zorunlu, kapilar = _kapilari_tamamla(cizgiler, yonler, kapi_ipuclari, olcek, h, tol)
     baglantilar = _baglantilar(cizgiler, yonler, tol)
-    duvar, ciftler = _siniflandir(cizgiler, baglantilar, h, tol)
+    duvar, ciftler = _siniflandir(cizgiler, baglantilar, h, tol, zorunlu)
     isaretler = _isaretler(cizgiler, baglantilar, duvar, h, tol)
     if not duvar:
-        return KenarSonucu(eksen, (), (), tuple(isaretler))
+        return KenarSonucu(eksen, (), (), tuple(isaretler), tuple(iptaller), tuple(kapilar))
 
     # açıklık çiftleriyle bağlı duvarlar tek kenar grubudur
     ebeveyn = {i: i for i in duvar}
@@ -448,4 +667,4 @@ def kenarlari_bul(maske: np.ndarray, h: float) -> KenarSonucu:
         kenarlar.append(Kenar(kid, yon, tuple(Parca(f"{kid}.{m}", kid, t, a, b) for m, (t, a, b) in enumerate(pl, 1)),
                               konturda and idx in kontur_idx))
     return KenarSonucu(eksen, tuple(kenarlar), tuple(f"K{n}" for n in range(1, len(kontur_idx) + 1)),
-                       tuple(isaretler))
+                       tuple(isaretler), tuple(iptaller), tuple(kapilar))

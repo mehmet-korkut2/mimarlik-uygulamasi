@@ -36,6 +36,31 @@ class IsaretAdayi:
 
 
 @dataclass(frozen=True)
+class IptalIsareti:
+    """Duvar çizgisinin üstüne çizilmiş X (mimar, S5: "çarpı = orada duvar yok"): silinen duvar parçası."""
+    merkez: Nokta
+    cizgiler: tuple[tuple[Nokta, Nokta], ...]   # X'in çapraz çizgileri
+    silinen: tuple[Nokta, Nokta]                # duvar çizgisinden çıkarılan parça
+
+
+@dataclass(frozen=True)
+class KapiIpucu:
+    """Kapı boşluğunun yakınında olduğu bilinen işaret: K etiketi ("K90"), kapı genişliğinde okunmuş sayı."""
+    nokta: Nokta
+    kaynak: str      # "etiket" | "sayi"
+    deger: int
+
+
+@dataclass(frozen=True)
+class KapiBoslugu:
+    """Kenar bulmanın kapı kuralıyla tamamladığı açıklık (iki duvar ucu arası)."""
+    bas: Nokta
+    bit: Nokta
+    kaynak: str      # "etiket" | "sayi" | "olcek"
+    deger: int       # kapı genişliği (cm): ipucunun değeri ya da ölçekten en yakın standart genişlik
+
+
+@dataclass(frozen=True)
 class Bolge:
     kutu: Kutu
     temas: Nokta | None   # bölge mürekkebinin bir duvara değdiği nokta
@@ -67,6 +92,8 @@ class KenarSonucu:
     kenarlar: tuple[Kenar, ...]
     kontur_sirasi: tuple[str, ...]
     isaretler: tuple[IsaretAdayi, ...]
+    iptaller: tuple[IptalIsareti, ...] = ()   # X ile iptal edilen duvar parçaları
+    kapilar: tuple[KapiBoslugu, ...] = ()     # kapı kuralıyla tamamlanan açıklıklar
 
 
 def kroki_sozluk(kroki: Kroki) -> dict:
