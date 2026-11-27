@@ -157,7 +157,7 @@ kapanmayan duvarlar, kapanma farkı ("yatay fark 40 cm"), sayıdan değil hesapt
 ## Teknolojiler ve yöntem
 
 - **Python**, **OpenCV** (görüntü işleme), **ezdxf** (DXF), **SciPy** (atama), **Ollama + Qwen3-VL** (görüntü
-  anlayan yerel dil modeli), **pytest** (150 birim/uçtan uca test; yapay kroki ve sahte model ile).
+  anlayan yerel dil modeli), **pytest** (190'ın üzerinde otomatik birim ve uçtan uca test; yapay kroki ve sahte model ile).
 - Deney önce, karar sonra: her yaklaşım ölçüldü, sonuçlar ve bırakılan fikirler raporlarda.
 - Gizlilik: örnek krokiler ve onlardan üretilen görseller depoya hiç girmiyor (`.gitignore`).
 
@@ -198,4 +198,4 @@ Related work: Sketch2BIM ([arXiv:2510.20838](https://arxiv.org/abs/2510.20838)) 
 written dimensions only as weak scale cues (reported mean initial wall-length error ≈ 71 cm before human
 correction); here, because survey sketches are unscaled, geometry is built from the written dimensions and a
 closure check flags inconsistent sums, which caught a real drawing error confirmed by the architect. Stack: Python, OpenCV, ezdxf,
-SciPy, Ollama/Qwen3-VL, pytest (150 tests).
+SciPy, Ollama/Qwen3-VL, pytest (190+ automated tests).
