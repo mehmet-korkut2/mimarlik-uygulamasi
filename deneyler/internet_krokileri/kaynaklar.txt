@@ -1,0 +1,3 @@
+# İnternetten bulunan krokilerin kaynak bağlantıları (yalnız bağlantılar; görseller depoda yok).
+# Üretim: python -m araclar.kaynak_baglantilari  (girdi: ornekler/internet/kaynaklar.txt)
+# Kullanım: yalnız okuma ve sağlamlık testi, geometri doğruluğu için değil (CLAUDE.md 5.1).
