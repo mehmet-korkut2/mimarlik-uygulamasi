@@ -19,6 +19,9 @@ output/
 
 # Örnek el çizimleri (müşteri işi olabilir, GitHub'a gönderilmez)
 ornekler/
+# İnternetten bulunan krokiler (telif başkasının; kaynaklar.txt dahil yalnız yerelde). ornekler/ zaten
+# kapsıyor; ornekler/ kuralı ileride daraltılırsa bile gitmesin diye ayrıca:
+ornekler/internet/
 
 # Deneylerin kontrol görselleri (fotoğrafın üstüne çizim = fotoğraf sayılır)
 deneyler/**/gorseller/

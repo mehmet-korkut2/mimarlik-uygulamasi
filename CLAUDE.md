@@ -40,6 +40,15 @@ Mimarların ve iç mimarların çizim işini otomatikleştiren bir uygulama.
 
 ## 4. Yol haritası
 
+> **Ana başarı ölçütü, Faz 2–4 (karar 2026-11-28): "Kaç düzeltmede doğru plan?"**
+> Programın taslağından, mimarın kabul ettiği doğru plana ulaşmak için gereken **kullanıcı düzeltmesi sayısı** ve
+> **süresi**. Referans: mimar bir krokiyi AutoCAD'e elle **~1 saatte** aktarıyor (mimar, B-14); ürün bunun açıkça
+> altında kalmalı. Düzeltme: bir sayıyı değiştirmek, bir sayının duvarını değiştirmek, bir "kapı mı?" /
+> "emin değilim" sorusunu cevaplamak, bir duvar eklemek ya da silmek. Yardımcı ölçütler (nerede düzeltme
+> gerektiğini açıklamak için): okuma (doğru / toplam sayı), bağlama, öğe bazlı kesinlik / duyarlılık / F1,
+> boy RMSE ve konum MAE (`deneyler/literatur/sketch2bim.md`). Faz 4'teki düzeltme ekranı her düzeltmeyi ve süreyi
+> kaydetmeli. 01–02 ve `ornekler/internet/` geometri doğruluğu için kullanılmaz (5.1).
+
 ### Faz 0 — Hazırlık (1–2 hafta)
 - [ ] Mimar ve iç mimarla görüşme: elle çizilmiş **gerçek örnek planlar** topla (en az 10–20 adet, farklı çizim stilleri).
 - [ ] Onlardan şunları öğren: duvar kalınlıkları, kapı/pencere sembolleri, ölçek alışkanlıkları (1/50, 1/100), AutoCAD'de katman (layer) düzenleri.
@@ -89,6 +98,7 @@ Girdi: `ornekler/03_*` – `ornekler/07_*`.
 
 - [ ] FastAPI ile backend: görsel yükle → DXF indir.
 - [ ] Basit web arayüzü: yükleme, önizleme, okunan ölçüleri düzeltme, indirme.
+- [ ] Düzeltme ekranı her düzeltmeyi ve süreyi kaydeder: ana başarı ölçütü "kaç düzeltmede doğru plan" (bölüm 4).
 - [ ] Mimar ve iç mimara gerçek işlerinde denet, geri bildirim topla.
 
 ### Faz 5 — Mobilya/obje ekleme modülü
@@ -131,6 +141,8 @@ Girdi: `ornekler/03_*` – `ornekler/07_*`.
 | `06_zor_salon_balkon.jpg` | Zor | Çok oda, köşegenler, kolonlar |
 | `07_zor_sauna_yan_cekilmis.jpg` | Zor | Yan çekilmiş, ölçüler kırmızı, duvarlar mavi |
 
+**`ornekler/internet/`** (2026-11-28): internetten bulunan krokiler; her birinin kaynak bağlantısı aynı klasördeki `kaynaklar.txt`'de. Yalnız bağlantıları içeren kopyası depoda: `deneyler/internet_krokileri/kaynaklar.txt` (`python -m araclar.kaynak_baglantilari` ile güncellenir). Klasör `.gitignore`'da (telif başkasının, GitHub'a gönderilmez). **Yalnız okuma (OCR, sayı–duvar bağlama) ve sağlamlık testi için kullanılır; geometri doğruluğu için kullanılmaz** (doğru ölçüleri ve çizenin niyeti bilinmiyor).
+
 ## 6. Claude'a notlar
 
 - Şu an hangi fazda olduğumu her oturumun başında söyleyeceğim. Söylemezsem sor.
@@ -160,3 +172,5 @@ Girdi: `ornekler/03_*` – `ornekler/07_*`.
 | 2026-11-24 | 2 | **DWG AutoCAD Web'de doğrulandı:** düzenlenebilir açılıyor, ölçü yazıları ve çizgi kalınlıkları görünüyor. İki sorun düzeltildi: Türkçe karakterler "?" çıkıyordu (txt.shx; metin DWG'de doğruydu) → bütün yazılar TrueType Arial; KONTROL notları planın üstüne yığılıyordu → planda numaralı daire, tam metin planın sağında liste. ODA File Converter `Program Files/ODA` altındaki en yeni sürümden kendiliğinden bulunuyor | Kullanıcı yeni DWG'leri AutoCAD Web'de tekrar kontrol edecek; sonra main'e birleştirme |
 | 2026-11-24 | 1→2 | **Faz 1 bitti:** DWG AutoCAD'de açılıp düzenlendi (doğrulandı). Mimar AutoCAD Web'de baktı: **02: plan şekli mimar tarafından doğru bulundu (24.11.2026), 162→102 okuma hatası hariç. 01: şekil yanlış.** `mimar-cevaplari` main'e birleştirildi | 01'in şeklinin nerede yanlış olduğunu bulmak; mimardan 01–02'nin düzeltilmiş ölçüleri |
 | 2026-11-24 | 2 | 01'in şekil analizi (`deneyler/sekil_01/`): sıra/yön doğru, "merdiven" değer atamadaki kaymadan. Ö1: Qwen koordinat dönüşümü doğru (sentetik test), kayma modelin belirsizliği. Ö2: değer atama ≤ 1 h, "emin" ≤ 0,5 h (yanlış atama 67 → 29 / 193; "emin" isabeti 01'de 1/1, 02'de 5/6–8/10). **Ölçekten kapı kaldırıldı** (krokiler ölçeksiz; ölçek kayınca 02'nin girinti ağzı kapı sanıldı); kanıtsız boşluk "kapı mı?" diye soruluyor. Y2'yi zayıf kapı ipucu saymak denendi, geri alındı. 02: onaylı 12 kenarlı şekil birebir korunuyor. 01: kapı kanıtı yok → kontursuz (eski kapı şans eseriymiş) | 01–02'de yeni ayar yok; Ö3, Ö4, Ö5 yeni test krokileriyle |
+| 2026-11-28 | 2 | Literatür: Sketch2BIM (arXiv 2510.20838) incelendi (`deneyler/literatur/sketch2bim.md`): GPT-5 çok ajanlı, tabletle çizilmiş 10 plan, ölçü okuma ve sayı–duvar bağlama anlatılmamış/ölçülmemiş, geometri pikselden; veri "talep üzerine", kod yok. Alınabilecekler: öğe bazlı Macar eşleştirme + P/R/F1 + boy RMSE / konum MAE + düzeltme sayısı ölçütü, yazılı JSON şeması ve deterministik doğrulayıcı. `ornekler/internet/` açıldı (yalnız okuma ve sağlamlık testi) | Yeni test krokileriyle ölçüm altyapısı (düzeltme sayısı dahil) |
+| 2026-11-28 | 2–4 | **Ana başarı ölçütü belirlendi: "kaç düzeltmede doğru plan"** (düzeltme sayısı + süre; referans mimarın elle ~1 saat, B-14). README'ye "İlgili çalışmalar" (Sketch2BIM). İnternet krokilerinin kaynak bağlantıları için `araclar/kaynak_baglantilari.py` → `deneyler/internet_krokileri/kaynaklar.txt` | İnternet krokileriyle okuma/sağlamlık ölçümü; mimardan yeni test krokileri ve 01–02'nin düzeltilmiş ölçüleri |

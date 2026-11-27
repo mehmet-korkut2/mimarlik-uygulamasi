@@ -88,6 +88,20 @@ işaretinin sayının içinden geçmesinden; bu tür hataları geometri kontrol�
 - Darboğaz artık **kenar bulma** (kısa duvar parçaları). Kısa parçaların anlamı mimara soruldu; kural
   cevaptan sonra yazılacak.
 
+## İlgili çalışmalar
+
+**Sketch2BIM** (Ratul vd., 2025, [arXiv:2510.20838](https://arxiv.org/abs/2510.20838)) el çizimi plandan, GPT-5
+tabanlı çok ajanlı bir akışla Revit BIM modeli üretiyor; kullanıcı sonucu doğal dille düzeltiyor. Geometriyi
+çizimin **piksellerinden** kuruyor; yazılı ölçüleri yalnız ölçeği ayarlamak için "zayıf ipucu" olarak kullanıyor.
+Sayı okuma ve sayı–duvar bağlama ayrıca ölçülmemiş. Tabletle çizilmiş 10 planda, insan düzeltmesinden önceki
+ortalama duvar boyu hatası 2,34 ft (**≈ 71 cm**) olarak raporlanmış; hatalar düzeltme turlarıyla sıfırlanıyor.
+
+Bu projede girdi farklı: sahada kâğıda çizilen, **ölçeksiz** röleve krokilerinin fotoğrafı. Bu yüzden geometri
+**yazılı ölçülerden** kuruluyor; krokiden yalnız duvarların sırası ve yönü alınıyor. Toplamların kapanması da
+kontrol ediliyor: iki örnek krokide bu kontrol, mimarın sonradan doğruladığı gerçek bir çizim hatasını yakaladı.
+İki çalışma farklı veriyle ölçüldüğü için sayılar doğrudan karşılaştırılamaz; bizim değerlendirmemiz de küçük
+(iki gerçek kroki). Ayrıntılı inceleme: `deneyler/literatur/sketch2bim.md`.
+
 ## Durum ve yol haritası
 
 | Faz | İçerik | Durum |
@@ -179,5 +193,9 @@ red **KONTROL** layer for quick human correction: the goal is a fast-to-fix draf
 Every design choice was measured first (24 handwritten numbers from real sketches): the local model reads
 22/24 in the exact product setting (notebook lines removed, numbers requested with their positions) versus 24/24 for a cloud model and 5/24 for classic OCR, and was chosen for privacy (client
 drawings never leave the machine) and zero cost. The end-to-end pipeline works; the current bottleneck is
-wall detection on short segments, pending input from the architect advisor. Stack: Python, OpenCV, ezdxf,
+wall detection on short segments, pending input from the architect advisor.
+Related work: Sketch2BIM ([arXiv:2510.20838](https://arxiv.org/abs/2510.20838)) builds geometry from pixels and uses
+written dimensions only as weak scale cues (reported mean initial wall-length error ≈ 71 cm before human
+correction); here, because survey sketches are unscaled, geometry is built from the written dimensions and a
+closure check flags inconsistent sums, which caught a real drawing error confirmed by the architect. Stack: Python, OpenCV, ezdxf,
 SciPy, Ollama/Qwen3-VL, pytest (150 tests).
