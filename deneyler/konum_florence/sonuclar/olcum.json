@@ -1,0 +1,330 @@
+{
+ "yer": [
+  {
+   "kaynak": "bölge bulucu (bizim)",
+   "kroki": "01",
+   "bulunan": 10,
+   "merkez_hata_medyan_h": 0.16894404488809972,
+   "merkez_hata_en_cok_h": 1.0138738098325781,
+   "okunan": 0,
+   "fazla": 3
+  },
+  {
+   "kaynak": "Qwen kutuları (konum #1)",
+   "kroki": "01",
+   "bulunan": 6,
+   "merkez_hata_medyan_h": 0.6519866267739711,
+   "merkez_hata_en_cok_h": 1.6357666182895994,
+   "okunan": 6,
+   "fazla": 2
+  },
+  {
+   "kaynak": "Qwen kutuları (konum #2)",
+   "kroki": "01",
+   "bulunan": 6,
+   "merkez_hata_medyan_h": 0.8934207407414017,
+   "merkez_hata_en_cok_h": 1.62114594825293,
+   "okunan": 6,
+   "fazla": 1
+  },
+  {
+   "kaynak": "Qwen kutuları (konum #3)",
+   "kroki": "01",
+   "bulunan": 7,
+   "merkez_hata_medyan_h": 0.7922486199557355,
+   "merkez_hata_en_cok_h": 1.9122390778151037,
+   "okunan": 6,
+   "fazla": 2
+  },
+  {
+   "kaynak": "Qwen kutuları (ürün #1)",
+   "kroki": "01",
+   "bulunan": 6,
+   "merkez_hata_medyan_h": 0.6602545452274687,
+   "merkez_hata_en_cok_h": 1.7351136514625198,
+   "okunan": 6,
+   "fazla": 2
+  },
+  {
+   "kaynak": "Qwen kutuları (ürün #2)",
+   "kroki": "01",
+   "bulunan": 6,
+   "merkez_hata_medyan_h": 0.5963771016312471,
+   "merkez_hata_en_cok_h": 1.0966313036824231,
+   "okunan": 6,
+   "fazla": 2
+  },
+  {
+   "kaynak": "Qwen kutuları (ürün #3)",
+   "kroki": "01",
+   "bulunan": 7,
+   "merkez_hata_medyan_h": 0.9998111435983358,
+   "merkez_hata_en_cok_h": 1.5060105300367106,
+   "okunan": 7,
+   "fazla": 3
+  },
+  {
+   "kaynak": "Florence-2 (ham, tam)",
+   "kroki": "01",
+   "bulunan": 9,
+   "merkez_hata_medyan_h": 0.3547136418488294,
+   "merkez_hata_en_cok_h": 0.8379468106987835,
+   "okunan": 9,
+   "fazla": 0
+  },
+  {
+   "kaynak": "Florence-2 (ham, karo 2×3)",
+   "kroki": "01",
+   "bulunan": 9,
+   "merkez_hata_medyan_h": 0.12748623151427843,
+   "merkez_hata_en_cok_h": 0.850922242780063,
+   "okunan": 9,
+   "fazla": 2
+  },
+  {
+   "kaynak": "Florence-2 (çizgisiz, tam)",
+   "kroki": "01",
+   "bulunan": 9,
+   "merkez_hata_medyan_h": 0.25245326611174873,
+   "merkez_hata_en_cok_h": 0.7839002709336852,
+   "okunan": 9,
+   "fazla": 0
+  },
+  {
+   "kaynak": "Florence-2 (çizgisiz, karo 2×3)",
+   "kroki": "01",
+   "bulunan": 9,
+   "merkez_hata_medyan_h": 0.13513513513513514,
+   "merkez_hata_en_cok_h": 0.8357646538414176,
+   "okunan": 9,
+   "fazla": 4
+  },
+  {
+   "kaynak": "PaddleOCR (ham, tam)",
+   "kroki": "01",
+   "bulunan": 9,
+   "merkez_hata_medyan_h": 0.18380365552345196,
+   "merkez_hata_en_cok_h": 0.8919942611194189,
+   "okunan": 8,
+   "fazla": 0
+  },
+  {
+   "kaynak": "PaddleOCR (çizgisiz, tam)",
+   "kroki": "01",
+   "bulunan": 9,
+   "merkez_hata_medyan_h": 0.14617099765394553,
+   "merkez_hata_en_cok_h": 0.8244350833875483,
+   "okunan": 8,
+   "fazla": 1
+  },
+  {
+   "kaynak": "bölge bulucu (bizim)",
+   "kroki": "02",
+   "bulunan": 14,
+   "merkez_hata_medyan_h": 0.19190374493913093,
+   "merkez_hata_en_cok_h": 1.4448720437430984,
+   "okunan": 0,
+   "fazla": 12
+  },
+  {
+   "kaynak": "Qwen kutuları (konum #1)",
+   "kroki": "02",
+   "bulunan": 3,
+   "merkez_hata_medyan_h": 1.4494658163151644,
+   "merkez_hata_en_cok_h": 1.896720941179036,
+   "okunan": 3,
+   "fazla": 13
+  },
+  {
+   "kaynak": "Qwen kutuları (konum #2)",
+   "kroki": "02",
+   "bulunan": 8,
+   "merkez_hata_medyan_h": 0.9463109022990844,
+   "merkez_hata_en_cok_h": 1.8002863046389534,
+   "okunan": 7,
+   "fazla": 10
+  },
+  {
+   "kaynak": "Qwen kutuları (konum #3)",
+   "kroki": "02",
+   "bulunan": 4,
+   "merkez_hata_medyan_h": 1.1417805597791777,
+   "merkez_hata_en_cok_h": 1.9598431355961057,
+   "okunan": 3,
+   "fazla": 7
+  },
+  {
+   "kaynak": "Qwen kutuları (ürün #1)",
+   "kroki": "02",
+   "bulunan": 6,
+   "merkez_hata_medyan_h": 0.6778918350970214,
+   "merkez_hata_en_cok_h": 1.3466888343839833,
+   "okunan": 5,
+   "fazla": 10
+  },
+  {
+   "kaynak": "Qwen kutuları (ürün #2)",
+   "kroki": "02",
+   "bulunan": 9,
+   "merkez_hata_medyan_h": 0.6768246749443948,
+   "merkez_hata_en_cok_h": 1.7645968258027935,
+   "okunan": 8,
+   "fazla": 2
+  },
+  {
+   "kaynak": "Qwen kutuları (ürün #3)",
+   "kroki": "02",
+   "bulunan": 6,
+   "merkez_hata_medyan_h": 1.0916928789570153,
+   "merkez_hata_en_cok_h": 1.354069158895089,
+   "okunan": 4,
+   "fazla": 10
+  },
+  {
+   "kaynak": "Florence-2 (ham, tam)",
+   "kroki": "02",
+   "bulunan": 11,
+   "merkez_hata_medyan_h": 0.1967597267373113,
+   "merkez_hata_en_cok_h": 0.7768801271245843,
+   "okunan": 11,
+   "fazla": 1
+  },
+  {
+   "kaynak": "Florence-2 (ham, karo 2×3)",
+   "kroki": "02",
+   "bulunan": 11,
+   "merkez_hata_medyan_h": 0.20089282090970953,
+   "merkez_hata_en_cok_h": 0.7610879913691202,
+   "okunan": 8,
+   "fazla": 3
+  },
+  {
+   "kaynak": "Florence-2 (çizgisiz, tam)",
+   "kroki": "02",
+   "bulunan": 11,
+   "merkez_hata_medyan_h": 0.22652776505730016,
+   "merkez_hata_en_cok_h": 1.8341079002140155,
+   "okunan": 10,
+   "fazla": 0
+  },
+  {
+   "kaynak": "Florence-2 (çizgisiz, karo 2×3)",
+   "kroki": "02",
+   "bulunan": 11,
+   "merkez_hata_medyan_h": 0.21366740947083643,
+   "merkez_hata_en_cok_h": 0.722309622426636,
+   "okunan": 8,
+   "fazla": 4
+  },
+  {
+   "kaynak": "PaddleOCR (ham, tam)",
+   "kroki": "02",
+   "bulunan": 12,
+   "merkez_hata_medyan_h": 0.4611539039685737,
+   "merkez_hata_en_cok_h": 0.7193963056327657,
+   "okunan": 9,
+   "fazla": 1
+  },
+  {
+   "kaynak": "PaddleOCR (çizgisiz, tam)",
+   "kroki": "02",
+   "bulunan": 6,
+   "merkez_hata_medyan_h": 0.3071832918016454,
+   "merkez_hata_en_cok_h": 0.6252829892572581,
+   "okunan": 3,
+   "fazla": 0
+  }
+ ],
+ "birlestirme": {
+  "Florence-2 (ham, tam), kendi okuması": {
+   "doğru": 22,
+   "yanlış": 1,
+   "bölge yok": 1,
+   "olcum_sayisi": 2
+  },
+  "Florence-2 (ham, tam) + Qwen değerleri": {
+   "doğru": 58,
+   "yanlış": 7,
+   "bölge yok": 7,
+   "olcum_sayisi": 6
+  },
+  "Florence-2 (ham, karo 2×3), kendi okuması": {
+   "doğru": 19,
+   "bölge yok": 2,
+   "fazla": 3,
+   "yanlış": 3,
+   "olcum_sayisi": 2
+  },
+  "Florence-2 (ham, karo 2×3) + Qwen değerleri": {
+   "doğru": 56,
+   "bölge yok": 10,
+   "yanlış": 6,
+   "fazla": 2,
+   "olcum_sayisi": 6
+  },
+  "Florence-2 (çizgisiz, tam), kendi okuması": {
+   "doğru": 21,
+   "bölge yok": 2,
+   "yanlış": 1,
+   "olcum_sayisi": 2
+  },
+  "Florence-2 (çizgisiz, tam) + Qwen değerleri": {
+   "doğru": 55,
+   "bölge yok": 11,
+   "yanlış": 6,
+   "olcum_sayisi": 6
+  },
+  "Florence-2 (çizgisiz, karo 2×3), kendi okuması": {
+   "doğru": 19,
+   "bölge yok": 2,
+   "yanlış": 3,
+   "olcum_sayisi": 2
+  },
+  "Florence-2 (çizgisiz, karo 2×3) + Qwen değerleri": {
+   "doğru": 57,
+   "bölge yok": 10,
+   "yanlış": 5,
+   "fazla": 1,
+   "olcum_sayisi": 6
+  },
+  "PaddleOCR (ham, tam), kendi okuması": {
+   "doğru": 17,
+   "yanlış": 4,
+   "bölge yok": 3,
+   "olcum_sayisi": 2
+  },
+  "PaddleOCR (ham, tam) + Qwen değerleri": {
+   "doğru": 49,
+   "bölge yok": 13,
+   "yanlış": 10,
+   "olcum_sayisi": 6
+  },
+  "PaddleOCR (çizgisiz, tam), kendi okuması": {
+   "doğru": 11,
+   "yanlış": 3,
+   "bölge yok": 9,
+   "yok": 1,
+   "olcum_sayisi": 2
+  },
+  "PaddleOCR (çizgisiz, tam) + Qwen değerleri": {
+   "doğru": 36,
+   "bölge yok": 32,
+   "yanlış": 4,
+   "olcum_sayisi": 6
+  }
+ },
+ "sureler_s": {
+  "Florence-2 01 ham, tam": 9.7,
+  "Florence-2 01 ham, karo 2×3": 32.3,
+  "Florence-2 01 çizgisiz, tam": 7.4,
+  "Florence-2 01 çizgisiz, karo 2×3": 32.5,
+  "Florence-2 02 ham, tam": 8.7,
+  "Florence-2 02 ham, karo 2×3": 45.5,
+  "Florence-2 02 çizgisiz, tam": 8.2,
+  "Florence-2 02 çizgisiz, karo 2×3": 33.9,
+  "PaddleOCR 01 ham, tam": 39.3,
+  "PaddleOCR 01 çizgisiz, tam": 40.6,
+  "PaddleOCR 02 ham, tam": 41.9,
+  "PaddleOCR 02 çizgisiz, tam": 39.7
+ }
+}

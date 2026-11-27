@@ -1,0 +1,777 @@
+{
+ "ozet": {
+  "Set-of-Mark": {
+   "yanlış": 14,
+   "doğru": 56,
+   "fazla": 20,
+   "yok": 2
+  },
+  "Set-of-Mark çoğunluk (3 çağrı)": {
+   "doğru": 19,
+   "yok": 2,
+   "fazla": 4,
+   "yanlış": 3
+  },
+  "Ö2 + Florence-2 değerleri": {
+   "doğru": 21,
+   "yok": 3
+  },
+  "Florence-2 ∩ Ö2 (ikisi aynı değer)": {
+   "doğru": 41,
+   "yok": 31
+  },
+  "Ö2 (ürün)": {
+   "doğru": 48,
+   "yok": 16,
+   "yanlış": 8,
+   "fazla": 4
+  },
+  "Ö2, yalnız emin (≤ 0,5 h)": {
+   "doğru": 47,
+   "yok": 17,
+   "yanlış": 8,
+   "fazla": 2
+  },
+  "eski kural": {
+   "doğru": 56,
+   "yanlış": 13,
+   "fazla": 11,
+   "yok": 3
+  },
+  "SoM ∩ Ö2 (ikisi aynı değer)": {
+   "yok": 31,
+   "doğru": 41,
+   "fazla": 3
+  }
+ },
+ "ayrinti": {
+  "Set-of-Mark": [
+   {
+    "kroki": "01",
+    "calistirma": 1,
+    "yanlış": 5,
+    "doğru": 5,
+    "fazla": 2,
+    "dogru_sayilar": [
+     "15",
+     "90",
+     "140",
+     "50",
+     "120 sağ"
+    ]
+   },
+   {
+    "kroki": "01",
+    "calistirma": 2,
+    "doğru": 10,
+    "fazla": 1,
+    "dogru_sayilar": [
+     "180",
+     "108",
+     "120 sol",
+     "15",
+     "90",
+     "10",
+     "140",
+     "50",
+     "40",
+     "120 sağ"
+    ]
+   },
+   {
+    "kroki": "01",
+    "calistirma": 3,
+    "doğru": 9,
+    "yanlış": 1,
+    "fazla": 1,
+    "dogru_sayilar": [
+     "180",
+     "108",
+     "120 sol",
+     "15",
+     "90",
+     "10",
+     "140",
+     "50",
+     "120 sağ"
+    ]
+   },
+   {
+    "kroki": "02",
+    "calistirma": 1,
+    "yanlış": 3,
+    "doğru": 10,
+    "yok": 1,
+    "fazla": 3,
+    "dogru_sayilar": [
+     "300",
+     "45 üst sol",
+     "45 üst sağ",
+     "40 üst",
+     "45 alt",
+     "200 sol",
+     "40 orta",
+     "40 sol alt",
+     "40 sağ alt",
+     "200 alt"
+    ]
+   },
+   {
+    "kroki": "02",
+    "calistirma": 2,
+    "yanlış": 3,
+    "doğru": 11,
+    "fazla": 9,
+    "dogru_sayilar": [
+     "300",
+     "45 üst sol",
+     "45 üst sağ",
+     "40 üst",
+     "45 alt",
+     "200 sol",
+     "40 orta",
+     "40 sol alt",
+     "40 sağ alt",
+     "240",
+     "200 alt"
+    ]
+   },
+   {
+    "kroki": "02",
+    "calistirma": 3,
+    "yanlış": 2,
+    "doğru": 11,
+    "yok": 1,
+    "fazla": 4,
+    "dogru_sayilar": [
+     "300",
+     "45 üst sol",
+     "45 üst sağ",
+     "90",
+     "40 üst",
+     "45 alt",
+     "200 sol",
+     "40 orta",
+     "40 sol alt",
+     "40 sağ alt",
+     "200 alt"
+    ]
+   }
+  ],
+  "Set-of-Mark çoğunluk (3 çağrı)": [
+   {
+    "kroki": "01",
+    "calistirma": 1,
+    "doğru": 9,
+    "yok": 1,
+    "fazla": 1,
+    "dogru_sayilar": [
+     "180",
+     "108",
+     "120 sol",
+     "15",
+     "90",
+     "10",
+     "140",
+     "50",
+     "120 sağ"
+    ]
+   },
+   {
+    "kroki": "02",
+    "calistirma": 1,
+    "yanlış": 3,
+    "doğru": 10,
+    "yok": 1,
+    "fazla": 3,
+    "dogru_sayilar": [
+     "300",
+     "45 üst sol",
+     "45 üst sağ",
+     "40 üst",
+     "45 alt",
+     "200 sol",
+     "40 orta",
+     "40 sol alt",
+     "40 sağ alt",
+     "200 alt"
+    ]
+   }
+  ],
+  "Ö2 + Florence-2 değerleri": [
+   {
+    "kroki": "01",
+    "calistirma": 1,
+    "doğru": 9,
+    "yok": 1,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "180",
+     "108",
+     "120 sol",
+     "15",
+     "90",
+     "10",
+     "140",
+     "50",
+     "120 sağ"
+    ]
+   },
+   {
+    "kroki": "02",
+    "calistirma": 1,
+    "doğru": 12,
+    "yok": 2,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "15",
+     "300",
+     "45 üst sol",
+     "40 üst",
+     "45 alt",
+     "200 sol",
+     "40 orta",
+     "40 sol alt",
+     "40 sağ alt",
+     "240",
+     "102",
+     "200 alt"
+    ]
+   }
+  ],
+  "Florence-2 ∩ Ö2 (ikisi aynı değer)": [
+   {
+    "kroki": "01",
+    "calistirma": 1,
+    "doğru": 8,
+    "yok": 2,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "180",
+     "108",
+     "120 sol",
+     "15",
+     "90",
+     "140",
+     "50",
+     "120 sağ"
+    ]
+   },
+   {
+    "kroki": "01",
+    "calistirma": 2,
+    "doğru": 7,
+    "yok": 3,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "180",
+     "108",
+     "90",
+     "10",
+     "140",
+     "50",
+     "120 sağ"
+    ]
+   },
+   {
+    "kroki": "01",
+    "calistirma": 3,
+    "doğru": 9,
+    "yok": 1,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "180",
+     "108",
+     "120 sol",
+     "15",
+     "90",
+     "10",
+     "140",
+     "50",
+     "120 sağ"
+    ]
+   },
+   {
+    "kroki": "02",
+    "calistirma": 1,
+    "yok": 10,
+    "doğru": 4,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "45 üst sol",
+     "40 üst",
+     "40 orta",
+     "40 sol alt"
+    ]
+   },
+   {
+    "kroki": "02",
+    "calistirma": 2,
+    "yok": 7,
+    "doğru": 7,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "300",
+     "45 üst sol",
+     "45 alt",
+     "200 sol",
+     "40 orta",
+     "40 sağ alt",
+     "200 alt"
+    ]
+   },
+   {
+    "kroki": "02",
+    "calistirma": 3,
+    "yok": 8,
+    "doğru": 6,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "300",
+     "45 üst sol",
+     "40 sol alt",
+     "40 sağ alt",
+     "240",
+     "200 alt"
+    ]
+   }
+  ],
+  "Ö2 (ürün)": [
+   {
+    "kroki": "01",
+    "calistirma": 1,
+    "doğru": 9,
+    "yok": 1,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "180",
+     "108",
+     "120 sol",
+     "15",
+     "90",
+     "140",
+     "50",
+     "40",
+     "120 sağ"
+    ]
+   },
+   {
+    "kroki": "01",
+    "calistirma": 2,
+    "doğru": 8,
+    "yanlış": 2,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "180",
+     "108",
+     "90",
+     "10",
+     "140",
+     "50",
+     "40",
+     "120 sağ"
+    ]
+   },
+   {
+    "kroki": "01",
+    "calistirma": 3,
+    "doğru": 10,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "180",
+     "108",
+     "120 sol",
+     "15",
+     "90",
+     "10",
+     "140",
+     "50",
+     "40",
+     "120 sağ"
+    ]
+   },
+   {
+    "kroki": "02",
+    "calistirma": 1,
+    "yok": 7,
+    "doğru": 6,
+    "yanlış": 1,
+    "fazla": 2,
+    "dogru_sayilar": [
+     "45 üst sol",
+     "45 üst sağ",
+     "90",
+     "40 üst",
+     "40 orta",
+     "40 sol alt"
+    ]
+   },
+   {
+    "kroki": "02",
+    "calistirma": 2,
+    "yok": 5,
+    "doğru": 8,
+    "yanlış": 1,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "300",
+     "45 üst sol",
+     "45 üst sağ",
+     "45 alt",
+     "200 sol",
+     "40 orta",
+     "40 sağ alt",
+     "200 alt"
+    ]
+   },
+   {
+    "kroki": "02",
+    "calistirma": 3,
+    "yok": 3,
+    "doğru": 7,
+    "yanlış": 4,
+    "fazla": 2,
+    "dogru_sayilar": [
+     "300",
+     "45 üst sol",
+     "45 üst sağ",
+     "40 sol alt",
+     "40 sağ alt",
+     "240",
+     "200 alt"
+    ]
+   }
+  ],
+  "Ö2, yalnız emin (≤ 0,5 h)": [
+   {
+    "kroki": "01",
+    "calistirma": 1,
+    "doğru": 9,
+    "yok": 1,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "180",
+     "108",
+     "120 sol",
+     "15",
+     "90",
+     "140",
+     "50",
+     "40",
+     "120 sağ"
+    ]
+   },
+   {
+    "kroki": "01",
+    "calistirma": 2,
+    "doğru": 8,
+    "yanlış": 2,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "180",
+     "108",
+     "90",
+     "10",
+     "140",
+     "50",
+     "40",
+     "120 sağ"
+    ]
+   },
+   {
+    "kroki": "01",
+    "calistirma": 3,
+    "doğru": 10,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "180",
+     "108",
+     "120 sol",
+     "15",
+     "90",
+     "10",
+     "140",
+     "50",
+     "40",
+     "120 sağ"
+    ]
+   },
+   {
+    "kroki": "02",
+    "calistirma": 1,
+    "yok": 8,
+    "doğru": 5,
+    "yanlış": 1,
+    "fazla": 1,
+    "dogru_sayilar": [
+     "45 üst sol",
+     "45 üst sağ",
+     "90",
+     "40 üst",
+     "40 sol alt"
+    ]
+   },
+   {
+    "kroki": "02",
+    "calistirma": 2,
+    "yok": 5,
+    "doğru": 8,
+    "yanlış": 1,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "300",
+     "45 üst sol",
+     "45 üst sağ",
+     "45 alt",
+     "200 sol",
+     "40 orta",
+     "40 sağ alt",
+     "200 alt"
+    ]
+   },
+   {
+    "kroki": "02",
+    "calistirma": 3,
+    "yok": 3,
+    "doğru": 7,
+    "yanlış": 4,
+    "fazla": 1,
+    "dogru_sayilar": [
+     "300",
+     "45 üst sol",
+     "45 üst sağ",
+     "40 sol alt",
+     "40 sağ alt",
+     "240",
+     "200 alt"
+    ]
+   }
+  ],
+  "eski kural": [
+   {
+    "kroki": "01",
+    "calistirma": 1,
+    "doğru": 10,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "180",
+     "108",
+     "120 sol",
+     "15",
+     "90",
+     "10",
+     "140",
+     "50",
+     "40",
+     "120 sağ"
+    ]
+   },
+   {
+    "kroki": "01",
+    "calistirma": 2,
+    "doğru": 8,
+    "yanlış": 2,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "180",
+     "108",
+     "90",
+     "10",
+     "140",
+     "50",
+     "40",
+     "120 sağ"
+    ]
+   },
+   {
+    "kroki": "01",
+    "calistirma": 3,
+    "doğru": 9,
+    "yanlış": 1,
+    "fazla": 1,
+    "dogru_sayilar": [
+     "180",
+     "108",
+     "120 sol",
+     "15",
+     "10",
+     "140",
+     "50",
+     "40",
+     "120 sağ"
+    ]
+   },
+   {
+    "kroki": "02",
+    "calistirma": 1,
+    "yanlış": 8,
+    "doğru": 6,
+    "fazla": 4,
+    "dogru_sayilar": [
+     "45 üst sol",
+     "45 üst sağ",
+     "45 alt",
+     "40 orta",
+     "40 sol alt",
+     "200 alt"
+    ]
+   },
+   {
+    "kroki": "02",
+    "calistirma": 2,
+    "yok": 3,
+    "doğru": 11,
+    "fazla": 1,
+    "dogru_sayilar": [
+     "300",
+     "45 üst sol",
+     "45 üst sağ",
+     "90",
+     "40 üst",
+     "45 alt",
+     "200 sol",
+     "40 orta",
+     "40 sol alt",
+     "40 sağ alt",
+     "200 alt"
+    ]
+   },
+   {
+    "kroki": "02",
+    "calistirma": 3,
+    "doğru": 12,
+    "yanlış": 2,
+    "fazla": 5,
+    "dogru_sayilar": [
+     "15",
+     "300",
+     "45 üst sol",
+     "45 üst sağ",
+     "90",
+     "40 üst",
+     "45 alt",
+     "40 orta",
+     "40 sol alt",
+     "40 sağ alt",
+     "240",
+     "200 alt"
+    ]
+   }
+  ],
+  "SoM ∩ Ö2 (ikisi aynı değer)": [
+   {
+    "kroki": "01",
+    "calistirma": 1,
+    "yok": 5,
+    "doğru": 5,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "15",
+     "90",
+     "140",
+     "50",
+     "120 sağ"
+    ]
+   },
+   {
+    "kroki": "01",
+    "calistirma": 2,
+    "doğru": 8,
+    "yok": 2,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "180",
+     "108",
+     "90",
+     "10",
+     "140",
+     "50",
+     "40",
+     "120 sağ"
+    ]
+   },
+   {
+    "kroki": "01",
+    "calistirma": 3,
+    "doğru": 9,
+    "yok": 1,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "180",
+     "108",
+     "120 sol",
+     "15",
+     "90",
+     "10",
+     "140",
+     "50",
+     "120 sağ"
+    ]
+   },
+   {
+    "kroki": "02",
+    "calistirma": 1,
+    "yok": 9,
+    "doğru": 5,
+    "fazla": 2,
+    "dogru_sayilar": [
+     "45 üst sol",
+     "45 üst sağ",
+     "40 üst",
+     "40 orta",
+     "40 sol alt"
+    ]
+   },
+   {
+    "kroki": "02",
+    "calistirma": 2,
+    "yok": 6,
+    "doğru": 8,
+    "fazla": 0,
+    "dogru_sayilar": [
+     "300",
+     "45 üst sol",
+     "45 üst sağ",
+     "45 alt",
+     "200 sol",
+     "40 orta",
+     "40 sağ alt",
+     "200 alt"
+    ]
+   },
+   {
+    "kroki": "02",
+    "calistirma": 3,
+    "yok": 8,
+    "doğru": 6,
+    "fazla": 1,
+    "dogru_sayilar": [
+     "300",
+     "45 üst sol",
+     "45 üst sağ",
+     "40 sol alt",
+     "40 sağ alt",
+     "200 alt"
+    ]
+   }
+  ]
+ },
+ "som_tutarlilik": {
+  "01": {
+   "ayni": 6,
+   "bolge": 13
+  },
+  "02": {
+   "ayni": 15,
+   "bolge": 27
+  }
+ },
+ "som_sure_s": [
+  72.4,
+  20.1,
+  23.2,
+  86.8,
+  48.4,
+  46.1
+ ]
+}

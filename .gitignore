@@ -1,5 +1,7 @@
 # Python sanal ortamı (her bilgisayarda yeniden kurulur)
 .venv/
+# Deney ortamları (ör. .venv-deney: torch, Florence-2, PaddleOCR)
+.venv-*/
 
 # Python'un ürettiği geçici dosyalar
 __pycache__/
