@@ -12,7 +12,8 @@ Qwen3-VL 4B 3 kez, ürünün istemi (`okuma.ISTEM_SAYILAR`); tek fark cevap sın
 
 > **Güncelleme (aynı gün, bölüm 7–10):** döndürme, örtüşen karolama, yön ağırlıklı oylama ve tek hane süzme ile
 > Florence-2 **18 → 65/147 (%44), fazla 290 → 77**. Ama seçmeli düzeltme benzetiminde düzeltme sayısı (147) hepsini
-> elle yazmakla aynı. Özet tablo: bölümlerin sonunda.
+> elle yazmakla aynı; oy desteğiyle eleme bunu **120**'ye indiriyor, ölçü çizgisi yakınlığı indirmiyor (bölüm 11).
+> Özet tablo: bölümlerin sonunda.
 
 ## Kısa sonuç
 
@@ -337,6 +338,60 @@ yine kısalabilir, ama yalnız düzeltme sayısıyla bakılınca kazanç yok. Ü
 (sayı olmayan kutuyu baştan elemek: ör. tik/ölçü çizgisine yakın olmayan kutu düşük güven), (2) her yerin "emin /
 emin değil" ayrımı, böylece emin olmayan yerler sorulur, silinmez.
 
+## 11. Yanlış yerleri elemek: ölçü çizgisi yakınlığı (ve oy desteği)
+
+Soru (§10): her doğru sayıya karşılık bir yanlış yer siliniyor; yanlış yerler baştan elenebilir mi? Bölüm 10'un en
+iyi ayarının 136 yeri (konumsuz kaba etiket: 56 doğru, 73 yanlış, 7 "?" adayı) üzerinde iki güven işareti
+(`puanla_karo_cizgi.py`, model çağrılmadı):
+
+- **Ölçü çizgisi yakınlığı:** renkten bağımsız mürekkep maskesi (kâğıt alanı içinde, yerel arka plandan koyu;
+  ürünün maskesi yalnız mavi), yönlü morfolojiyle yatay/dikey çizgi parçaları (1 × 61 ve 61 × 1 açma; Hough
+  denendi, el çiziminde duvarları kaçırıp defter çizgilerini buldu). Kutunun uzun kenarlarına bitişik şeritte yazı
+  yönüne paralel çizgi oranı (0–1). Çeşitler: şerit 2 kat kalın, şerit kutunun içini de kapsar.
+- **Oy desteği:** yerin kazanan değerine verilen yön ağırlıklı oy toplamı (kaç karo / açı aynı değeri okudu).
+
+Ayırma gücü (AUC; 0,5 = yazı tura, 1 = kusursuz):
+
+| İşaret | AUC |
+|---|---|
+| Çizgi yakınlığı (şerit) | 0,54 |
+| Çizgi, şerit 2 kat | 0,51 |
+| Çizgi, kutu içi dahil | 0,53 |
+| Çizgi, kutu içi dahil, 2 kat | 0,52 |
+| Rakam sayısı | 0,47 |
+| **Oy desteği** | **0,78** |
+
+Eleme sonucu (eşik altı yer gösterilmez; düzeltme = seçim + sil + yaz; taban: 147):
+
+| Kural | Gösterilen yer | Elenen doğru | Elenen yanlış | Seçim | Sil | Yaz | **Düzeltme** |
+|---|---|---|---|---|---|---|---|
+| Eleme yok (§10) | 136 | 0 | 0 | 15 | 58 | 74 | 147 |
+| Çizgi ≥ 0,2 | 89 | 17 | 27 | 10 | 36 | 96 | 142 |
+| Çizgi ≥ 0,4 | 80 | 20 | 33 | 7 | 33 | 104 | 144 |
+| Çizgi ≥ 0,8 | 68 | 26 | 38 | 6 | 29 | 111 | 146 |
+| Destek ≥ 1,5 | 102 | 7 | 27 | 9 | 37 | 87 | 133 |
+| **Destek ≥ 2** | 81 | 10 | 45 | 7 | 21 | 92 | **120** |
+| Destek ≥ 3 | 49 | 24 | 60 | 4 | 9 | 109 | 122 |
+| Destek ≥ 4 | 25 | 38 | 68 | 2 | 3 | 127 | 132 |
+| Çizgi ≥ 0,4 ya da destek ≥ 2 | 114 | 4 | 18 | 11 | 44 | 82 | 137 |
+| Çizgi ≥ 0,2 ve destek ≥ 1,5 | 68 | 21 | 44 | 7 | 22 | 103 | 132 |
+
+Bulgular:
+- **Ölçü çizgisi yakınlığı işe yaramıyor** (AUC 0,51–0,54, dört çeşitte de). Kutuların ve maskenin yeri görsel
+  olarak doğrulandı (04, scratchpad; depoda değil): hesap doğru, işaret ayırmıyor.
+- **Neden (görsel kontrol, 04):** "yanlış" yerlerin çoğu gürültü değil, **gerçek sayının yanlış okunuşu** (yan ya da
+  ters sayı döndürülmüş karoda başka değer olarak okunmuş). Gerçek sayı zaten ölçü çizgisinin yanında; çizgi onu
+  ayıramaz. Sayısal destek zayıf: yanlış değerlerin 41/65'i krokideki bir gerçek sayıdan tek rakam farklı, ama
+  rastgele değerlerde de 34,7/65 (ölçüt gevşek). Yani bu açıklama 04'ün görüntüsüne dayanıyor, kanıtlanmış değil.
+- **Oy desteği işe yarıyor:** yanlış okumalar karolar ve açılar arasında tutarsız, doğrular tutarlı. **Destek ≥ 2
+  ile düzeltme 147 → 120** (−%18): 45 yanlış yer silinmeden düşüyor, 10 doğru kaybediliyor. Eşik duyarlılığı düşük
+  (1,5: 133, 2: 120, 3: 122, 4: 132; geniş bir dip).
+- Çizgiyi destekle birleştirmek desteği kötüleştiriyor (137, 132).
+
+Ürün için anlamı: elenen yerleri silmek yerine **"emin değil" sorusuna** çevirmek daha doğru (elenen 55 yerin 10'u
+doğru, çoğu yanlış okunmuş gerçek sayı: kullanıcıya "burada bir sayı var, 2–3 aday" diye sormak yazdırmaktan hızlı).
+Bu benzetimde sayılmadı; düzeltme ekranında ölçülmeli. Çizgi yakınlığı bu haliyle ürüne alınmamalı.
+
 ## Bütün denemelerin özeti (03–07, 147 puanlı sayı, Florence-2-large)
 
 | Deneme | Doğru | Fazla | Süre / kroki |
@@ -349,6 +404,8 @@ emin değil" ayrımı, böylece emin olmayan yerler sorulur, silinmez.
 | Karo 4 açı, yön ağırlıklı (§9) | 59 (%40) | 125 | aynı |
 | **Karo 4 açı, yön ağırlıklı + tek hane süzme (§10)** | **65 (%44)** | **77** | aynı |
 
+Düzeltme benzetimi (§10–11, kaba): eleme yok 147 → **oy desteği ≥ 2 ile 120**; çizgi yakınlığıyla 142–146.
+
 ## Dosyalar
 
 - `dogru_cevaplar_03_07.py`: doğru cevap listesi (taslak, onaylı).
@@ -356,4 +413,4 @@ emin değil" ayrımı, böylece emin olmayan yerler sorulur, silinmez.
 - `puanla_03_07.py`: bu rapordaki tablolar → `sonuclar/puan_03_07.json` (yalnız bu betik yeniden çalıştırılır).
 - `dondurme_03_07.py` + `puanla_dondurme.py`: bölüm 7.
 - `karo_dondurme_03_07.py` (`.venv-deney`) + `puanla_karo.py`: bölüm 8 → `sonuclar/karo_dondurme_03_07.json`.
-- `puanla_karo_yon.py`: bölüm 9; `puanla_karo_son.py`: bölüm 10. Liste düzelince bütün `puanla_*` betikleri model çağırmadan yeniden çalışır.
+- `puanla_karo_yon.py`: bölüm 9; `puanla_karo_son.py`: bölüm 10; `puanla_karo_cizgi.py`: bölüm 11. Liste düzelince bütün `puanla_*` betikleri model çağırmadan yeniden çalışır.
