@@ -1,0 +1,155 @@
+{
+ "kategori": {
+  "hepsi": {
+   "n": 147,
+   "çoğunluk (§8)": 54,
+   "yön ağırlıklı": 59,
+   "yön + 0° önceliği": 59
+  },
+  "7 '>' gibi (07)": {
+   "n": 2,
+   "çoğunluk (§8)": 0,
+   "yön ağırlıklı": 0,
+   "yön + 0° önceliği": 0
+  },
+  "kroki 03": {
+   "n": 13,
+   "çoğunluk (§8)": 6,
+   "yön ağırlıklı": 6,
+   "yön + 0° önceliği": 6
+  },
+  "kroki 04": {
+   "n": 26,
+   "çoğunluk (§8)": 10,
+   "yön ağırlıklı": 10,
+   "yön + 0° önceliği": 10
+  },
+  "kroki 05": {
+   "n": 30,
+   "çoğunluk (§8)": 12,
+   "yön ağırlıklı": 11,
+   "yön + 0° önceliği": 11
+  },
+  "kroki 06": {
+   "n": 44,
+   "çoğunluk (§8)": 14,
+   "yön ağırlıklı": 16,
+   "yön + 0° önceliği": 16
+  },
+  "kroki 07": {
+   "n": 34,
+   "çoğunluk (§8)": 12,
+   "yön ağırlıklı": 16,
+   "yön + 0° önceliği": 16
+  },
+  "kâğıt: noktalı": {
+   "n": 100,
+   "çoğunluk (§8)": 36,
+   "yön ağırlıklı": 37,
+   "yön + 0° önceliği": 37
+  },
+  "kâğıt: çizgili": {
+   "n": 47,
+   "çoğunluk (§8)": 18,
+   "yön ağırlıklı": 22,
+   "yön + 0° önceliği": 22
+  },
+  "renk: kırmızı (07)": {
+   "n": 32,
+   "çoğunluk (§8)": 12,
+   "yön ağırlıklı": 16,
+   "yön + 0° önceliği": 16
+  },
+  "renk: mavi (07)": {
+   "n": 2,
+   "çoğunluk (§8)": 0,
+   "yön ağırlıklı": 0,
+   "yön + 0° önceliği": 0
+  },
+  "tür: kutu": {
+   "n": 9,
+   "çoğunluk (§8)": 3,
+   "yön ağırlıklı": 3,
+   "yön + 0° önceliği": 3
+  },
+  "tür: olcu": {
+   "n": 127,
+   "çoğunluk (§8)": 47,
+   "yön ağırlıklı": 52,
+   "yön + 0° önceliği": 51
+  },
+  "tür: yukseklik": {
+   "n": 11,
+   "çoğunluk (§8)": 4,
+   "yön ağırlıklı": 4,
+   "yön + 0° önceliği": 5
+  },
+  "virgüllü": {
+   "n": 18,
+   "çoğunluk (§8)": 3,
+   "yön ağırlıklı": 3,
+   "yön + 0° önceliği": 3
+  },
+  "yakın / sıkışık sayılar": {
+   "n": 7,
+   "çoğunluk (§8)": 4,
+   "yön ağırlıklı": 4,
+   "yön + 0° önceliği": 4
+  },
+  "yazılış: capraz": {
+   "n": 6,
+   "çoğunluk (§8)": 1,
+   "yön ağırlıklı": 1,
+   "yön + 0° önceliği": 1
+  },
+  "yazılış: duz": {
+   "n": 52,
+   "çoğunluk (§8)": 20,
+   "yön ağırlıklı": 21,
+   "yön + 0° önceliği": 22
+  },
+  "yazılış: ters": {
+   "n": 21,
+   "çoğunluk (§8)": 7,
+   "yön ağırlıklı": 8,
+   "yön + 0° önceliği": 8
+  },
+  "yazılış: yan": {
+   "n": 68,
+   "çoğunluk (§8)": 26,
+   "yön ağırlıklı": 29,
+   "yön + 0° önceliği": 28
+  }
+ },
+ "fazla": {
+  "çoğunluk (§8)": 151,
+  "yön ağırlıklı": 131,
+  "yön + 0° önceliği": 125
+ },
+ "degisim yön ağırlıklı": {
+  "kazanilan": [
+   "06:11(yan)",
+   "06:158(yan)",
+   "07:27(yan)",
+   "07:211(yan)",
+   "07:306(duz)",
+   "07:246(ters)"
+  ],
+  "kaybedilen": [
+   "05:303(yan)"
+  ]
+ },
+ "degisim yön + 0° önceliği": {
+  "kazanilan": [
+   "06:11(yan)",
+   "06:158(yan)",
+   "07:260(duz)",
+   "07:211(yan)",
+   "07:306(duz)",
+   "07:246(ters)"
+  ],
+  "kaybedilen": [
+   "05:303(yan)"
+  ]
+ }
+}

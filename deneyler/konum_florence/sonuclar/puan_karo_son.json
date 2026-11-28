@@ -1,0 +1,200 @@
+{
+ "duyarlilik": {
+  "1.0|1.0": [
+   54,
+   151
+  ],
+  "1.0|1.5": [
+   57,
+   136
+  ],
+  "1.0|2.0": [
+   53,
+   152
+  ],
+  "1.0|3.0": [
+   49,
+   163
+  ],
+  "0.5|1.0": [
+   60,
+   130
+  ],
+  "0.5|1.5": [
+   59,
+   124
+  ],
+  "0.5|2.0": [
+   59,
+   131
+  ],
+  "0.5|3.0": [
+   54,
+   137
+  ],
+  "0.2|1.0": [
+   59,
+   131
+  ],
+  "0.2|1.5": [
+   59,
+   125
+  ],
+  "0.2|2.0": [
+   61,
+   126
+  ],
+  "0.2|3.0": [
+   58,
+   133
+  ],
+  "0.0|1.0": [
+   59,
+   136
+  ],
+  "0.0|1.5": [
+   59,
+   129
+  ],
+  "0.0|2.0": [
+   60,
+   131
+  ],
+  "0.0|3.0": [
+   58,
+   136
+  ]
+ },
+ "suzme": {
+  "hepsi": {
+   "n": 147,
+   "suzmesiz": 59,
+   "suzmeli": 65
+  },
+  "7 '>' gibi (07)": {
+   "n": 2,
+   "suzmesiz": 0,
+   "suzmeli": 0
+  },
+  "kroki 03": {
+   "n": 13,
+   "suzmesiz": 6,
+   "suzmeli": 6
+  },
+  "kroki 04": {
+   "n": 26,
+   "suzmesiz": 10,
+   "suzmeli": 11
+  },
+  "kroki 05": {
+   "n": 30,
+   "suzmesiz": 11,
+   "suzmeli": 16
+  },
+  "kroki 06": {
+   "n": 44,
+   "suzmesiz": 16,
+   "suzmeli": 16
+  },
+  "kroki 07": {
+   "n": 34,
+   "suzmesiz": 16,
+   "suzmeli": 16
+  },
+  "kâğıt: noktalı": {
+   "n": 100,
+   "suzmesiz": 37,
+   "suzmeli": 43
+  },
+  "kâğıt: çizgili": {
+   "n": 47,
+   "suzmesiz": 22,
+   "suzmeli": 22
+  },
+  "renk: kırmızı (07)": {
+   "n": 32,
+   "suzmesiz": 16,
+   "suzmeli": 16
+  },
+  "renk: mavi (07)": {
+   "n": 2,
+   "suzmesiz": 0,
+   "suzmeli": 0
+  },
+  "tür: kutu": {
+   "n": 9,
+   "suzmesiz": 3,
+   "suzmeli": 4
+  },
+  "tür: olcu": {
+   "n": 127,
+   "suzmesiz": 51,
+   "suzmeli": 55
+  },
+  "tür: yukseklik": {
+   "n": 11,
+   "suzmesiz": 5,
+   "suzmeli": 6
+  },
+  "virgüllü": {
+   "n": 18,
+   "suzmesiz": 3,
+   "suzmeli": 4
+  },
+  "yakın / sıkışık sayılar": {
+   "n": 7,
+   "suzmesiz": 4,
+   "suzmeli": 4
+  },
+  "yazılış: capraz": {
+   "n": 6,
+   "suzmesiz": 1,
+   "suzmeli": 1
+  },
+  "yazılış: duz": {
+   "n": 52,
+   "suzmesiz": 22,
+   "suzmeli": 26
+  },
+  "yazılış: ters": {
+   "n": 21,
+   "suzmesiz": 8,
+   "suzmeli": 8
+  },
+  "yazılış: yan": {
+   "n": 68,
+   "suzmesiz": 28,
+   "suzmeli": 30
+  }
+ },
+ "suzme_fazla": {
+  "tek hane süzmesiz": 125,
+  "tek hane + ASCII dışı süzmeli": 77
+ },
+ "duzeltme": {
+  "çoğunluk, süzmesiz tek hane": {
+   "dogru": 47,
+   "sil": 90,
+   "secim": 13,
+   "secimle_dogru": 13,
+   "yaz": 87,
+   "duzeltme": 190
+  },
+  "yön ağırlıklı, süzmesiz tek hane": {
+   "dogru": 50,
+   "sil": 83,
+   "secim": 17,
+   "secimle_dogru": 17,
+   "yaz": 80,
+   "duzeltme": 180
+  },
+  "yön ağırlıklı, tek hane + ASCII süzmeli": {
+   "dogru": 58,
+   "secim": 15,
+   "secimle_dogru": 15,
+   "sil": 58,
+   "yaz": 74,
+   "duzeltme": 147
+  }
+ }
+}

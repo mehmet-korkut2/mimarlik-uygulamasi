@@ -10,6 +10,10 @@ listede karşılığı olmayan her okuma "fazla".
 Koşul: ham fotoğraf, tam görsel (01–02'de Florence için en iyi koşul). Florence-2-large 1 kez (deterministik),
 Qwen3-VL 4B 3 kez, ürünün istemi (`okuma.ISTEM_SAYILAR`); tek fark cevap sınırı 2500 token (aşağıda).
 
+> **Güncelleme (aynı gün, bölüm 7–10):** döndürme, örtüşen karolama, yön ağırlıklı oylama ve tek hane süzme ile
+> Florence-2 **18 → 65/147 (%44), fazla 290 → 77**. Ama seçmeli düzeltme benzetiminde düzeltme sayısı (147) hepsini
+> elle yazmakla aynı. Özet tablo: bölümlerin sonunda.
+
 ## Kısa sonuç
 
 1. **İki model de 03–07'de çöküyor.** 147 sayının Florence **18'ini (%12)**, Qwen çalıştırma başına ortalama
@@ -267,8 +271,89 @@ yanlış). Ürün kararı (A/B) yine bekliyor. Sıradaki ucuz adımlar: (1) yön
 (3) aday listesini düzeltme ekranına seçenek olarak vermek. Hepsi yeni krokilerle doğrulanmalı (bu eşikler 03–07'ye
 bakılarak konursa aynı aşırı uyma riski).
 
+## 9. Yön ağırlıklı oylama (aynı kayıtlar, model çağrılmadı)
+
+Fikir: model yazıyı doğru yönde gördüyse kutu **kendi okuduğu (döndürülmüş) görselde** yatay olur. Kendi
+çerçevesinde dikey kutulu okumanın oyu 0,2 (tek haneli okuma hariç, doğal olarak dar); ayrıca 0° okumasına × 1,5
+öncelik denendi (`puanla_karo_yon.py`).
+
+| Kategori | n | Çoğunluk (§8) | Yön ağırlıklı | Yön + 0° önceliği |
+|---|---|---|---|---|
+| **Hepsi** | 147 | 54 | **59 (%40)** | **59 (%40)** |
+| Düz | 52 | 20 | 21 | 22 |
+| Yan | 68 | 26 | 29 | 28 |
+| Ters | 21 | 7 | 8 | 8 |
+| 07 (kırmızı, yan çekilmiş) | 34 | 12 | 16 | 16 |
+| **Fazla** | — | 151 | 131 | 125 |
+
+Çoğunluğa göre 6 sayı kazanıldı (06: 11, 158; 07: 27/260, 211, 306, 246), 1 kaybedildi (05: 303). Düz sayılardaki
+kayıp (karo 0°'de 27) yalnız kısmen geri geldi.
+
+## 10. Duyarlılık, tek hane süzme, seçmeli düzeltme benzetimi (`puanla_karo_son.py`)
+
+**Duyarlılık** (doğru / fazla; dik ağırlığı × 0° önceliği):
+
+| Dik ağırlığı \ 0° önceliği | 1,0 | 1,5 | 2,0 | 3,0 |
+|---|---|---|---|---|
+| 1,0 (çoğunluk) | 54 / 151 | 57 / 136 | 53 / 152 | 49 / 163 |
+| 0,5 | 60 / 130 | 59 / 124 | 59 / 131 | 54 / 137 |
+| 0,2 | 59 / 131 | 59 / 125 | 61 / 126 | 58 / 133 |
+| 0,0 | 59 / 136 | 59 / 129 | 60 / 131 | 58 / 136 |
+
+Dik ağırlığı ≤ 0,5 olduğu sürece sonuç 58–61 doğru, 124–137 fazla: **kazanç katsayıya bağlı değil** (aşırı uyma
+riski düşük). 0° önceliğini büyütmek (3,0) zararlı: düz sayıyı öne alırken yan sayıyı yanlış 0° okumasına
+kaptırıyor.
+
+**Tek hane + ASCII dışı süzme** (dik 0,2, 0° önceliği 1,5): tek haneli okumalar ve Arap–Hint rakamları atılır.
+
+| | Doğru /147 | Fazla |
+|---|---|---|
+| Süzmesiz | 59 | 125 |
+| **Süzmeli** | **65 (%44)** | **77** |
+
+Doğru da artıyor (05: 11 → 16, düz: 22 → 26): tek haneli gürültü bazı yerlerde oylamayı bozuyormuş. Risk: listede
+puanlı tek haneli sayı yok (yalnız 03 "5?"); gerçek krokide 5 gibi kısa ölçüler (basamak, girinti) olabilir. Ürüne
+alınırsa tek haneli okuma atılmamalı, "emin değil" işaretlenmeli. Kalanlar: virgüllü 4/18, ">" gibi 7 0/2, çapraz
+1/6.
+
+**Seçmeli düzeltme benzetimi** (ana ölçüt "kaç düzeltmede doğru plan" için kaba kestirim): her yerde yön ağırlıklı
+puana göre sıralı adaylar; ekranda 1. aday çizilir. Yanlış yerde 2./3. aday listedeki bir sayıysa 1 düzeltme
+(seçim), değilse 1 düzeltme (sil); hiç bulunmayan sayı 1 düzeltme (yaz). Konumsuz (doğru değer yanlış yerde okunmuş
+olabilir) ve sayı–duvar bağlama düzeltmeleri dahil değil.
+
+| Yöntem | 1. aday doğru | Seçim | Sil | Yaz | **Düzeltme** |
+|---|---|---|---|---|---|
+| Çoğunluk | 47 | 13 | 90 | 87 | 190 |
+| Yön ağırlıklı | 50 | 17 | 83 | 80 | 180 |
+| **Yön ağırlıklı + süzme** | 58 | 15 | 58 | 74 | **147** |
+| Taban: hiç okuma yok (hepsini yaz) | 0 | 0 | 0 | 147 | 147 |
+
+("1. aday doğru" 58: yer başına bütün sayı dizisi doğru olmalı; "45 45" gibi tek kutuda iki sayı yarım doğruysa
+sayılmaz, bu yüzden §10 süzme tablosundaki 65'ten az.)
+
+**Bu en önemli sonuç:** en iyi okuma ayarında bile 03–07'de düzeltme sayısı (147) hepsini elle yazmakla aynı:
+okunan her doğru sayıya karşılık bir yanlış yer silinmek zorunda. Silme ve seçim yazmaktan hızlı olduğu için **süre**
+yine kısalabilir, ama yalnız düzeltme sayısıyla bakılınca kazanç yok. Ürün için iki şart: (1) yanlış yerleri azaltmak
+(sayı olmayan kutuyu baştan elemek: ör. tik/ölçü çizgisine yakın olmayan kutu düşük güven), (2) her yerin "emin /
+emin değil" ayrımı, böylece emin olmayan yerler sorulur, silinmez.
+
+## Bütün denemelerin özeti (03–07, 147 puanlı sayı, Florence-2-large)
+
+| Deneme | Doğru | Fazla | Süre / kroki |
+|---|---|---|---|
+| Tam görsel 0° (§1) | 18 (%12) | 290 | ~35 s |
+| Qwen3-VL tam görsel, 3 çağrı ort. (§1) | 20 (%14) | 230–280 | ~7 dk |
+| Tam görsel 4 açı (§7) | 43 (%29) | 968 | ~2 dk |
+| Karo 0° (§8) | 37 (%25) | 146 | ~1,5 dk |
+| Karo 4 açı, çoğunluk (§8) | 54 (%37) | 151 | 4,7–8,7 dk |
+| Karo 4 açı, yön ağırlıklı (§9) | 59 (%40) | 125 | aynı |
+| **Karo 4 açı, yön ağırlıklı + tek hane süzme (§10)** | **65 (%44)** | **77** | aynı |
+
 ## Dosyalar
 
 - `dogru_cevaplar_03_07.py`: doğru cevap listesi (taslak, onaylı).
 - `okuma_03_07.py`: Florence (`.venv-deney`) ve Qwen (`.venv`) ham cevapları → `sonuclar/okuma_03_07.json`.
 - `puanla_03_07.py`: bu rapordaki tablolar → `sonuclar/puan_03_07.json` (yalnız bu betik yeniden çalıştırılır).
+- `dondurme_03_07.py` + `puanla_dondurme.py`: bölüm 7.
+- `karo_dondurme_03_07.py` (`.venv-deney`) + `puanla_karo.py`: bölüm 8 → `sonuclar/karo_dondurme_03_07.json`.
+- `puanla_karo_yon.py`: bölüm 9; `puanla_karo_son.py`: bölüm 10. Liste düzelince bütün `puanla_*` betikleri model çağırmadan yeniden çalışır.
