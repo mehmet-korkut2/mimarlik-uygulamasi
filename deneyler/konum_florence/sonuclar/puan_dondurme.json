@@ -1,0 +1,1084 @@
+{
+ "kategori": {
+  "hepsi": {
+   "n": 147,
+   "0": 18,
+   "90": 17,
+   "180": 3,
+   "270": 21,
+   "birleşik": 43,
+   "2+ açı": 11
+  },
+  "7 '>' gibi (07)": {
+   "n": 2,
+   "0": 0,
+   "90": 1,
+   "180": 0,
+   "270": 0,
+   "birleşik": 1,
+   "2+ açı": 0
+  },
+  "kroki 03": {
+   "n": 13,
+   "0": 9,
+   "90": 7,
+   "180": 0,
+   "270": 7,
+   "birleşik": 11,
+   "2+ açı": 7
+  },
+  "kroki 04": {
+   "n": 26,
+   "0": 2,
+   "90": 1,
+   "180": 0,
+   "270": 11,
+   "birleşik": 13,
+   "2+ açı": 1
+  },
+  "kroki 05": {
+   "n": 30,
+   "0": 3,
+   "90": 3,
+   "180": 0,
+   "270": 1,
+   "birleşik": 7,
+   "2+ açı": 0
+  },
+  "kroki 06": {
+   "n": 44,
+   "0": 3,
+   "90": 3,
+   "180": 0,
+   "270": 2,
+   "birleşik": 6,
+   "2+ açı": 2
+  },
+  "kroki 07": {
+   "n": 34,
+   "0": 1,
+   "90": 3,
+   "180": 3,
+   "270": 0,
+   "birleşik": 6,
+   "2+ açı": 1
+  },
+  "kâğıt: noktalı": {
+   "n": 100,
+   "0": 8,
+   "90": 7,
+   "180": 0,
+   "270": 14,
+   "birleşik": 26,
+   "2+ açı": 3
+  },
+  "kâğıt: çizgili": {
+   "n": 47,
+   "0": 10,
+   "90": 10,
+   "180": 3,
+   "270": 7,
+   "birleşik": 17,
+   "2+ açı": 8
+  },
+  "renk: kırmızı (07)": {
+   "n": 32,
+   "0": 1,
+   "90": 3,
+   "180": 3,
+   "270": 0,
+   "birleşik": 6,
+   "2+ açı": 1
+  },
+  "renk: mavi (07)": {
+   "n": 2,
+   "0": 0,
+   "90": 0,
+   "180": 0,
+   "270": 0,
+   "birleşik": 0,
+   "2+ açı": 0
+  },
+  "tür: kutu": {
+   "n": 9,
+   "0": 0,
+   "90": 0,
+   "180": 0,
+   "270": 2,
+   "birleşik": 2,
+   "2+ açı": 0
+  },
+  "tür: olcu": {
+   "n": 127,
+   "0": 18,
+   "90": 17,
+   "180": 3,
+   "270": 18,
+   "birleşik": 40,
+   "2+ açı": 11
+  },
+  "tür: yukseklik": {
+   "n": 11,
+   "0": 0,
+   "90": 0,
+   "180": 0,
+   "270": 1,
+   "birleşik": 1,
+   "2+ açı": 0
+  },
+  "virgüllü": {
+   "n": 18,
+   "0": 3,
+   "90": 0,
+   "180": 0,
+   "270": 1,
+   "birleşik": 4,
+   "2+ açı": 0
+  },
+  "yakın / sıkışık sayılar": {
+   "n": 7,
+   "0": 0,
+   "90": 1,
+   "180": 1,
+   "270": 2,
+   "birleşik": 3,
+   "2+ açı": 1
+  },
+  "yazılış: capraz": {
+   "n": 6,
+   "0": 1,
+   "90": 1,
+   "180": 0,
+   "270": 1,
+   "birleşik": 2,
+   "2+ açı": 1
+  },
+  "yazılış: duz": {
+   "n": 52,
+   "0": 15,
+   "90": 8,
+   "180": 0,
+   "270": 9,
+   "birleşik": 19,
+   "2+ açı": 8
+  },
+  "yazılış: ters": {
+   "n": 21,
+   "0": 0,
+   "90": 2,
+   "180": 2,
+   "270": 1,
+   "birleşik": 4,
+   "2+ açı": 1
+  },
+  "yazılış: yan": {
+   "n": 68,
+   "0": 2,
+   "90": 6,
+   "180": 1,
+   "270": 10,
+   "birleşik": 18,
+   "2+ açı": 1
+  }
+ },
+ "fazla": {
+  "0": 290,
+  "90": 326,
+  "180": 182,
+  "270": 391,
+  "birleşik": 968,
+  "2+ açı": 202
+ },
+ "yan_ters": [
+  {
+   "kroki": "04",
+   "deger": "74",
+   "yazilis": "yan",
+   "acilar": [
+    "270"
+   ]
+  },
+  {
+   "kroki": "04",
+   "deger": "88",
+   "yazilis": "yan",
+   "acilar": [
+    "270"
+   ]
+  },
+  {
+   "kroki": "04",
+   "deger": "74",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "04",
+   "deger": "238",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "04",
+   "deger": "82",
+   "yazilis": "yan",
+   "acilar": [
+    "270"
+   ]
+  },
+  {
+   "kroki": "04",
+   "deger": "86,5",
+   "yazilis": "yan",
+   "acilar": [
+    "0"
+   ]
+  },
+  {
+   "kroki": "04",
+   "deger": "164,5",
+   "yazilis": "yan",
+   "acilar": [
+    "0"
+   ]
+  },
+  {
+   "kroki": "04",
+   "deger": "296",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "04",
+   "deger": "94",
+   "yazilis": "yan",
+   "acilar": [
+    "270"
+   ]
+  },
+  {
+   "kroki": "04",
+   "deger": "107",
+   "yazilis": "ters",
+   "acilar": []
+  },
+  {
+   "kroki": "04",
+   "deger": "24",
+   "yazilis": "ters",
+   "acilar": [
+    "90",
+    "270"
+   ]
+  },
+  {
+   "kroki": "04",
+   "deger": "100",
+   "yazilis": "yan",
+   "acilar": [
+    "270"
+   ]
+  },
+  {
+   "kroki": "04",
+   "deger": "248",
+   "yazilis": "yan",
+   "acilar": [
+    "270"
+   ]
+  },
+  {
+   "kroki": "04",
+   "deger": "173",
+   "yazilis": "ters",
+   "acilar": []
+  },
+  {
+   "kroki": "04",
+   "deger": "232",
+   "yazilis": "capraz",
+   "acilar": []
+  },
+  {
+   "kroki": "04",
+   "deger": "51",
+   "yazilis": "yan",
+   "acilar": [
+    "270"
+   ]
+  },
+  {
+   "kroki": "04",
+   "deger": "163",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "04",
+   "deger": "144",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "04",
+   "deger": "267",
+   "yazilis": "yan",
+   "acilar": [
+    "270"
+   ]
+  },
+  {
+   "kroki": "04",
+   "deger": "70",
+   "yazilis": "yan",
+   "acilar": [
+    "270"
+   ]
+  },
+  {
+   "kroki": "04",
+   "deger": "425",
+   "yazilis": "ters",
+   "acilar": []
+  },
+  {
+   "kroki": "05",
+   "deger": "143",
+   "yazilis": "yan",
+   "acilar": [
+    "90"
+   ]
+  },
+  {
+   "kroki": "05",
+   "deger": "200",
+   "yazilis": "yan",
+   "acilar": [
+    "90"
+   ]
+  },
+  {
+   "kroki": "05",
+   "deger": "57",
+   "yazilis": "yan",
+   "acilar": [
+    "90"
+   ]
+  },
+  {
+   "kroki": "05",
+   "deger": "55",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "05",
+   "deger": "84,5",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "05",
+   "deger": "610",
+   "yazilis": "capraz",
+   "acilar": [
+    "270"
+   ]
+  },
+  {
+   "kroki": "05",
+   "deger": "158,5",
+   "yazilis": "capraz",
+   "acilar": []
+  },
+  {
+   "kroki": "05",
+   "deger": "175",
+   "yazilis": "capraz",
+   "acilar": []
+  },
+  {
+   "kroki": "05",
+   "deger": "226,5",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "05",
+   "deger": "118",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "05",
+   "deger": "236,5",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "05",
+   "deger": "174",
+   "yazilis": "ters",
+   "acilar": []
+  },
+  {
+   "kroki": "05",
+   "deger": "164",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "05",
+   "deger": "303",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "05",
+   "deger": "363",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "05",
+   "deger": "130",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "05",
+   "deger": "440",
+   "yazilis": "ters",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "52",
+   "yazilis": "capraz",
+   "acilar": [
+    "0",
+    "90"
+   ]
+  },
+  {
+   "kroki": "06",
+   "deger": "178",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "23",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "42",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "89",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "145",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "57",
+   "yazilis": "yan",
+   "acilar": [
+    "90"
+   ]
+  },
+  {
+   "kroki": "06",
+   "deger": "25,5",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "260",
+   "yazilis": "capraz",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "567",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "49",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "483",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "98,5",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "11",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "99",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "149",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "148,5",
+   "yazilis": "yan",
+   "acilar": [
+    "270"
+   ]
+  },
+  {
+   "kroki": "06",
+   "deger": "160",
+   "yazilis": "ters",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "435",
+   "yazilis": "ters",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "422",
+   "yazilis": "ters",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "139",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "167",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "267",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "64,5",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "130",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "375",
+   "yazilis": "ters",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "177",
+   "yazilis": "ters",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "160",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "11",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "158",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "39,5",
+   "yazilis": "ters",
+   "acilar": []
+  },
+  {
+   "kroki": "06",
+   "deger": "58",
+   "yazilis": "ters",
+   "acilar": [
+    "90"
+   ]
+  },
+  {
+   "kroki": "06",
+   "deger": "160",
+   "yazilis": "ters",
+   "acilar": []
+  },
+  {
+   "kroki": "07",
+   "deger": "267",
+   "yazilis": "yan",
+   "acilar": [
+    "90"
+   ]
+  },
+  {
+   "kroki": "07",
+   "deger": "107",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "07",
+   "deger": "272",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "07",
+   "deger": "55",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "07",
+   "deger": "265",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "07",
+   "deger": "187",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "07",
+   "deger": "112",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "07",
+   "deger": "60",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "07",
+   "deger": "100",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "07",
+   "deger": "352",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "07",
+   "deger": "418",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "07",
+   "deger": "333",
+   "yazilis": "ters",
+   "acilar": []
+  },
+  {
+   "kroki": "07",
+   "deger": "27",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "07",
+   "deger": "211",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "07",
+   "deger": "106",
+   "yazilis": "yan",
+   "acilar": [
+    "90",
+    "180"
+   ]
+  },
+  {
+   "kroki": "07",
+   "deger": "270",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "07",
+   "deger": "42",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "07",
+   "deger": "73",
+   "yazilis": "ters",
+   "acilar": []
+  },
+  {
+   "kroki": "07",
+   "deger": "63",
+   "yazilis": "ters",
+   "acilar": [
+    "180"
+   ]
+  },
+  {
+   "kroki": "07",
+   "deger": "106",
+   "yazilis": "ters",
+   "acilar": []
+  },
+  {
+   "kroki": "07",
+   "deger": "106",
+   "yazilis": "yan",
+   "acilar": []
+  },
+  {
+   "kroki": "07",
+   "deger": "12",
+   "yazilis": "ters",
+   "acilar": [
+    "180"
+   ]
+  },
+  {
+   "kroki": "07",
+   "deger": "106",
+   "yazilis": "ters",
+   "acilar": []
+  },
+  {
+   "kroki": "07",
+   "deger": "246",
+   "yazilis": "ters",
+   "acilar": []
+  }
+ ],
+ "soru": [
+  {
+   "kroki": "03",
+   "taslak": "57",
+   "alt": [
+    "7",
+    "52"
+   ],
+   "okunan": "57"
+  },
+  {
+   "kroki": "03",
+   "taslak": "97",
+   "alt": [
+    "98"
+   ],
+   "okunan": "97"
+  },
+  {
+   "kroki": "03",
+   "taslak": "5",
+   "alt": [
+    "55"
+   ],
+   "okunan": "5"
+  },
+  {
+   "kroki": "04",
+   "taslak": "?",
+   "alt": [
+    "675",
+    "67,5"
+   ],
+   "okunan": "67,5"
+  },
+  {
+   "kroki": "05",
+   "taslak": "94,5",
+   "alt": [
+    "95,5",
+    "96,5"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "05",
+   "taslak": "98",
+   "alt": [
+    "90"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "05",
+   "taslak": "60",
+   "alt": [
+    "160"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "05",
+   "taslak": "73",
+   "alt": [
+    "23"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "05",
+   "taslak": "269",
+   "alt": [
+    "279"
+   ],
+   "okunan": "279"
+  },
+  {
+   "kroki": "05",
+   "taslak": "?",
+   "alt": [
+    "88"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "06",
+   "taslak": "26,6",
+   "alt": [
+    "26,10",
+    "26,5"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "06",
+   "taslak": "15",
+   "alt": [],
+   "okunan": null
+  },
+  {
+   "kroki": "06",
+   "taslak": "518",
+   "alt": [],
+   "okunan": null
+  },
+  {
+   "kroki": "06",
+   "taslak": "868",
+   "alt": [
+    "898"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "06",
+   "taslak": "195",
+   "alt": [],
+   "okunan": null
+  },
+  {
+   "kroki": "06",
+   "taslak": "259",
+   "alt": [
+    "1",
+    "250",
+    "253"
+   ],
+   "okunan": "1"
+  },
+  {
+   "kroki": "06",
+   "taslak": "88",
+   "alt": [
+    "48"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "06",
+   "taslak": "45",
+   "alt": [
+    "2",
+    "2"
+   ],
+   "okunan": "2"
+  },
+  {
+   "kroki": "06",
+   "taslak": "24",
+   "alt": [],
+   "okunan": null
+  },
+  {
+   "kroki": "06",
+   "taslak": "38",
+   "alt": [
+    "24"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "07",
+   "taslak": "27",
+   "alt": [
+    "112"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "07",
+   "taslak": "137",
+   "alt": [
+    "7",
+    "133"
+   ],
+   "okunan": "137"
+  },
+  {
+   "kroki": "07",
+   "taslak": "104",
+   "alt": [
+    "107"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "07",
+   "taslak": "15",
+   "alt": [],
+   "okunan": null
+  },
+  {
+   "kroki": "07",
+   "taslak": "22,5",
+   "alt": [
+    "12,5"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "07",
+   "taslak": "50,5",
+   "alt": [],
+   "okunan": null
+  },
+  {
+   "kroki": "07",
+   "taslak": "23",
+   "alt": [
+    "25"
+   ],
+   "okunan": "23"
+  },
+  {
+   "kroki": "07",
+   "taslak": "67",
+   "alt": [
+    "7",
+    "63"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "07",
+   "taslak": "157",
+   "alt": [
+    "7"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "07",
+   "taslak": "107",
+   "alt": [],
+   "okunan": null
+  }
+ ],
+ "sure_s": {
+  "03": {
+   "0": 12.4,
+   "90": 47.5,
+   "180": 27.7,
+   "270": 47.8
+  },
+  "04": {
+   "0": 34.2,
+   "90": 13.9,
+   "180": 48.0,
+   "270": 20.0
+  },
+  "05": {
+   "0": 48.0,
+   "90": 23.4,
+   "180": 28.8,
+   "270": 31.7
+  },
+  "06": {
+   "0": 48.0,
+   "90": 48.0,
+   "180": 48.0,
+   "270": 23.9
+  },
+  "07": {
+   "0": 29.9,
+   "90": 48.0,
+   "180": 48.5,
+   "270": 28.1
+  }
+ }
+}

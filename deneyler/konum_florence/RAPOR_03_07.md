@@ -162,6 +162,51 @@ krokilerde rakamları birkaç piksele indiriyor. Sayıların %60'ı yan ya da te
 bir krokide okuma, kullanıcıya ~130 düzeltme bırakıyor; "kaç düzeltmede doğru plan" ölçütünde mimarın elle ~1 saatlik
 aktarımından iyi olmaz.
 
+## 7. Döndürerek okuma (Florence-2, öneri 1)
+
+Her kroki saat yönünde 0° / 90° / 180° / 270° döndürülüp Florence'e okutuldu (`dondurme_03_07.py`, puan
+`puanla_dondurme.py`). 0° önceki çalıştırmayla birebir aynı (deterministik). **Birleşik:** her değer için açılar
+arasındaki en büyük adet (aynı sayıyı iki açıda okumak bir kez sayılır). **2+ açı:** en az iki açıda okunan değerler.
+
+| Kategori | n | 0° | 90° | 180° | 270° | **Birleşik** | 2+ açı |
+|---|---|---|---|---|---|---|---|
+| **Hepsi** | 147 | 18 (%12) | 17 | 3 | 21 | **43 (%29)** | 11 |
+| Kroki 03 | 13 | 9 | 7 | 0 | 7 | 11 (%85) | 7 |
+| Kroki 04 | 26 | 2 | 1 | 0 | **11** | 13 (%50) | 1 |
+| Kroki 05 | 30 | 3 | 3 | 0 | 1 | 7 (%23) | 0 |
+| Kroki 06 | 44 | 3 | 3 | 0 | 2 | 6 (%14) | 2 |
+| Kroki 07 | 34 | 1 | 3 | 3 | 0 | 6 (%18) | 1 |
+| Yazılış: düz | 52 | 15 | 8 | 0 | 9 | 19 (%37) | 8 |
+| Yazılış: yan | 68 | 2 | 6 | 1 | 10 | 18 (%26) | 1 |
+| Yazılış: ters | 21 | 0 | 2 | 2 | 1 | 4 (%19) | 1 |
+| Yazılış: çapraz | 6 | 1 | 1 | 0 | 1 | 2 | 1 |
+| Ölçü | 127 | 18 | 17 | 3 | 18 | 40 (%31) | 11 |
+| Yükseklik notu | 11 | 0 | 0 | 0 | 1 | 1 | 0 |
+| Kutu içi | 9 | 0 | 0 | 0 | 2 | 2 | 0 |
+| Virgüllü | 18 | 3 | 0 | 0 | 1 | 4 | 0 |
+| Yakın / sıkışık | 7 | 0 | 1 | 1 | 2 | 3 | 1 |
+| 07 kırmızı | 32 | 1 | 3 | 3 | 0 | 6 | 1 |
+| 7'si ">" gibi (07) | 2 | 0 | 1 | 0 | 0 | 1 (267 ✓, 107 ✗) | 0 |
+| **Fazla** | — | 290 | 326 | 182 | 391 | **968** | 202 |
+
+Bulgular:
+- **Okunan 2,4 katına çıkıyor (18 → 43), ama fazla 3,3 katına (290 → 968).** Konum olmadan birleşik liste ürüne
+  girmez: 43 doğru sayının yanında ~970 uydurma değer var. "2+ açı" fazlayı azaltıyor (202) ama doğruyu da (11).
+- **Yan sayılar hâlâ çoğunlukla okunmuyor:** 68 yan sayının 50'si hiçbir açıda okunmadı (ters: 21'in 17'si). Döndürmek
+  yönü düzeltiyor ama okumayı kurtarmıyor: asıl sorun yön değil, çözünürlük/yoğunluk gibi görünüyor.
+- **04 belirgin istisna:** 270°'de 26 sayının 11'i (0°'de 2). 04'ün sayılarının çoğu aynı yöne yan yazılmış.
+- **Tekrar döngüsü sürüyor:** 20 okumanın 7'si 48 s'de (1024 token sınırı) kesildi; fazlaların çoğu `100 101 102 …`,
+  `1,5 2,5 3,5 …`, `198 198 198 …` gibi uydurma diziler. Bu dizileri süzmek fazlayı çok azaltır ama doğru sayıyı
+  artırmaz.
+- **"?" sayılar (birleşik):** 03'te "57?" bir açıda 57 okundu (0°'de iki model de 52 demişti); 07 "137?" 137;
+  05 `H=269?` 279; 04 "?" 67,5. 06'daki "259?" → 1 ve "45?" → 2 eşleşmeleri puanlama yapaylığı (nottaki "Oda 1",
+  "2/2" alternatif sanıldı); dikkate alınmamalı.
+- Süre: kroki başına 4 açı ~1,5–3 dk.
+
+Sonuç: **döndürme tek başına yetmiyor.** Okunanların neredeyse tamamı 03 ve 04'ten; zor krokilerde (05–07) en iyi
+açı bile %10'un altında. Sıradaki deney **örtüşen karolama + döndürme** (rakamları büyütmek); ürün kararı hâlâ
+beklemede.
+
 ## Dosyalar
 
 - `dogru_cevaplar_03_07.py`: doğru cevap listesi (taslak, onaylı).
