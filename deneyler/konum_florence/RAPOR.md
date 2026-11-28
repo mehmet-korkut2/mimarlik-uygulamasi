@@ -8,6 +8,9 @@ Gerçek: `../bul_kes_okut/konumlar.py` (24 sayı, 01: 10, 02: 14). 01–02 çizi
 değeriyle ilgili, geometriyle değil (CLAUDE.md 5.1). **Uyarı:** bölge bulucu ve Ö2 bu iki krokiye bakılarak ayarlandı;
 Florence ve Paddle ayarlanmadı. Yalnız 2 kroki var: sonuçlar yön gösterir, karar için yeni krokilerle tekrar gerekli.
 
+> **Güncelleme (aynı gün): 03–07 ile okuma deneyi (`RAPOR_03_07.md`).** 147 sayıda Florence %12, Qwen %14 okuyor;
+> iki model de yan/ters yazıda ve yoğun krokide çöküyor. Aşağıdaki 01–02 sonuçları 03–07'ye taşınmıyor.
+
 ## Kısa sonuç
 
 1. **Florence-2-large, Qwen'den hem daha doğru yer hem daha iyi okuma veriyor.** Değerleri Qwen'in yerine Ö2'ye

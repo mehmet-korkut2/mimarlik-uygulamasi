@@ -1,0 +1,740 @@
+{
+ "toplam_puanli": 147,
+ "kategori": {
+  "hepsi": {
+   "n": 147,
+   "florence": 18,
+   "qwen": [
+    17,
+    13,
+    30
+   ]
+  },
+  "7 '>' gibi (07)": {
+   "n": 2,
+   "florence": 0,
+   "qwen": [
+    1,
+    0,
+    1
+   ]
+  },
+  "kroki 03": {
+   "n": 13,
+   "florence": 9,
+   "qwen": [
+    7,
+    6,
+    8
+   ]
+  },
+  "kroki 04": {
+   "n": 26,
+   "florence": 2,
+   "qwen": [
+    0,
+    0,
+    6
+   ]
+  },
+  "kroki 05": {
+   "n": 30,
+   "florence": 3,
+   "qwen": [
+    8,
+    7,
+    6
+   ]
+  },
+  "kroki 06": {
+   "n": 44,
+   "florence": 3,
+   "qwen": [
+    0,
+    0,
+    2
+   ]
+  },
+  "kroki 07": {
+   "n": 34,
+   "florence": 1,
+   "qwen": [
+    2,
+    0,
+    8
+   ]
+  },
+  "kâğıt: noktalı": {
+   "n": 100,
+   "florence": 8,
+   "qwen": [
+    8,
+    7,
+    14
+   ]
+  },
+  "kâğıt: çizgili": {
+   "n": 47,
+   "florence": 10,
+   "qwen": [
+    9,
+    6,
+    16
+   ]
+  },
+  "renk: kırmızı (07)": {
+   "n": 32,
+   "florence": 1,
+   "qwen": [
+    2,
+    0,
+    7
+   ]
+  },
+  "renk: mavi (07)": {
+   "n": 2,
+   "florence": 0,
+   "qwen": [
+    0,
+    0,
+    1
+   ]
+  },
+  "tür: kutu": {
+   "n": 9,
+   "florence": 0,
+   "qwen": [
+    0,
+    0,
+    0
+   ]
+  },
+  "tür: olcu": {
+   "n": 127,
+   "florence": 18,
+   "qwen": [
+    17,
+    12,
+    27
+   ]
+  },
+  "tür: yukseklik": {
+   "n": 11,
+   "florence": 0,
+   "qwen": [
+    0,
+    1,
+    3
+   ]
+  },
+  "virgüllü": {
+   "n": 18,
+   "florence": 3,
+   "qwen": [
+    0,
+    4,
+    0
+   ]
+  },
+  "yakın / sıkışık sayılar": {
+   "n": 7,
+   "florence": 0,
+   "qwen": [
+    0,
+    0,
+    0
+   ]
+  },
+  "yazılış: capraz": {
+   "n": 6,
+   "florence": 1,
+   "qwen": [
+    0,
+    0,
+    0
+   ]
+  },
+  "yazılış: duz": {
+   "n": 52,
+   "florence": 15,
+   "qwen": [
+    12,
+    9,
+    20
+   ]
+  },
+  "yazılış: ters": {
+   "n": 21,
+   "florence": 0,
+   "qwen": [
+    0,
+    0,
+    3
+   ]
+  },
+  "yazılış: yan": {
+   "n": 68,
+   "florence": 2,
+   "qwen": [
+    5,
+    4,
+    7
+   ]
+  }
+ },
+ "fazla": {
+  "florence": 290,
+  "qwen": [
+   230,
+   280,
+   254
+  ]
+ },
+ "virgul_kaybi": {
+  "Florence-2 #1": [
+   "05:158,5→1585"
+  ],
+  "Qwen3-VL #1": [
+   "05:25,5→255",
+   "05:41,5→41",
+   "05:105,5→105",
+   "05:158,5→158"
+  ],
+  "Qwen3-VL #2": [],
+  "Qwen3-VL #3": [
+   "05:25,5→255",
+   "05:158,5→1585"
+  ]
+ },
+ "yedi": [
+  {
+   "deger": "267",
+   "emin": true,
+   "florence": "✗",
+   "qwen": [
+    "✗",
+    "✗",
+    "✗"
+   ]
+  },
+  {
+   "deger": "107",
+   "emin": true,
+   "florence": "✗",
+   "qwen": [
+    "✓",
+    "✗",
+    "✓"
+   ]
+  },
+  {
+   "deger": "137",
+   "emin": false,
+   "florence": "—",
+   "qwen": [
+    "—",
+    "—",
+    "—"
+   ]
+  },
+  {
+   "deger": "67",
+   "emin": false,
+   "florence": "—",
+   "qwen": [
+    "—",
+    "—",
+    "—"
+   ]
+  },
+  {
+   "deger": "157",
+   "emin": false,
+   "florence": "—",
+   "qwen": [
+    "—",
+    "—",
+    "—"
+   ]
+  }
+ ],
+ "soru": [
+  {
+   "kroki": "03",
+   "taslak": "57",
+   "alt": [
+    "7",
+    "52"
+   ],
+   "florence": "52",
+   "qwen": [
+    "52",
+    "52",
+    "52"
+   ],
+   "not": "7 kıvrık; 52 de olabilir"
+  },
+  {
+   "kroki": "03",
+   "taslak": "97",
+   "alt": [
+    "98"
+   ],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": "98 de olabilir"
+  },
+  {
+   "kroki": "03",
+   "taslak": "5",
+   "alt": [
+    "55"
+   ],
+   "florence": null,
+   "qwen": [
+    "55",
+    null,
+    "5"
+   ],
+   "not": "kapı solu, kıvrık işaretli; 55 ya da başka bir sayı olabilir"
+  },
+  {
+   "kroki": "04",
+   "taslak": "?",
+   "alt": [
+    "675",
+    "67,5"
+   ],
+   "florence": "67,5",
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": "WC sağ altında karalanmış sayı; 675 / 67,5 olabilir"
+  },
+  {
+   "kroki": "05",
+   "taslak": "94,5",
+   "alt": [
+    "95,5",
+    "96,5"
+   ],
+   "florence": null,
+   "qwen": [
+    null,
+    "95,5",
+    null
+   ],
+   "not": "virgüllü; 95,5 / 96,5 olabilir"
+  },
+  {
+   "kroki": "05",
+   "taslak": "98",
+   "alt": [
+    "90"
+   ],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": "WC köşesinde küçük; 90 olabilir"
+  },
+  {
+   "kroki": "05",
+   "taslak": "60",
+   "alt": [
+    "160"
+   ],
+   "florence": null,
+   "qwen": [
+    "160",
+    null,
+    null
+   ],
+   "not": "önünde bir çizgi var; 160 olabilir"
+  },
+  {
+   "kroki": "05",
+   "taslak": "73",
+   "alt": [
+    "23"
+   ],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": "23 de olabilir"
+  },
+  {
+   "kroki": "05",
+   "taslak": "269",
+   "alt": [
+    "279"
+   ],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": "H=269; 279 de olabilir"
+  },
+  {
+   "kroki": "05",
+   "taslak": "?",
+   "alt": [
+    "88"
+   ],
+   "florence": null,
+   "qwen": [
+    "88",
+    null,
+    null
+   ],
+   "not": "kapı yayı yanında karalanmış; 88 olabilir"
+  },
+  {
+   "kroki": "06",
+   "taslak": "26,6",
+   "alt": [
+    "26,10",
+    "26,5"
+   ],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": "virgüllü; 26,10 / 26,5 olabilir"
+  },
+  {
+   "kroki": "06",
+   "taslak": "15",
+   "alt": [],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": "üstü kısmen çizili"
+  },
+  {
+   "kroki": "06",
+   "taslak": "518",
+   "alt": [],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": "ilk hane belirsiz"
+  },
+  {
+   "kroki": "06",
+   "taslak": "868",
+   "alt": [
+    "898"
+   ],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": "898 de olabilir"
+  },
+  {
+   "kroki": "06",
+   "taslak": "195",
+   "alt": [],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": "üstünden geçilmiş"
+  },
+  {
+   "kroki": "06",
+   "taslak": "259",
+   "alt": [
+    "1",
+    "250",
+    "253"
+   ],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": "H=259 (Oda 1); 250 / 253 olabilir"
+  },
+  {
+   "kroki": "06",
+   "taslak": "88",
+   "alt": [
+    "48"
+   ],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": "köşede küçük; 48 olabilir"
+  },
+  {
+   "kroki": "06",
+   "taslak": "45",
+   "alt": [
+    "2",
+    "2"
+   ],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": "'45+2' gibi, üstünde ayrı bir '2' var; anlamı mimara"
+  },
+  {
+   "kroki": "06",
+   "taslak": "24",
+   "alt": [],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": "küçük, duvar ucunda"
+  },
+  {
+   "kroki": "06",
+   "taslak": "38",
+   "alt": [
+    "24"
+   ],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": "küçük, 24'ün altında"
+  },
+  {
+   "kroki": "07",
+   "taslak": "27",
+   "alt": [
+    "112"
+   ],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": "112 yanında küçük"
+  },
+  {
+   "kroki": "07",
+   "taslak": "137",
+   "alt": [
+    "7",
+    "133"
+   ],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": "7 '>' gibi; 133 olabilir"
+  },
+  {
+   "kroki": "07",
+   "taslak": "104",
+   "alt": [
+    "107"
+   ],
+   "florence": null,
+   "qwen": [
+    "107",
+    null,
+    "107"
+   ],
+   "not": "107 de olabilir"
+  },
+  {
+   "kroki": "07",
+   "taslak": "15",
+   "alt": [],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": ""
+  },
+  {
+   "kroki": "07",
+   "taslak": "22,5",
+   "alt": [
+    "12,5"
+   ],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": "virgüllü; 12,5 olabilir"
+  },
+  {
+   "kroki": "07",
+   "taslak": "50,5",
+   "alt": [],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": "mavi, küçük, '50,5 cm' gibi; not olabilir"
+  },
+  {
+   "kroki": "07",
+   "taslak": "23",
+   "alt": [
+    "25"
+   ],
+   "florence": "25",
+   "qwen": [
+    null,
+    null,
+    "23"
+   ],
+   "not": "25 olabilir"
+  },
+  {
+   "kroki": "07",
+   "taslak": "67",
+   "alt": [
+    "7",
+    "63"
+   ],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": "sol kapı; 7 '>' gibi, 63 olabilir"
+  },
+  {
+   "kroki": "07",
+   "taslak": "157",
+   "alt": [
+    "7"
+   ],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    null
+   ],
+   "not": "7 '>' gibi"
+  },
+  {
+   "kroki": "07",
+   "taslak": "107",
+   "alt": [],
+   "florence": null,
+   "qwen": [
+    null,
+    null,
+    "107"
+   ],
+   "not": "sol alt, kesikli çizgi yanında"
+  }
+ ],
+ "uyusma": [
+  {
+   "ortak": 10,
+   "dogru": 7,
+   "aday": 1,
+   "hata": 2,
+   "hatalar": [
+    "03:56",
+    "03:28"
+   ]
+  },
+  {
+   "ortak": 8,
+   "dogru": 6,
+   "aday": 1,
+   "hata": 1,
+   "hatalar": [
+    "03:56"
+   ]
+  },
+  {
+   "ortak": 17,
+   "dogru": 8,
+   "aday": 2,
+   "hata": 7,
+   "hatalar": [
+    "03:212",
+    "03:56",
+    "03:25",
+    "03:28",
+    "05:1585",
+    "06:101",
+    "06:101"
+   ]
+  }
+ ],
+ "sure_s": {
+  "Florence-2": [
+   12.0,
+   34.2,
+   47.8,
+   47.8,
+   30.0
+  ],
+  "Qwen3-VL": [
+   218.8,
+   563.1,
+   143.4,
+   531.3,
+   62.1,
+   534.0,
+   571.4,
+   542.5,
+   546.7,
+   57.4,
+   549.2,
+   545.3,
+   606.4,
+   562.1,
+   343.6
+  ]
+ }
+}
