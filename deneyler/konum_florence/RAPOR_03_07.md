@@ -207,6 +207,66 @@ Sonuç: **döndürme tek başına yetmiyor.** Okunanların neredeyse tamamı 03 
 açı bile %10'un altında. Sıradaki deney **örtüşen karolama + döndürme** (rakamları büyütmek); ürün kararı hâlâ
 beklemede.
 
+## 8. Örtüşen karolama + döndürme (Florence-2)
+
+Her fotoğraf 640 px kare, %30 örtüşen karolara bölündü (03 ve 07: 15, diğerleri: 10 karo); her karo 4 açıda okundu
+(240 çağrı; `karo_dondurme_03_07.py`). Kutular özgün fotoğraf koordinatına geri çevrildi (dönüşüm sentetik testle
+doğrulandı). Birleştirme (`puanla_karo.py`): (1) **süzme**: 4'ten çok sayı ya da aynı değeri 3+ kez içeren okuma =
+uydurma dizi, atılır; (2) **kümeleme**: kutular örtüşüyorsa (IoU ≥ 0,3 ya da merkez içeride) aynı yer;
+(3) **oylama**: yerde en çok okunan değer. Süzme ve kümeleme eşikleri tek denemede seçildi, ayarlanmadı.
+
+| Kategori | n | Tam 0° (§1) | Tam 4 açı (§7) | Karo 0° | Karo 4 açı, süzmesiz | **Karo 4 açı, süzmeli** | ≥ 2 oy | Aday (üst sınır) |
+|---|---|---|---|---|---|---|---|---|
+| **Hepsi** | 147 | 18 (%12) | 43 (%29) | 37 (%25) | 53 (%36) | **54 (%37)** | 47 (%32) | 98 (%67) |
+| Kroki 03 | 13 | 9 | 11 | 7 | 8 | 6 | 6 | 11 |
+| Kroki 04 | 26 | 2 | 13 | 5 | 10 | 10 | 8 | 17 |
+| Kroki 05 | 30 | 3 | 7 | 13 | 12 | 12 | 11 | 20 |
+| Kroki 06 | 44 | 3 | 6 | 6 | 11 | 14 | 11 | 29 |
+| Kroki 07 | 34 | 1 | 6 | 6 | 12 | 12 | 11 | 21 |
+| Yazılış: düz | 52 | 15 | 19 | **27** | 22 | 20 | 18 | 41 |
+| Yazılış: yan | 68 | 2 | 18 | 7 | 23 | **26** | 21 | 44 |
+| Yazılış: ters | 21 | 0 | 4 | 2 | 7 | 7 | 7 | 11 |
+| Yazılış: çapraz | 6 | 1 | 2 | 1 | 1 | 1 | 1 | 2 |
+| Ölçü | 127 | 18 | 40 | 30 | 46 | 47 | 41 | 86 |
+| Yükseklik notu | 11 | 0 | 1 | 4 | 4 | 4 | 3 | 7 |
+| Kutu içi | 9 | 0 | 2 | 3 | 3 | 3 | 3 | 5 |
+| Virgüllü | 18 | 3 | 4 | 3 | 3 | 3 | 3 | 10 |
+| Yakın / sıkışık | 7 | 0 | 3 | 2 | 2 | 4 | 2 | 6 |
+| Kâğıt: noktalı | 100 | 8 | 26 | 24 | 33 | 36 | 30 | 66 |
+| 07 kırmızı | 32 | 1 | 6 | 6 | 12 | 12 | 11 | 21 |
+| 7'si ">" gibi (07) | 2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| **Fazla** | — | 290 | 968 | 146 | 328 | **151** | 74 | 1091 |
+
+"Aday": bir yerde okunan bütün farklı değerler; doğru değer adaylar arasında mı (düzeltme ekranı yerin adaylarını
+gösterse kullanıcının seçebileceği üst sınır). Kroki başına yer (küme) sayısı: 18 / 28 / 40 / 34 / 39.
+
+Bulgular:
+- **Okunan 3 katına çıkıyor (18 → 54), fazla yarıya iniyor (290 → 151).** İlk kez hem doğru artıyor hem fazla
+  azalıyor: konumla birleştirme, döndürmenin getirdiği tekrarları topluyor; süzme uydurma dizileri atıyor (328 → 151).
+- **Karolama tek başına (0°) zor krokilerde etkili:** 05'te 3 → 13, yükseklik notu 0 → 4, kutu 0 → 3. Çözünürlük
+  sorunu doğrulandı.
+- **Döndürme yan ve ters yazıyı açıyor:** karo 0° → 4 açı yan 7 → 26, ters 2 → 7.
+- **Ama oylama düz sayılarda zarar veriyor:** düz 27 (karo 0°) → 20. Döndürülmüş karolar düz sayıyı yanlış okuyup
+  oylamada doğruyu yeniyor. Oylamayı yazı yönüne göre ağırlıklandırmak (ör. kutunun en/boy oranına uyan açıyı
+  tercih etmek) ucuz bir sonraki adım.
+- **Aday listesi 98/147 (%67):** doğru değer çoğu yerde adaylar arasında. Düzeltme ekranında "bu yerde 160 mı 180
+  mi?" gibi seçmeli soru olursa düzeltme yazmaktan hızlı olabilir.
+- **Kalan fazlanın çoğu tek haneli** (`1`, `2`, `3`, `4` …: çizgi parçaları) ve birkaç **Arap–Hint rakamı**
+  (`١٠٢٠`, Florence'in çıktısı). Tek haneleri atmak fazlayı belirgin azaltır; ama listede 5, 11, 12 gibi kısa
+  ölçüler de var, bu yüzden uygulanmadı (yeni krokilerle karar).
+- **Hâlâ zayıf:** virgüllü (3/18; 158,5 → 1585, 236,5 → 2365, 42,5 → 42), 07'deki ">" gibi 7'ler (0/2),
+  çapraz (1/6).
+- **"?" sayılar:** 06 "868?" 868, 07 "15?" 15, 07 "23?" 23 okundu; 06 "26,6?" → 26,10 (alternatif). 06 "259?" → 1
+  ve "45?" → 2 yine puanlama yapaylığı (§7).
+- **Süre:** kroki başına 4,7–8,7 dk (40–60 çağrı, GTX 1650). Qwen'in ~7 dk/çağrısından hızlı ama tam görselden
+  (~35 s) çok yavaş. Açı sayısını yazı yönüne göre azaltmak ya da yalnız sayı olabilecek bölgeleri okutmak süreyi
+  düşürür.
+
+Sonuç: **03–07'de en iyi okuma bu (%37, fazla 151); ama ürün için hâlâ yetersiz** (147 sayının 93'ü okunmuyor ya da
+yanlış). Ürün kararı (A/B) yine bekliyor. Sıradaki ucuz adımlar: (1) yön ağırlıklı oylama, (2) tek hane süzme,
+(3) aday listesini düzeltme ekranına seçenek olarak vermek. Hepsi yeni krokilerle doğrulanmalı (bu eşikler 03–07'ye
+bakılarak konursa aynı aşırı uyma riski).
+
 ## Dosyalar
 
 - `dogru_cevaplar_03_07.py`: doğru cevap listesi (taslak, onaylı).

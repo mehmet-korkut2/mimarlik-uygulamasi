@@ -1,0 +1,419 @@
+{
+ "onceki": {
+  "tam 0°": 18,
+  "tam 4 açı birleşik": 43
+ },
+ "kategori": {
+  "hepsi": {
+   "n": 147,
+   "karo 0°": 37,
+   "karo 4 açı ham": 53,
+   "karo 4 açı süzmeli": 54,
+   "≥2 oy": 47,
+   "aday (üst sınır)": 98
+  },
+  "7 '>' gibi (07)": {
+   "n": 2,
+   "karo 0°": 0,
+   "karo 4 açı ham": 0,
+   "karo 4 açı süzmeli": 0,
+   "≥2 oy": 0,
+   "aday (üst sınır)": 0
+  },
+  "kroki 03": {
+   "n": 13,
+   "karo 0°": 7,
+   "karo 4 açı ham": 8,
+   "karo 4 açı süzmeli": 6,
+   "≥2 oy": 6,
+   "aday (üst sınır)": 11
+  },
+  "kroki 04": {
+   "n": 26,
+   "karo 0°": 5,
+   "karo 4 açı ham": 10,
+   "karo 4 açı süzmeli": 10,
+   "≥2 oy": 8,
+   "aday (üst sınır)": 17
+  },
+  "kroki 05": {
+   "n": 30,
+   "karo 0°": 13,
+   "karo 4 açı ham": 12,
+   "karo 4 açı süzmeli": 12,
+   "≥2 oy": 11,
+   "aday (üst sınır)": 20
+  },
+  "kroki 06": {
+   "n": 44,
+   "karo 0°": 6,
+   "karo 4 açı ham": 11,
+   "karo 4 açı süzmeli": 14,
+   "≥2 oy": 11,
+   "aday (üst sınır)": 29
+  },
+  "kroki 07": {
+   "n": 34,
+   "karo 0°": 6,
+   "karo 4 açı ham": 12,
+   "karo 4 açı süzmeli": 12,
+   "≥2 oy": 11,
+   "aday (üst sınır)": 21
+  },
+  "kâğıt: noktalı": {
+   "n": 100,
+   "karo 0°": 24,
+   "karo 4 açı ham": 33,
+   "karo 4 açı süzmeli": 36,
+   "≥2 oy": 30,
+   "aday (üst sınır)": 66
+  },
+  "kâğıt: çizgili": {
+   "n": 47,
+   "karo 0°": 13,
+   "karo 4 açı ham": 20,
+   "karo 4 açı süzmeli": 18,
+   "≥2 oy": 17,
+   "aday (üst sınır)": 32
+  },
+  "renk: kırmızı (07)": {
+   "n": 32,
+   "karo 0°": 6,
+   "karo 4 açı ham": 12,
+   "karo 4 açı süzmeli": 12,
+   "≥2 oy": 11,
+   "aday (üst sınır)": 21
+  },
+  "renk: mavi (07)": {
+   "n": 2,
+   "karo 0°": 0,
+   "karo 4 açı ham": 0,
+   "karo 4 açı süzmeli": 0,
+   "≥2 oy": 0,
+   "aday (üst sınır)": 0
+  },
+  "tür: kutu": {
+   "n": 9,
+   "karo 0°": 3,
+   "karo 4 açı ham": 3,
+   "karo 4 açı süzmeli": 3,
+   "≥2 oy": 3,
+   "aday (üst sınır)": 5
+  },
+  "tür: olcu": {
+   "n": 127,
+   "karo 0°": 30,
+   "karo 4 açı ham": 46,
+   "karo 4 açı süzmeli": 47,
+   "≥2 oy": 41,
+   "aday (üst sınır)": 86
+  },
+  "tür: yukseklik": {
+   "n": 11,
+   "karo 0°": 4,
+   "karo 4 açı ham": 4,
+   "karo 4 açı süzmeli": 4,
+   "≥2 oy": 3,
+   "aday (üst sınır)": 7
+  },
+  "virgüllü": {
+   "n": 18,
+   "karo 0°": 3,
+   "karo 4 açı ham": 3,
+   "karo 4 açı süzmeli": 3,
+   "≥2 oy": 3,
+   "aday (üst sınır)": 10
+  },
+  "yakın / sıkışık sayılar": {
+   "n": 7,
+   "karo 0°": 2,
+   "karo 4 açı ham": 2,
+   "karo 4 açı süzmeli": 4,
+   "≥2 oy": 2,
+   "aday (üst sınır)": 6
+  },
+  "yazılış: capraz": {
+   "n": 6,
+   "karo 0°": 1,
+   "karo 4 açı ham": 1,
+   "karo 4 açı süzmeli": 1,
+   "≥2 oy": 1,
+   "aday (üst sınır)": 2
+  },
+  "yazılış: duz": {
+   "n": 52,
+   "karo 0°": 27,
+   "karo 4 açı ham": 22,
+   "karo 4 açı süzmeli": 20,
+   "≥2 oy": 18,
+   "aday (üst sınır)": 41
+  },
+  "yazılış: ters": {
+   "n": 21,
+   "karo 0°": 2,
+   "karo 4 açı ham": 7,
+   "karo 4 açı süzmeli": 7,
+   "≥2 oy": 7,
+   "aday (üst sınır)": 11
+  },
+  "yazılış: yan": {
+   "n": 68,
+   "karo 0°": 7,
+   "karo 4 açı ham": 23,
+   "karo 4 açı süzmeli": 26,
+   "≥2 oy": 21,
+   "aday (üst sınır)": 44
+  }
+ },
+ "fazla": {
+  "karo 0°": 146,
+  "karo 4 açı ham": 328,
+  "karo 4 açı süzmeli": 151,
+  "≥2 oy": 74,
+  "aday (üst sınır)": 1091
+ },
+ "soru": [
+  {
+   "kroki": "03",
+   "taslak": "57",
+   "alt": [
+    "7",
+    "52"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "03",
+   "taslak": "97",
+   "alt": [
+    "98"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "03",
+   "taslak": "5",
+   "alt": [
+    "55"
+   ],
+   "okunan": "5"
+  },
+  {
+   "kroki": "04",
+   "taslak": "?",
+   "alt": [
+    "675",
+    "67,5"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "05",
+   "taslak": "94,5",
+   "alt": [
+    "95,5",
+    "96,5"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "05",
+   "taslak": "98",
+   "alt": [
+    "90"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "05",
+   "taslak": "60",
+   "alt": [
+    "160"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "05",
+   "taslak": "73",
+   "alt": [
+    "23"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "05",
+   "taslak": "269",
+   "alt": [
+    "279"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "05",
+   "taslak": "?",
+   "alt": [
+    "88"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "06",
+   "taslak": "26,6",
+   "alt": [
+    "26,10",
+    "26,5"
+   ],
+   "okunan": "26,10"
+  },
+  {
+   "kroki": "06",
+   "taslak": "15",
+   "alt": [],
+   "okunan": null
+  },
+  {
+   "kroki": "06",
+   "taslak": "518",
+   "alt": [],
+   "okunan": null
+  },
+  {
+   "kroki": "06",
+   "taslak": "868",
+   "alt": [
+    "898"
+   ],
+   "okunan": "868"
+  },
+  {
+   "kroki": "06",
+   "taslak": "195",
+   "alt": [],
+   "okunan": null
+  },
+  {
+   "kroki": "06",
+   "taslak": "259",
+   "alt": [
+    "1",
+    "250",
+    "253"
+   ],
+   "okunan": "1"
+  },
+  {
+   "kroki": "06",
+   "taslak": "88",
+   "alt": [
+    "48"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "06",
+   "taslak": "45",
+   "alt": [
+    "2",
+    "2"
+   ],
+   "okunan": "2"
+  },
+  {
+   "kroki": "06",
+   "taslak": "24",
+   "alt": [],
+   "okunan": null
+  },
+  {
+   "kroki": "06",
+   "taslak": "38",
+   "alt": [
+    "24"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "07",
+   "taslak": "27",
+   "alt": [
+    "112"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "07",
+   "taslak": "137",
+   "alt": [
+    "7",
+    "133"
+   ],
+   "okunan": "7"
+  },
+  {
+   "kroki": "07",
+   "taslak": "104",
+   "alt": [
+    "107"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "07",
+   "taslak": "15",
+   "alt": [],
+   "okunan": "15"
+  },
+  {
+   "kroki": "07",
+   "taslak": "22,5",
+   "alt": [
+    "12,5"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "07",
+   "taslak": "50,5",
+   "alt": [],
+   "okunan": null
+  },
+  {
+   "kroki": "07",
+   "taslak": "23",
+   "alt": [
+    "25"
+   ],
+   "okunan": "23"
+  },
+  {
+   "kroki": "07",
+   "taslak": "67",
+   "alt": [
+    "7",
+    "63"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "07",
+   "taslak": "157",
+   "alt": [
+    "7"
+   ],
+   "okunan": null
+  },
+  {
+   "kroki": "07",
+   "taslak": "107",
+   "alt": [],
+   "okunan": null
+  }
+ ],
+ "sure_s": {
+  "03": 463.5,
+  "04": 281.1,
+  "05": 314.1,
+  "06": 453.2,
+  "07": 520.8
+ }
+}
